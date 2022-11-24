@@ -1,6 +1,6 @@
 # GameApp-myDNF
-2022/11/19
-GiyaYon
+Date : 2022/11/19  
+Author：GiyaYon
 
 2D Fight Game by Java
 
