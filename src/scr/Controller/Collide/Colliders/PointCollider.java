@@ -3,8 +3,9 @@ package scr.Controller.Collide.Colliders;
 import scr.Controller.Collide.ColliderShape;
 import scr.Controller.Collide.Detector;
 import scr.Controller.Collide.ShapeProperty;
+import scr.Model.Characters.Transform;
 
-public class PointCollider extends Detector {
+public class PointCollider extends Detector implements Collider {
     public ShapeProperty s1;
 
     public PointCollider(int x, int y) {
@@ -12,8 +13,22 @@ public class PointCollider extends Detector {
     }
 
     @Override
-    public boolean ColliderDetect(ShapeProperty s2) {
-        return isIntersect(this.s1,s2);
+    public ShapeProperty getShapeProperty() {
+        return s1;
     }
+
+    @Override
+    public boolean colliderDetect(Collider s2) {
+        assert false;
+        return isIntersect(s1,s2.getShapeProperty());
+    }
+
+
+    @Override
+    public void updatePosition(Transform transform) {
+        s1.x = transform.xPos;
+        s1.y = transform.yPos;
+    }
+
 
 }

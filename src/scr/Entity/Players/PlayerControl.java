@@ -45,6 +45,10 @@ public class PlayerControl {
         input = KeyBoardInput.getKeyBoardInput();
         p.addKeyListener(input);
         this.player = player;
+
+        c = new NoneCommand(player.swordsMan.sc);
+        player.c = c;
+        c.Execute();
     }
 
     public void Command()

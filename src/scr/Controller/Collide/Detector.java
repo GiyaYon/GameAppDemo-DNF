@@ -4,7 +4,7 @@ package scr.Controller.Collide;
  *
  * 检测器
  */
-public abstract class Detector implements Collider{
+public abstract class Detector{
     /**
      * 点和矩形碰撞
      */
@@ -127,6 +127,4 @@ public abstract class Detector implements Collider{
             };
         };
     }
-
-    public abstract boolean ColliderDetect(ShapeProperty s2);
 }

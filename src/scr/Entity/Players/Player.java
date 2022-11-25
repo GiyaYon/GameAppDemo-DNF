@@ -1,9 +1,12 @@
 package scr.Entity.Players;
 
+import scr.Controller.Collide.Colliders.PointCollider;
 import scr.Controller.Commander.ICommand;
 import scr.Entity.Swordman.SwordsMan;
 
+import scr.Model.Characters.PositionDetectsCollider;
 import scr.Model.Characters.Transform;
+import scr.Model.Map.MapModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,12 +29,15 @@ public class Player implements ActionListener {
     public SwordsMan swordsMan;
     public Transform transform;
     PlayerControl playerControl;
+    PositionDetectsCollider pointCollider;
+    public MapModel mapModel;
+
+
+
     Timer RecordTimer;
     public Queue<ICommand> commands;
     ICommand c;
-
     public String info = "test";
-
     JPanel j;
     public Player(JPanel j)
     {
@@ -42,9 +48,11 @@ public class Player implements ActionListener {
     }
 
     public void Start() throws IOException {
-        playerControl = new PlayerControl(j,this);
-        swordsMan = new SwordsMan();
         transform = new Transform();
+        swordsMan = new SwordsMan();
+        playerControl = new PlayerControl(j,this);
+
+        pointCollider = new PositionDetectsCollider(transform.xPos,transform.yPos);
 
         transform.xPos = 350;
         transform.yPos = 430;
@@ -52,9 +60,13 @@ public class Player implements ActionListener {
 
     public void Update()
     {
-        playerControl.detect();
-        playerControl.Command();
+        if(!pointCollider.obstacle(mapModel.boxCollider,this)){
+            playerControl.detect();
+            playerControl.Command();
+        }
         playerControl.input.update();
+
+
         swordsMan.update();
 
     }

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 public class SwordsMan extends CharacterModel
 {
-
     public SwordsmanCommand sc;
     public SwordsMan() throws IOException {
         setAnimResources();

@@ -1,5 +1,6 @@
 package scr.Entity.Maps;
 
+import scr.Controller.Collide.Colliders.BoxCollider;
 import scr.Model.Characters.Transform;
 import scr.Model.Map.MapModel;
 
@@ -14,12 +15,16 @@ public class DragonTower extends MapModel {
         this.collideWidthX2 = collideWidthX2;
         this.collideHeightY1 = collideHeightY1;
         this.collideHeightY2 = collideHeightY2;
+
+        boxCollider = new BoxCollider(0,390,1200,10);
+
     }
+
+
 
     @Override
     public void mapRender(Graphics g, JPanel panel, Transform transform) {
         render(g,panel,transform);
-
     }
 
 

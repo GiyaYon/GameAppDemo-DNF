@@ -44,8 +44,10 @@ class TestPanel extends JPanel implements Runnable {
 
         dragonTower = new DragonTower("1","dragontowner",0,770,400,550);
 
+        player.mapModel = dragonTower;
 
-        // 创建一个新线程，this就是实现了Runnable接口的实现类
+
+                // 创建一个新线程，this就是实现了Runnable接口的实现类
         Thread t = new Thread(this);
         // 启动线程
         t.start();
@@ -118,7 +120,9 @@ class TestPanel extends JPanel implements Runnable {
             {
                 lastUpdate = curr;
 
+
                 player.Update();
+
 
                 repaint();// 窗口重绘
             }

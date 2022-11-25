@@ -1,5 +1,6 @@
 package scr.Model.Map;
 
+import scr.Controller.Collide.Colliders.BoxCollider;
 import scr.Model.Characters.Transform;
 import scr.Viewer.LoadImage.ResSprites;
 
@@ -9,6 +10,7 @@ import java.io.File;
 
 public abstract class MapModel {
 
+    public BoxCollider boxCollider;
     //远景
     public Image far;
     //近景
