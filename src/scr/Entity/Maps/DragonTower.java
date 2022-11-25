@@ -2,10 +2,12 @@ package scr.Entity.Maps;
 
 import scr.Controller.Collide.Colliders.BoxCollider;
 import scr.Model.Characters.Transform;
+import scr.Model.Characters.Vector2D;
 import scr.Model.Map.MapModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class DragonTower extends MapModel {
     public DragonTower(String FarName, String NearPath,int collideWidthX1,int collideWidthX2,int collideHeightY1,int collideHeightY2) {
@@ -16,8 +18,15 @@ public class DragonTower extends MapModel {
         this.collideHeightY1 = collideHeightY1;
         this.collideHeightY2 = collideHeightY2;
 
-        boxCollider = new BoxCollider(0,390,1200,10);
-
+        Borders = new ArrayList<>();
+        BoxCollider mapTopBorder = new BoxCollider(0,300,1200,100,new Vector2D(0,1));
+        BoxCollider mapBottomBorder = new BoxCollider(0,550,1200,100,new Vector2D(0,-1));
+        BoxCollider mapLeftBorder = new BoxCollider(0,400,10,150,new Vector2D(1,0));
+        BoxCollider mapRightBorder = new BoxCollider(780,400,10,150,new Vector2D(-1,0));
+        Borders.add(mapTopBorder);
+        Borders.add(mapBottomBorder);
+        Borders.add(mapLeftBorder);
+        Borders.add(mapRightBorder);
     }
 
 

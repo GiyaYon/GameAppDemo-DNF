@@ -60,7 +60,7 @@ public class Player implements ActionListener {
 
     public void Update()
     {
-        if(!pointCollider.obstacle(mapModel.boxCollider,this)){
+        if(!pointCollider.obstacle(mapModel.Borders,this)){
             playerControl.detect();
             playerControl.Command();
         }

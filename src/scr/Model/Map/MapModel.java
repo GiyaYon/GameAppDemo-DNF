@@ -7,10 +7,11 @@ import scr.Viewer.LoadImage.ResSprites;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
 
 public abstract class MapModel {
 
-    public BoxCollider boxCollider;
+    public ArrayList<BoxCollider> Borders;
     //远景
     public Image far;
     //近景
