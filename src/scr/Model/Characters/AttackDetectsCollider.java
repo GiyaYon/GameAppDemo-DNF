@@ -1,4 +1,4 @@
-package scr.Controller.Collide;
+package scr.Model.Characters;
 
 public class AttackDetectsCollider  {
 

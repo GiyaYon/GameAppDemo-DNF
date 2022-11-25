@@ -4,11 +4,11 @@ package scr.Controller.Collide;
  *
  * 检测器
  */
-public class Detector implements Collider{
+public abstract class Detector implements Collider{
     /**
      * 点和矩形碰撞
      */
-    public boolean isPointWithRect(int x1, int y1, int x2, int y2, int w, int h) {
+    private boolean isPointWithRect(int x1, int y1, int x2, int y2, int w, int h) {
         if (x1 >= x2 && x1 <= x2 + w && y1 >= y2 && y1 <= y2 + h) {
             return true;
         }
@@ -18,7 +18,7 @@ public class Detector implements Collider{
     /**
      * 检测两个矩形是否碰撞
      */
-    public boolean isCollisionWithRect(int x1, int y1, int w1, int h1,
+    private boolean isCollisionWithRect(int x1, int y1, int w1, int h1,
                                        int x2,int y2, int w2, int h2) {
         if (x1 >= x2 && x1 >= x2 + w2) {
             return false;
@@ -35,7 +35,7 @@ public class Detector implements Collider{
     /**
      *  点和圆心
      */
-    public boolean isPointWithOval(int x1,int y1,int x2,int y2,int r)
+    private boolean isPointWithOval(int x1,int y1,int x2,int y2,int r)
     {
         if (Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) <= r) {
             // 如果点和圆心距离小于或等于半径则认为发生碰撞
@@ -59,7 +59,7 @@ public class Detector implements Collider{
         return false;
     }
 
-    public boolean isArcRectCollides(int arcX, int arcY,
+    private boolean isArcRectCollides(int arcX, int arcY,
                                                   int arcR, int rectX, int rectY, int rectW, int rectH) {
         int arcOx = arcX + arcR;// 圆心X坐标
         int arcOy = arcY + arcR;// 圆心Y坐标
@@ -127,4 +127,6 @@ public class Detector implements Collider{
             };
         };
     }
+
+    public abstract boolean ColliderDetect(ShapeProperty s2);
 }

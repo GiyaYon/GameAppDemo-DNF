@@ -52,6 +52,7 @@ public class PlayerControl {
         if(input.isKeyDown(KeyEvent.VK_LEFT))
         {
             Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
+            //持续按下，跑步状态延缓
             if(player.swordsMan.property.states.equals(States.Run))
             {
                 c = new RunCommand(player.swordsMan.sc,vector2D,player.transform);
@@ -184,6 +185,7 @@ public class PlayerControl {
                 int i = (int)System.currentTimeMillis() - v.time;
                 if( i < 400 &&  i > 100)
                 {
+                    //触发跑步状态
                     Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
                     c = new RunCommand(player.swordsMan.sc,vector2D,player.transform);
                     player.c = c;

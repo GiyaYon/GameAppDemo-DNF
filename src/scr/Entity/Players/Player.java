@@ -25,13 +25,13 @@ public class Player implements ActionListener {
 
     public SwordsMan swordsMan;
     public Transform transform;
-
+    PlayerControl playerControl;
     Timer RecordTimer;
     public Queue<ICommand> commands;
     ICommand c;
 
     public String info = "test";
-    PlayerControl playerControl;
+
     JPanel j;
     public Player(JPanel j)
     {
