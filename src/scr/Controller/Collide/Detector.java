@@ -1,12 +1,10 @@
 package scr.Controller.Collide;
 
 /**
+ *
  * 检测器
  */
 public class Detector implements Collider{
-
-    protected ColliderShape shape;
-
     /**
      * 点和矩形碰撞
      */
@@ -61,8 +59,72 @@ public class Detector implements Collider{
         return false;
     }
 
+    public boolean isArcRectCollides(int arcX, int arcY,
+                                                  int arcR, int rectX, int rectY, int rectW, int rectH) {
+        int arcOx = arcX + arcR;// 圆心X坐标
+        int arcOy = arcY + arcR;// 圆心Y坐标
+        if (((rectX - arcOx) * (rectX - arcOx) + (rectY - arcOy)
+                * (rectY - arcOy)) <= arcR * arcR)
+            return true;
+        if (((rectX + rectW - arcOx) * (rectX + rectW - arcOx) + (rectY - arcOy)
+                * (rectY - arcOy)) <= arcR * arcR)
+            return true;
+        if (((rectX - arcOx) * (rectX - arcOx) + (rectY + rectH - arcOy)
+                * (rectY + rectH - arcOy)) <= arcR * arcR)
+            return true;
+        if (((rectX + rectW - arcOx) * (rectX + rectW - arcOx) + (rectY + rectH - arcOy)
+                * (rectY + rectH - arcOy)) <= arcR * arcR)
+            return true;
 
-    public boolean isIntersect() {
+        // 分别判断矩形4个顶点与圆心的距离是否<=圆半径；如果<=，说明碰撞成功
+        int minDisX = 0;
+        if (arcOy >= rectY && arcOy <= rectY + rectH) {
+            if (arcOx < rectX)
+                minDisX = rectX - arcOx;
+            else if (arcOx > rectX + rectW)
+                minDisX = arcOx - rectX - rectW;
+            else
+                return true;
+            if (minDisX <= arcR)
+                return true;
+        }// 判断当圆心的Y坐标进入矩形内时X的位置，如果X在(rectX-arcR)到(rectX+rectW+arcR)这个范围内，则碰撞成功
+
+        int minDisY = 0;
+        if (arcOx >= rectX && arcOx <= rectX + rectW) {
+            if (arcOy < rectY)
+                minDisY = rectY - arcOy;
+            else if (arcOy > rectY + rectH)
+                minDisY = arcOy - rectY - rectH;
+            else
+                return true;
+            if (minDisY <= arcR)
+                return true;
+        }// 判断当圆心的X坐标进入矩形内时Y的位置，如果X在(rectY-arcR)到(rectY+rectH+arcR)这个范围内，则碰撞成功
         return false;
+    }
+    /**
+     *
+     * @param s1 源
+     * @param s2 对象
+     * @return 源是否与对象碰撞
+     */
+    public boolean isIntersect(ShapeProperty s1, ShapeProperty s2) {
+        return switch (s1.shape) {
+            case Point -> switch (s2.shape) {
+                case Point -> s1.x == s2.x && s1.y == s2.y;
+                case Rect -> isPointWithRect(s1.x, s1.y, s2.x, s2.y, s2.w, s2.h);
+                case Oval -> isPointWithOval(s1.x, s1.y, s2.x, s2.y, s2.r);
+            };
+            case Oval -> switch (s2.shape) {
+                case Rect -> isArcRectCollides(s1.x, s1.y, s1.r, s2.x, s2.y, s2.w, s2.h);
+                case Oval -> isCollisionWithCircle(s1.x, s1.y, s2.x, s2.y, s1.r, s2.r);
+                case Point -> isPointWithOval(s2.x, s2.y, s1.x, s1.y, s1.r);
+            };
+            case Rect -> switch (s2.shape) {
+                case Rect -> isCollisionWithRect(s1.x, s1.y, s1.w, s1.h, s2.x, s2.y, s2.w, s2.h);
+                case Oval -> isArcRectCollides(s2.x, s2.y, s2.r, s1.x, s1.y, s1.w, s1.h);
+                case Point -> isPointWithRect(s2.x, s2.y, s1.x, s1.y, s1.w, s1.h);
+            };
+        };
     }
 }

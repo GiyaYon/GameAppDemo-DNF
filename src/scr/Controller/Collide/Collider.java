@@ -6,5 +6,5 @@ package scr.Controller.Collide;
  */
 public interface Collider {
 
-    boolean isIntersect();
+    boolean isIntersect(ShapeProperty s1, ShapeProperty s2);
 }

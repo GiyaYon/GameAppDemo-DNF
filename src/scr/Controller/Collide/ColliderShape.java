@@ -4,5 +4,4 @@ public enum ColliderShape {
     Rect,
     Oval,
     Point,
-    Ray
 }
