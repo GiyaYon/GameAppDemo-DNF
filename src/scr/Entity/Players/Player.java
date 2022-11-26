@@ -27,10 +27,11 @@ import java.util.Queue;
 public class Player implements ActionListener {
 
     public SwordsMan swordsMan;
-    public Transform transform;
+    public Transform transform,childTransform;
     PlayerControl playerControl;
     PositionDetectsCollider pointCollider;
     public MapModel mapModel;
+
 
 
 

@@ -42,7 +42,7 @@ class TestPanel extends JPanel implements Runnable {
         transform = player.transform;
 
 
-        dragonTower = new DragonTower("1","dragontowner",0,770,400,550);
+        dragonTower = new DragonTower("1","dragontowner",0,770,400,550,this);
 
         player.mapModel = dragonTower;
 
