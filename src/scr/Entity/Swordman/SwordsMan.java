@@ -4,6 +4,7 @@ package scr.Entity.Swordman;
 
 import scr.Controller.StateMachine.FSM;
 import scr.Controller.StateMachine.States;
+import scr.Entity.Players.Player;
 import scr.Model.Characters.CharacterModel;
 import scr.Model.Characters.Transform;
 import scr.Viewer.Anim.Animation;
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 public class SwordsMan extends CharacterModel
 {
     public SwordsmanCommand sc;
-    public SwordsMan() throws IOException {
+    public SwordsMan(Player player) throws IOException {
+        super(player);
         setAnimResources();
         setAnimations();
         setAnimator();
@@ -84,6 +86,11 @@ public class SwordsMan extends CharacterModel
         fsm.currentState = getState(States.Idle);
         fsm.currentState.onStart();
         property.states = States.Idle;
+    }
+
+    @Override
+    public Transform getTransform(Player player) {
+        return player.transform;
     }
 
 

@@ -50,7 +50,7 @@ public class Player implements ActionListener {
 
     public void Start() throws IOException {
         transform = new Transform();
-        swordsMan = new SwordsMan();
+        swordsMan = new SwordsMan(this);
         playerControl = new PlayerControl(j,this);
 
         pointCollider = new PositionDetectsCollider(transform.xPos,transform.yPos);

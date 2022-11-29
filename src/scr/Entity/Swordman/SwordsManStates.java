@@ -3,6 +3,7 @@ package scr.Entity.Swordman;
 import scr.Controller.StateMachine.IState;
 import scr.Controller.StateMachine.States;
 import scr.Model.Characters.CharacterModel;
+import scr.Model.Characters.JumpForce;
 import scr.Model.Characters.Vector2D;
 
 public class SwordsManStates {
@@ -102,7 +103,8 @@ class Run extends SwordsManStates implements IState
 
 class Jump extends SwordsManStates implements IState
 {
-
+    int dt;
+    JumpForce jumpForce;
     public Jump(CharacterModel c) {
         super(c);
     }
@@ -111,14 +113,23 @@ class Jump extends SwordsManStates implements IState
     public void onStart() {
         c.getAnimator().resetAnim(c.getAnimation("jump"));
         c.getAnimator().play(c.getAnimation("jump"));
+        dt = (int)System.currentTimeMillis();
+        jumpForce = new JumpForce(5,dt);
     }
 
     @Override
     public void onUpdate() {
+
+
+        System.out.print("时间已经过了"+ ((int)System.currentTimeMillis() - dt) +"毫秒\n");
+        //c.property.player.transform =  jumpForce.ForceResult(((int)System.currentTimeMillis() - dt)/1000);
+
         if(c.getAnimator().getFinish())
         {
             c.getFsm().ChangeState(States.Fall);
         }
+        //System.out.print("时间已经过了"+ ((int)System.currentTimeMillis() - dt)/1000 +"秒\n");
+        dt = (int)System.currentTimeMillis();
     }
 
     @Override

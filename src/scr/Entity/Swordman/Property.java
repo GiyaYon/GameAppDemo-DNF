@@ -1,6 +1,7 @@
 package scr.Entity.Swordman;
 
 import scr.Controller.StateMachine.States;
+import scr.Entity.Players.Player;
 import scr.Model.Characters.Vector2D;
 
 public class Property {
@@ -12,6 +13,9 @@ public class Property {
     public int MoveSpeed = 2;
 
     public int attackTimes = 55;
+    public Player player;
 
-
+    public Property(Player player) {
+        this.player = player;
+    }
 }
