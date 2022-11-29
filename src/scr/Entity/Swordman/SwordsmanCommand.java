@@ -1,0 +1,73 @@
+package scr.Entity.Swordman;
+
+import scr.Controller.StateMachine.States;
+import scr.Controller.Commander.GameObject;
+import scr.Model.Characters.Transform;
+import scr.Model.Characters.Vector2D;
+
+public class SwordsmanCommand implements GameObject {
+
+    SwordsMan sm;
+
+    public SwordsmanCommand(SwordsMan sm)
+    {
+        this.sm = sm;
+
+    }
+    @Override
+    public void move(Vector2D vector2D, Transform transform) {
+
+        sm.property.states = States.Walk;
+        transform.xPos += vector2D.x * sm.property.MoveSpeed;
+        transform.yPos += vector2D.y * sm.property.MoveSpeed;
+        if(vector2D.x != 0)
+        {
+            transform.flipX = vector2D.x;
+        }
+
+        sm.property.vector2D = vector2D;
+
+    }
+
+    @Override
+    public void idle() {
+        sm.property.states = States.Idle;
+        sm.property.vector2D = new Vector2D(0,0);
+    }
+
+    public void run(Vector2D vector2D, Transform transform)
+    {
+        sm.property.states = States.Run;
+        transform.xPos += vector2D.x * sm.property.MoveSpeed;
+        transform.yPos += vector2D.y * sm.property.MoveSpeed;
+        if(vector2D.x != 0)
+        {
+            transform.flipX = vector2D.x;
+        }
+
+        sm.property.vector2D = vector2D;
+    }
+
+    public void attack()
+    {
+        sm.property.states = States.Attack;
+        sm.getFsm().ChangeState(sm.property.states);
+    }
+    public void attack2()
+    {
+        sm.property.states = States.Attack2;
+        sm.getFsm().ChangeState(sm.property.states);
+    }
+    public void attack3()
+    {
+        sm.property.states = States.Attack3;
+        sm.getFsm().ChangeState(sm.property.states);
+    }
+
+    public void jump()
+    {
+        sm.property.states = States.Jump;
+        sm.getFsm().ChangeState(sm.property.states);
+    }
+
+}
