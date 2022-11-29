@@ -9,5 +9,5 @@ It is my first time to try to code the game using JavaSE
 
 ~~~
 2022/11/29
-my computer was broken
+my computer was broken,git test
 ~~~
