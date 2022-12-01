@@ -18,8 +18,8 @@ public class SwordsmanCommand implements GameObject {
     public void move(Vector2D vector2D, Transform transform) {
 
         sm.property.states = States.Walk;
-        transform.xPos += vector2D.x * sm.property.MoveSpeed;
-        transform.yPos += vector2D.y * sm.property.MoveSpeed;
+        transform.xPos += vector2D.x * sm.property.moveSpeed;
+        transform.yPos += vector2D.y * sm.property.moveSpeed;
         if(vector2D.x != 0)
         {
             transform.flipX = vector2D.x;
@@ -38,8 +38,8 @@ public class SwordsmanCommand implements GameObject {
     public void run(Vector2D vector2D, Transform transform)
     {
         sm.property.states = States.Run;
-        transform.xPos += vector2D.x * sm.property.MoveSpeed;
-        transform.yPos += vector2D.y * sm.property.MoveSpeed;
+        transform.xPos += vector2D.x * sm.property.moveSpeed;
+        transform.yPos += vector2D.y * sm.property.moveSpeed;
         if(vector2D.x != 0)
         {
             transform.flipX = vector2D.x;

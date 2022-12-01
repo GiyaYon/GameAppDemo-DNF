@@ -3,7 +3,6 @@ package scr.Model.Characters;
 import scr.Controller.StateMachine.FSM;
 import scr.Controller.StateMachine.IState;
 import scr.Controller.StateMachine.States;
-import scr.Entity.Swordman.Property;
 import scr.Viewer.Anim.Animator;
 import scr.Viewer.Anim.AnimationMergeGroup;
 import scr.Viewer.LoadImage.ReloadAnimResources;

@@ -80,7 +80,7 @@ class Run extends SwordsManStates implements IState
     @Override
     public void onStart() {
         c.getAnimator().play(c.getAnimation("run"));
-        c.property.MoveSpeed += 2;
+        c.property.moveSpeed += 2;
     }
 
     @Override
@@ -95,7 +95,7 @@ class Run extends SwordsManStates implements IState
 
     @Override
     public void onExit() {
-        c.property.MoveSpeed -= 2;
+        c.property.moveSpeed -= 2;
 
     }
 }
