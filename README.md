@@ -5,3 +5,8 @@ Author：GiyaYon
 2D Fight Game by Java
 
 It is my first time to try to code the game using JavaSE
+
+~~~
+    2022/12/1
+    my computer is back, i can work again.
+~~~
