@@ -171,10 +171,6 @@ public class PlayerControl {
             return;
         }
 
-        if(player.swordsMan.property.states.equals(States.Jump))
-        {
-            player.transform.yPos += player.swordsMan.property.horizontal.y;
-        }
 
         if(input.isKeyUp(KeyEvent.VK_C) && !isJumpKeyRelease)
         {

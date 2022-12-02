@@ -90,7 +90,14 @@ public class SwordsMan extends CharacterModel
     @Override
     public void render(Graphics g, JPanel jPanel, Transform transform) {
 
-        animator.Flash(g,jPanel,transform);
+        if(!property.states.equals(States.Jump))
+        {
+            animator.Flash(g,jPanel,transform);
+        }
+        else
+        {
+            animator.Flash(g,jPanel,transform);
+        }
 
     }
 

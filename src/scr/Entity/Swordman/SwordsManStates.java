@@ -107,12 +107,13 @@ class Jump extends SwordsManStates implements IState
     public Jump(CharacterModel c) {
         super(c);
     }
-
+    float dt;
     @Override
     public void onStart() {
         c.getAnimator().resetAnim(c.getAnimation("jump"));
         c.getAnimator().play(c.getAnimation("jump"));
-
+        c.property.flyView = c.property.horizontal;
+        dt = (int)System.currentTimeMillis();
     }
 
     @Override
@@ -121,7 +122,10 @@ class Jump extends SwordsManStates implements IState
         if(c.getAnimator().getFinish())
         {
 
+            c.property.flyView.y = c.jumpForce.ForceResult((int)(System.currentTimeMillis() -dt) ).y;
+            System.out.println((int)(System.currentTimeMillis() -dt)/1000);
             c.getFsm().ChangeState(States.Fall);
+            dt = System.currentTimeMillis();
         }
     }
 

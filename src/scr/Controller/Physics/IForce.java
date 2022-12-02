@@ -1,7 +1,8 @@
 package scr.Controller.Physics;
 
 import scr.Model.Characters.Transform;
+import scr.Model.Characters.Vector2D;
 
 public interface IForce {
-    Transform ForceResult(float mt);
+    Vector2D ForceResult(float mt);
 }

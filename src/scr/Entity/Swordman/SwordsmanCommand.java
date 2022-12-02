@@ -66,9 +66,10 @@ public class SwordsmanCommand implements GameObject {
 
     public void jump(Transform transform)
     {
+        sm.property.horizontal = new Vector2D(transform.xPos,transform.yPos);
         sm.property.states = States.Jump;
         sm.getFsm().ChangeState(sm.property.states);
-        sm.property.horizontal = new Vector2D(transform.xPos,transform.yPos);
+
     }
 
 }

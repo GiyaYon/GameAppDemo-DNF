@@ -4,8 +4,6 @@ import scr.Controller.Physics.Force;
 import scr.Controller.Physics.Gravity;
 import scr.Controller.Physics.IForce;
 
-import java.util.TreeSet;
-
 public class FloatAirForce implements IForce {
     Force xF;
     Gravity gF;
@@ -16,7 +14,7 @@ public class FloatAirForce implements IForce {
     }
 
     @Override
-    public Transform ForceResult(float mt) {
-        return new Transform(xF.resultVy(mt), gF.resultVy(mt));
+    public Vector2D ForceResult(float mt) {
+        return new Vector2D(xF.resultVy(mt), gF.resultVy(mt));
     }
 }
