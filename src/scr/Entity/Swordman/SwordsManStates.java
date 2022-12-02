@@ -1,5 +1,6 @@
 package scr.Entity.Swordman;
 
+import scr.Controller.Physics.Force;
 import scr.Controller.StateMachine.IState;
 import scr.Controller.StateMachine.States;
 import scr.Model.Characters.CharacterModel;
@@ -110,58 +111,52 @@ class Jump extends SwordsManStates implements IState
     }
     float dt;
     JumpForce jumpForce;
+    Force fallForce;
+    boolean isfall = false;
     @Override
     public void onStart() {
+
+        c.property.flyView = new Vector2D(0,0);
         c.getAnimator().resetAnim(c.getAnimation("jump"));
         c.getAnimator().play(c.getAnimation("jump"));
-        c.property.flyView = c.property.horizontal;
         dt = (int)System.currentTimeMillis();
-        jumpForce = new JumpForce(25,0);
+        jumpForce = new JumpForce(10,0);
     }
 
     @Override
     public void onUpdate() {
 
-
-        c.property.flyView.y = jumpForce.ForceResult(((int)System.currentTimeMillis() -dt)*0.0001F).y;
-        //if(c.getAnimator().getFinish())
+        if(!isfall)
+        {
+            c.property.flyView.y = jumpForce.ForceResult(((int)System.currentTimeMillis() -dt)/1000).y;
+            //System.out.println(c.property.flyView.y);
+            c.property.horizontal.y -= c.property.flyView.y;
+        }
+        if(c.property.horizontal.y < c.property.initHorizontalLine.yPos && isfall)
+        {
+            c.property.flyView.y = fallForce.resultVy(((int)System.currentTimeMillis() -dt)/1000);
+            //System.out.println(c.property.flyView.y);
+            c.property.horizontal.y += c.property.flyView.y;
+        }
+        else if(c.property.horizontal.y >= c.property.initHorizontalLine.yPos && isfall) {
+            c.getAnimator().resetAnim(c.getAnimation("fallStand"));
+            c.getAnimator().play(c.getAnimation("fallStand"));
+            c.getFsm().ChangeState(States.Idle);
+            isfall = false;
+        }
         if(c.property.flyView.y <= 0)
         {
-            c.getFsm().ChangeState(States.Fall);
-            dt = (int)System.currentTimeMillis();
+            fallForce = new Force(12,10,0);
+            isfall = true;
+            c.getAnimator().resetAnim(c.getAnimation("fall"));
+            c.getAnimator().play(c.getAnimation("fall"));
+//            c.getFsm().ChangeState(States.Fall);
+//            dt = (int)System.currentTimeMillis();
         }
-    }
-
-    @Override
-    public void onExit() {
-        jumpForce = new JumpForce(25,0);
         dt = (int)System.currentTimeMillis();
     }
-}
-class Fall extends SwordsManStates implements IState
-{
-
-    public Fall(CharacterModel c) {
-        super(c);
-    }
-
-    @Override
-    public void onStart() {
-        c.getAnimator().resetAnim(c.getAnimation("fall"));
-        c.getAnimator().play(c.getAnimation("fall"));
-    }
-
-    @Override
-    public void onUpdate() {
-        if(c.getAnimator().getFinish())
-        {
-            c.getFsm().ChangeState(States.Idle);
-        }
-    }
-
     @Override
     public void onExit() {
-
     }
 }
 

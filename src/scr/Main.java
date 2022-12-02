@@ -95,8 +95,11 @@ class TestPanel extends JPanel implements Runnable {
             g.drawString("x="+ transform.xPos +" ,y=" +transform.yPos,200,20);
             g.drawString("x="+ (350 - transform.xPos) + ",y=" +transform.yPos,200,40);
         }
-
-
+        g.drawString(String.valueOf(player.swordsMan.property.states),200,60);
+        if(player.swordsMan.property.horizontal!= null)
+        {
+            g.drawString("ViewY:"+ player.swordsMan.property.horizontal.y,200,80);
+        }
 
     }
 

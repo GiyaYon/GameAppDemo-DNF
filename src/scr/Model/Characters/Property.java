@@ -18,7 +18,7 @@ public class Property {
     public Vector2D horizontal;
     //浮空显示
     public Vector2D flyView;
-
+    public Transform initHorizontalLine;
     //·····················游戏属性·······················
 
     //移速

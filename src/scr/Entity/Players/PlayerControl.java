@@ -163,6 +163,8 @@ public class PlayerControl {
         if(input.isKeyDown(KeyEvent.VK_C) && isJumpKeyRelease && (int)System.currentTimeMillis() - jumpTime >1000)
         {
             isJumpKeyRelease = false;
+            player.swordsMan.property.horizontal = new Vector2D(player.transform.xPos,player.transform.yPos);
+            player.swordsMan.property.initHorizontalLine = player.transform;
             jumpTime = (int)System.currentTimeMillis();
             c = new JumpCommand(player.swordsMan.sc,player.transform);
             //commands.offer(c);

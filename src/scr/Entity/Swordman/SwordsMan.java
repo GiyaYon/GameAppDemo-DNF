@@ -62,8 +62,8 @@ public class SwordsMan extends CharacterModel
         assembleToAnimations("attack2",10,20,false);
         assembleToAnimations("attack3",33,41,false);
         assembleToAnimations("jump",125,128,false);
-        assembleToAnimations("fall",129,132,false);
-
+        assembleToAnimations("fall",129,131,false);
+        assembleToAnimations("fallStand",132,132,false);
     }
 
     @Override
@@ -78,7 +78,6 @@ public class SwordsMan extends CharacterModel
         statesList.put(States.Attack2,new Attack2(this));
         statesList.put(States.Attack3,new Attack3(this));
         statesList.put(States.Jump,new Jump(this));
-        statesList.put(States.Fall,new Fall(this));
 
         //初始化
         fsm.currentState = getState(States.Idle);
@@ -92,9 +91,9 @@ public class SwordsMan extends CharacterModel
 
         if(property.states.equals(States.Jump))
         {
-            property.horizontal.y -= property.flyView.y;
-            System.out.println(property.horizontal.y);
             animator.Flash(g,jPanel,new Transform(property.horizontal.x, property.horizontal.y));
+
+            //animator.Flash(g,jPanel, transform);
         }
         else
         {
