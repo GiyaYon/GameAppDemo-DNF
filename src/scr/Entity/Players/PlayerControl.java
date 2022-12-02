@@ -9,6 +9,7 @@ import scr.Entity.Swordman.JumpCommand;
 import scr.Entity.Swordman.RunCommand;
 import scr.Controller.Commander.GameObjectCommands.MoveCommand;
 import scr.Controller.Commander.GameObjectCommands.NoneCommand;
+import scr.Model.Characters.JumpForce;
 import scr.Model.Characters.Vector2D;
 
 import javax.swing.*;
@@ -163,11 +164,16 @@ public class PlayerControl {
         {
             isJumpKeyRelease = false;
             jumpTime = (int)System.currentTimeMillis();
-            c = new JumpCommand(player.swordsMan.sc);
+            c = new JumpCommand(player.swordsMan.sc,player.transform);
             //commands.offer(c);
             player.c = c;
             c.Execute();
             return;
+        }
+
+        if(player.swordsMan.property.states.equals(States.Jump))
+        {
+            player.transform.yPos += player.swordsMan.property.horizontal.y;
         }
 
         if(input.isKeyUp(KeyEvent.VK_C) && !isJumpKeyRelease)

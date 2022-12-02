@@ -3,6 +3,7 @@ package scr.Entity.Swordman;
 import scr.Controller.StateMachine.IState;
 import scr.Controller.StateMachine.States;
 import scr.Model.Characters.CharacterModel;
+import scr.Model.Characters.Transform;
 import scr.Model.Characters.Vector2D;
 
 public class SwordsManStates {
@@ -111,12 +112,15 @@ class Jump extends SwordsManStates implements IState
     public void onStart() {
         c.getAnimator().resetAnim(c.getAnimation("jump"));
         c.getAnimator().play(c.getAnimation("jump"));
+
     }
 
     @Override
     public void onUpdate() {
+
         if(c.getAnimator().getFinish())
         {
+
             c.getFsm().ChangeState(States.Fall);
         }
     }

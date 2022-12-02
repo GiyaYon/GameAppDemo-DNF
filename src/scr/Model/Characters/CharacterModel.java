@@ -20,6 +20,8 @@ public abstract class CharacterModel
     protected HashMap<String, AnimationMergeGroup> animations = new HashMap<>();
     protected HashMap<States,IState> statesList = new HashMap<>();
 
+    protected JumpForce jumpForce = new JumpForce(5,0);
+
     public Property property = new Property();
 
     protected abstract void setAnimResources() throws IOException;

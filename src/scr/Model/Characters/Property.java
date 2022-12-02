@@ -17,7 +17,7 @@ public class Property {
     //地平线
     public Vector2D horizontal;
     //浮空显示
-    public Transform flyView;
+    public Vector2D flyView;
 
     //·····················游戏属性·······················
 
