@@ -1,5 +1,6 @@
 package scr.Viewer.Anim;
 
+import scr.Entity.Players.Player;
 import scr.Model.Characters.Transform;
 import scr.Viewer.LoadImage.ImageMerge;
 
@@ -88,18 +89,19 @@ public class Animation extends Transform {
     public void resetFrame()
     {
         isFinish = false;
+        playID = 0;
+        index =  playID;
+        l = imageMerge.positions.get(index).split(": ");
+        l2 = l[1].split(", ");
+
     }
     public void toNextFrame()
     {
-        if(!isRecycle)
+        if(!isRecycle && !isFinish)
         {
             // 下一帧图像
             playID++;
             if (playID == (size -1) ) {
-                // 图像放完后，又从第一帧开始
-                playID = 0;
-                index =  playID;
-                l = imageMerge.positions.get(index).split(": ");
                 isFinish = true;
             }
             //刷新下一个中心点坐标
@@ -107,7 +109,7 @@ public class Animation extends Transform {
             l = imageMerge.positions.get(index).split(": ");
             l2 = l[1].split(", ");
         }
-        else {
+        if(isRecycle){
             // 下一帧图像
             playID++;
             if (playID == (size -1) ) {

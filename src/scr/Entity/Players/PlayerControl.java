@@ -177,9 +177,13 @@ public class PlayerControl {
             isJumpKeyRelease = true;
         }
 
-        c = new NoneCommand(player.swordsMan.sc);
-        player.c = c;
-        c.Execute();
+        if(!player.swordsMan.property.states.equals(States.Jump))
+        {
+            c = new NoneCommand(player.swordsMan.sc);
+            player.c = c;
+            c.Execute();
+        }
+
     }
 
     public void detect()

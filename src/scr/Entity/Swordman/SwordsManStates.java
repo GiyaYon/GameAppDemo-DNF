@@ -3,6 +3,7 @@ package scr.Entity.Swordman;
 import scr.Controller.StateMachine.IState;
 import scr.Controller.StateMachine.States;
 import scr.Model.Characters.CharacterModel;
+import scr.Model.Characters.JumpForce;
 import scr.Model.Characters.Transform;
 import scr.Model.Characters.Vector2D;
 
@@ -108,30 +109,33 @@ class Jump extends SwordsManStates implements IState
         super(c);
     }
     float dt;
+    JumpForce jumpForce;
     @Override
     public void onStart() {
         c.getAnimator().resetAnim(c.getAnimation("jump"));
         c.getAnimator().play(c.getAnimation("jump"));
         c.property.flyView = c.property.horizontal;
         dt = (int)System.currentTimeMillis();
+        jumpForce = new JumpForce(25,0);
     }
 
     @Override
     public void onUpdate() {
 
-        if(c.getAnimator().getFinish())
-        {
 
-            c.property.flyView.y = c.jumpForce.ForceResult((int)(System.currentTimeMillis() -dt) ).y;
-            System.out.println((int)(System.currentTimeMillis() -dt)/1000);
+        c.property.flyView.y = jumpForce.ForceResult(((int)System.currentTimeMillis() -dt)*0.0001F).y;
+        //if(c.getAnimator().getFinish())
+        if(c.property.flyView.y <= 0)
+        {
             c.getFsm().ChangeState(States.Fall);
-            dt = System.currentTimeMillis();
+            dt = (int)System.currentTimeMillis();
         }
     }
 
     @Override
     public void onExit() {
-
+        jumpForce = new JumpForce(25,0);
+        dt = (int)System.currentTimeMillis();
     }
 }
 class Fall extends SwordsManStates implements IState
