@@ -4,6 +4,8 @@ import scr.Entity.Maps.DragonTower;
 import scr.Entity.Players.Player;
 import scr.Entity.Swordman.SwordsMan;
 import scr.Model.Characters.Transform;
+import scr.Model.Map.Obscurer;
+import scr.Viewer.Renders.RenderSequenceManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +29,8 @@ public class Main {
 }
 class TestPanel extends JPanel implements Runnable {
 
+    //遮挡盒
+    public RenderSequenceManager renderManager = new RenderSequenceManager();
     Player player;
     //双缓冲流
     public Image iBuffer;
@@ -43,6 +47,8 @@ class TestPanel extends JPanel implements Runnable {
 
 
         dragonTower = new DragonTower("1","dragontowner",0,770,400,550,this);
+        renderManager.renderMethods.add(new Obscurer(400,460));
+        renderManager.renderMethods.add(player);
 
         player.mapModel = dragonTower;
 
@@ -73,8 +79,10 @@ class TestPanel extends JPanel implements Runnable {
 
 
         //角色渲染
-        player.Render(g);
+        //player.render(g,this,transform);
 
+        //管理类渲染
+        renderManager.render(g,this,transform);
 
         //修改后坐标点
         g.setColor(Color.green);

@@ -38,6 +38,7 @@ public class SwordsmanCommand implements GameObject {
     public void run(Vector2D vector2D, Transform transform)
     {
         sm.property.states = States.Run;
+        sm.getFsm().ChangeState(sm.property.states);
         transform.xPos += vector2D.x * sm.property.moveSpeed;
         transform.yPos += vector2D.y * sm.property.moveSpeed;
         if(vector2D.x != 0)
@@ -68,7 +69,6 @@ public class SwordsmanCommand implements GameObject {
     {
         sm.property.states = States.Jump;
         sm.getFsm().ChangeState(sm.property.states);
-
     }
 
 }

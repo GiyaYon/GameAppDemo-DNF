@@ -111,8 +111,7 @@ class Jump extends SwordsManStates implements IState
     }
     float dt;
     JumpForce jumpForce;
-    Force fallForce;
-    boolean isfall = false;
+
     @Override
     public void onStart() {
 
@@ -126,37 +125,57 @@ class Jump extends SwordsManStates implements IState
     @Override
     public void onUpdate() {
 
-        if(!isfall)
-        {
-            c.property.flyView.y = jumpForce.ForceResult(((int)System.currentTimeMillis() -dt)/1000).y;
-            //System.out.println(c.property.flyView.y);
-            c.property.horizontal.y -= c.property.flyView.y;
-        }
-        if(c.property.horizontal.y < c.property.initHorizontalLine.yPos && isfall)
-        {
-            c.property.flyView.y = fallForce.resultVy(((int)System.currentTimeMillis() -dt)/1000);
-            //System.out.println(c.property.flyView.y);
-            c.property.horizontal.y += c.property.flyView.y;
-        }
-        else if(c.property.horizontal.y >= c.property.initHorizontalLine.yPos && isfall) {
-            c.getAnimator().resetAnim(c.getAnimation("fallStand"));
-            c.getAnimator().play(c.getAnimation("fallStand"));
-            c.getFsm().ChangeState(States.Idle);
-            isfall = false;
-        }
+        c.property.flyView.y = jumpForce.ForceResult(((int)System.currentTimeMillis() -dt)/1000).y;
+        c.property.horizontal.y -= c.property.flyView.y;
         if(c.property.flyView.y <= 0)
         {
-            fallForce = new Force(12,10,0);
-            isfall = true;
-            c.getAnimator().resetAnim(c.getAnimation("fall"));
-            c.getAnimator().play(c.getAnimation("fall"));
-//            c.getFsm().ChangeState(States.Fall);
-//            dt = (int)System.currentTimeMillis();
+            c.getFsm().ChangeState(States.Fall);
         }
         dt = (int)System.currentTimeMillis();
     }
     @Override
     public void onExit() {
+    }
+}
+
+class  Fall extends SwordsManStates implements IState
+{
+    Force fallForce;
+    float dt;
+    public Fall(CharacterModel c) {
+        super(c);
+    }
+
+    @Override
+    public void onStart() {
+        c.property.flyView = new Vector2D(0,0);
+        fallForce = new Force(14,-1,0);
+        c.getAnimator().resetAnim(c.getAnimation("fall"));
+        c.getAnimator().play(c.getAnimation("fall"));
+        dt = (int)System.currentTimeMillis();
+    }
+
+    @Override
+    public void onUpdate() {
+
+
+        if(c.property.horizontal.y < c.property.initHorizontalLine.yPos)
+        {
+            c.property.flyView.y = fallForce.resultVy(((int)System.currentTimeMillis() -dt)/1000);
+            System.out.println(c.property.flyView.y);
+            c.property.horizontal.y += c.property.flyView.y;
+        }
+        else {
+            c.getAnimator().resetAnim(c.getAnimation("fallStand"));
+            c.getAnimator().play(c.getAnimation("fallStand"));
+            c.getFsm().ChangeState(States.Idle);
+        }
+        dt = (int)System.currentTimeMillis();
+    }
+
+    @Override
+    public void onExit() {
+
     }
 }
 

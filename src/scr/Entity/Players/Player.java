@@ -1,12 +1,12 @@
 package scr.Entity.Players;
 
-import scr.Controller.Collide.Colliders.PointCollider;
 import scr.Controller.Commander.ICommand;
 import scr.Entity.Swordman.SwordsMan;
 
 import scr.Model.Characters.PositionDetectsCollider;
 import scr.Model.Characters.Transform;
 import scr.Model.Map.MapModel;
+import scr.Viewer.Renders.IRender;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,7 @@ import java.util.Queue;
  * 网络传输输入
  */
 
-public class Player implements ActionListener {
+public class Player implements ActionListener , IRender {
 
     public SwordsMan swordsMan;
     public Transform transform,childTransform;
@@ -72,7 +72,12 @@ public class Player implements ActionListener {
 
     }
 
-    public void Render(Graphics g)
+    @Override
+    public int getYPos() {
+        return transform.yPos;
+    }
+
+    public void render(Graphics g, JPanel panel, Transform transform)
     {
         swordsMan.render(g,j,this.transform);
     }
@@ -93,5 +98,16 @@ public class Player implements ActionListener {
             }
         }
 
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        IRender s = (IRender) o;
+        if(transform.yPos>s.getYPos()){
+            return 1;
+        }else if(transform.yPos<s.getYPos()){
+            return -1;
+        }
+        return 0;
     }
 }

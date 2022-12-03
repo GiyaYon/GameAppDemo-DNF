@@ -3,6 +3,8 @@ package scr.Model.Map;
 import scr.Controller.Collide.Colliders.BoxCollider;
 import scr.Model.Characters.Transform;
 import scr.Viewer.LoadImage.ResSprites;
+import scr.Viewer.Renders.IRender;
+import scr.Viewer.Renders.RenderSequenceManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 
 public abstract class MapModel {
 
+    //碰撞盒
     public ArrayList<BoxCollider> Borders;
     //远景
     public Image far;
@@ -79,15 +82,11 @@ public abstract class MapModel {
 
 
 
-
-
     }
 
     public abstract void mapRender(Graphics g, JPanel panel, Transform transform);
 
-    public void collider(){
 
-    }
 
 
 }

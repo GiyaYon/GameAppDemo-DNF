@@ -15,6 +15,7 @@ public class FSM {
     {
         currentState.onExit();
         currentState = c.getState(states);
+        c.property.states = states;
         currentState.onStart();
     }
     public void UpdateFSM()

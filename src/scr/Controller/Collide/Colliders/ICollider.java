@@ -7,10 +7,10 @@ import scr.Model.Characters.Transform;
 /**
  * 是否碰撞
  */
-public interface Collider {
+public interface ICollider {
 
     ShapeProperty getShapeProperty();
-    boolean colliderDetect(Collider s2);
+    boolean colliderDetect(ICollider s2);
 
     void updatePosition(Transform transform);
 }

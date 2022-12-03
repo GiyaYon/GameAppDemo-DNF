@@ -5,7 +5,7 @@ import scr.Controller.Collide.Detector;
 import scr.Controller.Collide.ShapeProperty;
 import scr.Model.Characters.Transform;
 
-public class OvalCollider extends Detector implements Collider {
+public class OvalCollider extends Detector implements ICollider {
     public ShapeProperty s1;
 
     public OvalCollider(int x, int y,int r) {
@@ -18,7 +18,7 @@ public class OvalCollider extends Detector implements Collider {
     }
 
     @Override
-    public boolean colliderDetect(Collider s2) {
+    public boolean colliderDetect(ICollider s2) {
         assert false;
         return isIntersect(this.s1,s2.getShapeProperty());
     }

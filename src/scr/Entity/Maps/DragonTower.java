@@ -4,6 +4,7 @@ import scr.Controller.Collide.Colliders.BoxCollider;
 import scr.Model.Characters.Transform;
 import scr.Model.Characters.Vector2D;
 import scr.Model.Map.MapModel;
+import scr.Model.Map.Obscurer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 public class DragonTower extends MapModel {
 
-    Image testBox;
+
 
     public DragonTower(String FarName, String NearPath,int collideWidthX1,int collideWidthX2,int collideHeightY1,int collideHeightY2,JPanel panel) {
         super(FarName, NearPath);
@@ -31,9 +32,10 @@ public class DragonTower extends MapModel {
         Borders.add(mapLeftBorder);
         Borders.add(mapRightBorder);
 
-        testBox = Toolkit.getDefaultToolkit().getImage("src\\res\\object\\dragonheadfront\\" + 0 + ".png");
-        BoxCollider testBoxCollider = new BoxCollider(150,400, 61, 20,new Vector2D(1,0));
+
+        BoxCollider testBoxCollider = new BoxCollider(150,440, 61, 20,new Vector2D(1,0));
         Borders.add(testBoxCollider);
+
     }
 
 
@@ -41,7 +43,6 @@ public class DragonTower extends MapModel {
     @Override
     public void mapRender(Graphics g, JPanel panel, Transform transform) {
         render(g,panel,transform);
-        g.drawImage(testBox,420 - transform.xPos -testBox.getWidth(panel),420 - testBox.getHeight(panel),testBox.getWidth(panel),testBox.getHeight(panel),panel);
     }
 
 

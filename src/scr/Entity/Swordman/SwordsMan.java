@@ -78,6 +78,7 @@ public class SwordsMan extends CharacterModel
         statesList.put(States.Attack2,new Attack2(this));
         statesList.put(States.Attack3,new Attack3(this));
         statesList.put(States.Jump,new Jump(this));
+        statesList.put(States.Fall,new Fall(this));
 
         //初始化
         fsm.currentState = getState(States.Idle);
@@ -89,9 +90,11 @@ public class SwordsMan extends CharacterModel
     @Override
     public void render(Graphics g, JPanel jPanel, Transform transform) {
 
-        if(property.states.equals(States.Jump))
+        if(property.states.equals(States.Jump) || property.states.equals(States.Fall))
         {
-            animator.Flash(g,jPanel,new Transform(property.horizontal.x, property.horizontal.y));
+            Transform transform1 = new Transform(transform.xPos, property.horizontal.y);
+            transform1.flipX = transform.flipX;
+            animator.Flash(g,jPanel,transform1);
 
             //animator.Flash(g,jPanel, transform);
         }
