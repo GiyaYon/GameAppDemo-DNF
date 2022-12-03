@@ -32,9 +32,9 @@ public class Obscurer implements IRender ,Comparable {
     public int compareTo(Object o) {
         // TODO Auto-generated method stub
         IRender s = (IRender) o;
-        if(this.y > s.getYPos()){
+        if(this.y-10 > s.getYPos()){
             return 1;
-        }else if(this.y < s.getYPos()){
+        }else if(this.y-10 < s.getYPos()){
             return -1;
         }
         return 0;

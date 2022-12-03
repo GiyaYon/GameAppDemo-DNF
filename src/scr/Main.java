@@ -47,7 +47,7 @@ class TestPanel extends JPanel implements Runnable {
 
 
         dragonTower = new DragonTower("1","dragontowner",0,770,400,550,this);
-        renderManager.renderMethods.add(new Obscurer(400,460));
+        renderManager.renderMethods.add(new Obscurer(500,460));
         renderManager.renderMethods.add(player);
 
         player.mapModel = dragonTower;

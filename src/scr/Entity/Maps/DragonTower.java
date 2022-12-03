@@ -33,7 +33,7 @@ public class DragonTower extends MapModel {
         Borders.add(mapRightBorder);
 
 
-        BoxCollider testBoxCollider = new BoxCollider(150,440, 61, 20,new Vector2D(1,0));
+        BoxCollider testBoxCollider = new BoxCollider(220,440, 30, 20,new Vector2D(1,0));
         Borders.add(testBoxCollider);
 
     }
