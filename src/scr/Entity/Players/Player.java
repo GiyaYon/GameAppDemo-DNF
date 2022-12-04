@@ -1,6 +1,8 @@
 package scr.Entity.Players;
 
 import scr.Controller.Commander.ICommand;
+import scr.Controller.Events.HitManager;
+import scr.Controller.IController;
 import scr.Entity.Swordman.SwordsMan;
 
 import scr.Model.Characters.PositionDetectsCollider;
@@ -24,14 +26,15 @@ import java.util.Queue;
  * 网络传输输入
  */
 
-public class Player implements ActionListener , IRender {
+public class Player implements ActionListener , IRender , IController {
 
     public SwordsMan swordsMan;
-    public Transform transform,childTransform;
+    public Transform transform;
     PlayerControl playerControl;
     PositionDetectsCollider pointCollider;
     public MapModel mapModel;
 
+    public HitManager hitManager;
 
 
 
@@ -57,6 +60,8 @@ public class Player implements ActionListener , IRender {
 
         transform.xPos = 350;
         transform.yPos = 430;
+
+        hitManager = new HitManager();
     }
 
     public void Update()

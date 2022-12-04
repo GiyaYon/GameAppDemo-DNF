@@ -10,6 +10,7 @@ public class AttackCommand implements ICommand {
     {
         this.sc = sc;
         this.atk = atk;
+
     }
     @Override
     public void Execute() {

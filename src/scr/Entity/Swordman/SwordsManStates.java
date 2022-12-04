@@ -3,10 +3,7 @@ package scr.Entity.Swordman;
 import scr.Controller.Physics.Force;
 import scr.Controller.StateMachine.IState;
 import scr.Controller.StateMachine.States;
-import scr.Model.Characters.CharacterModel;
-import scr.Model.Characters.JumpForce;
-import scr.Model.Characters.Transform;
-import scr.Model.Characters.Vector2D;
+import scr.Model.Characters.*;
 
 public class SwordsManStates {
     protected CharacterModel c;
@@ -26,6 +23,7 @@ class Idle extends SwordsManStates implements IState
     @Override
     public void onStart() {
         c.getAnimator().play(c.getAnimation("idle"));
+
     }
 
     @Override
@@ -191,10 +189,18 @@ class Attack extends SwordsManStates implements IState
         c.getAnimator().resetAnim(c.getAnimation("attack1"));
         c.getAnimator().setPlayRate(c.property.attackTimes);
         c.getAnimator().play(c.getAnimation("attack1"));
+
     }
 
     @Override
     public void onUpdate() {
+        if(c.property.director == -1)
+        {
+            new AttackDetectsCollider(c.property.initHorizontalLine.xPos-50,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0)).attackDetect(c.property.bdcs);
+        } else if (c.property.director == 1) {
+            new AttackDetectsCollider(c.property.initHorizontalLine.xPos-50+100,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0)).attackDetect(c.property.bdcs);
+        }
+
 
         if(c.getAnimator().getFinish())
         {

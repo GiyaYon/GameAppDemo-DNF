@@ -39,6 +39,8 @@ class TestPanel extends JPanel implements Runnable {
     Transform transform;
     DragonTower dragonTower;
 
+    Obscurer o;
+
     public TestPanel() throws IOException {
 
         player = new Player(this);
@@ -47,8 +49,13 @@ class TestPanel extends JPanel implements Runnable {
 
 
         dragonTower = new DragonTower("1","dragontowner",0,770,400,550,this);
-        renderManager.renderMethods.add(new Obscurer(500,460));
+        o = new Obscurer(500,460,this);
+        renderManager.renderMethods.add(o);
         renderManager.renderMethods.add(player);
+
+        player.hitManager.addHitListener(o);
+
+        player.swordsMan.property.bdcs.add(o.bodyDetectsCollider);
 
         player.mapModel = dragonTower;
 
@@ -76,10 +83,6 @@ class TestPanel extends JPanel implements Runnable {
 
         //地图渲染
         dragonTower.mapRender(g,this,transform);
-
-
-        //角色渲染
-        //player.render(g,this,transform);
 
         //管理类渲染
         renderManager.render(g,this,transform);
@@ -133,6 +136,7 @@ class TestPanel extends JPanel implements Runnable {
 
 
                 player.Update();
+                o.update(this,transform);
 
 
                 repaint();// 窗口重绘

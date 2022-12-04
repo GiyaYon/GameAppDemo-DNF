@@ -56,6 +56,7 @@ public class PlayerControl {
     {
         if(input.isKeyDown(KeyEvent.VK_LEFT))
         {
+
             Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
             //持续按下，跑步状态延缓
             if(player.swordsMan.property.states.equals(States.Run))
@@ -69,8 +70,10 @@ public class PlayerControl {
             if(player.swordsMan.property.states.equals(States.Fall) || player.swordsMan.property.states.equals(States.Jump))
             {
                 player.transform.xPos += vector2D.x * player.swordsMan.property.moveSpeed;
+
                 return;
             }
+            player.swordsMan.property.director = -1;
             c = new MoveCommand(player.swordsMan.sc,vector2D,player.transform);
             //commands.offer(c);
             player.c = c;
@@ -93,7 +96,7 @@ public class PlayerControl {
                 player.transform.xPos += vector2D.x * player.swordsMan.property.moveSpeed;
                 return;
             }
-
+            player.swordsMan.property.director = 1;
             c = new MoveCommand(player.swordsMan.sc,vector2D,player.transform);
             //commands.offer(c);
             player.c = c;
@@ -152,8 +155,10 @@ public class PlayerControl {
         if(input.isKeyDown(KeyEvent.VK_X) && isAtkKeyRelease)
         {
             isAtkKeyRelease = false;
+            player.swordsMan.property.initHorizontalLine = player.transform;
             if((int)System.currentTimeMillis() - AtkSpeed >600 && (int)System.currentTimeMillis() - AtkSpeed < 1100)
             {
+                //player.hitManager.fireHit(new Random().nextInt());
                 AtkSpeed = (int)System.currentTimeMillis();
                 c = new AttackCommand(player.swordsMan.sc,AtkNext);
                 AtkNext++;
