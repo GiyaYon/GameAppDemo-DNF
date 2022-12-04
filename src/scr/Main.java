@@ -49,7 +49,8 @@ class TestPanel extends JPanel implements Runnable {
 
 
         dragonTower = new DragonTower("1","dragontowner",0,770,400,550,this);
-        o = new Obscurer(500,460,this);
+        o = new Obscurer(240,440,this);
+
         renderManager.renderMethods.add(o);
         renderManager.renderMethods.add(player);
 
@@ -136,7 +137,6 @@ class TestPanel extends JPanel implements Runnable {
 
 
                 player.Update();
-                o.update(this,transform);
 
 
                 repaint();// 窗口重绘

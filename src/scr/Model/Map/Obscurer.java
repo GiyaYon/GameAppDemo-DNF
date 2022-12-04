@@ -33,13 +33,10 @@ public class Obscurer implements IRender ,Comparable , HitListener, IController 
 
     @Override
     public void render(Graphics g, JPanel panel, Transform transform) {
-        g.drawImage(oBox,x - transform.xPos - oBox.getWidth(panel),y - oBox.getHeight(panel), oBox.getWidth(panel), oBox.getHeight(panel),panel);
+        bodyDetectsCollider.s1.setWH(oBox.getWidth(panel), oBox.getHeight(panel));
+        g.drawImage(oBox,x - transform.xPos - oBox.getWidth(panel),y - oBox.getHeight(panel) , oBox.getWidth(panel), oBox.getHeight(panel),panel);
         g.drawRect(x - transform.xPos - oBox.getWidth(panel),y - oBox.getHeight(panel), oBox.getWidth(panel), oBox.getHeight(panel));
 
-    }
-    public void update(JPanel panel, Transform transform)
-    {
-        bodyDetectsCollider.updatePosition(new Transform(x - transform.xPos - oBox.getWidth(panel),y - oBox.getHeight(panel)));
     }
 
     @Override

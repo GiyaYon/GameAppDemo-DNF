@@ -3,6 +3,13 @@ package scr.Controller.Collide;
 public class ShapeProperty {
     public ColliderShape shape;
     public int x,y;
+
+    public void setWH(int w,int h) {
+        this.w = w;
+        this.h = h;
+    }
+
+
     public int w,h;
     public int r;
 
@@ -26,5 +33,7 @@ public class ShapeProperty {
         this.x = x;
         this.y = y;
     }
+
+
 
 }

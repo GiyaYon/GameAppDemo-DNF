@@ -196,9 +196,9 @@ class Attack extends SwordsManStates implements IState
     public void onUpdate() {
         if(c.property.director == -1)
         {
-            new AttackDetectsCollider(c.property.initHorizontalLine.xPos-50,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0)).attackDetect(c.property.bdcs);
+            new AttackDetectsCollider(c.property.initHorizontalLine.xPos-100,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0)).attackDetect(c.property.bdcs);
         } else if (c.property.director == 1) {
-            new AttackDetectsCollider(c.property.initHorizontalLine.xPos-50+100,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0)).attackDetect(c.property.bdcs);
+            new AttackDetectsCollider(c.property.initHorizontalLine.xPos,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0)).attackDetect(c.property.bdcs);
         }
 
 
@@ -232,6 +232,12 @@ class Attack2 extends SwordsManStates implements IState
     @Override
     public void onUpdate() {
 
+        if(c.property.director == -1)
+        {
+            new AttackDetectsCollider(c.property.initHorizontalLine.xPos-100,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0)).attackDetect(c.property.bdcs);
+        } else if (c.property.director == 1) {
+            new AttackDetectsCollider(c.property.initHorizontalLine.xPos,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0)).attackDetect(c.property.bdcs);
+        }
         if(c.getAnimator().getFinish())
         {
             c.getFsm().ChangeState(States.Idle);
@@ -262,6 +268,12 @@ class Attack3 extends SwordsManStates implements IState
     @Override
     public void onUpdate() {
 
+        if(c.property.director == -1)
+        {
+            new AttackDetectsCollider(c.property.initHorizontalLine.xPos-100,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0)).attackDetect(c.property.bdcs);
+        } else if (c.property.director == 1) {
+            new AttackDetectsCollider(c.property.initHorizontalLine.xPos,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0)).attackDetect(c.property.bdcs);
+        }
         if(c.getAnimator().getFinish())
         {
             c.getFsm().ChangeState(States.Idle);
