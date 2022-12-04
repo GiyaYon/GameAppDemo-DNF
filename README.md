@@ -18,3 +18,7 @@ It is my first time to try to code the game using JavaSE
     2022/12/3
     Obscurer test
 ~~~
+~~~
+    2022/12/4
+    Attack Range test
+~~~
