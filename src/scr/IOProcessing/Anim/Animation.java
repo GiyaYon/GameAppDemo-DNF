@@ -1,6 +1,6 @@
 package scr.IOProcessing.Anim;
 
-import scr.Model.Characters.Position.Transform;
+import scr.LogicalProcessing.Position.Transform;
 import scr.IOProcessing.LoadImage.ImageMerge;
 
 import javax.swing.*;

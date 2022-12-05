@@ -3,8 +3,8 @@ package scr.LogicalProcessing.Collide.Colliders;
 import scr.LogicalProcessing.Collide.ColliderShape;
 import scr.LogicalProcessing.Collide.Detector;
 import scr.LogicalProcessing.Collide.ShapeProperty;
-import scr.Model.Characters.Position.Transform;
-import scr.Model.Characters.Position.Vector2D;
+import scr.LogicalProcessing.Position.Transform;
+import scr.LogicalProcessing.Position.Vector2D;
 
 public class BoxCollider extends Detector implements ICollider {
 

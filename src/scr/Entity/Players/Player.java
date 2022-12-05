@@ -1,12 +1,12 @@
 package scr.Entity.Players;
 
-import scr.LogicalProcessing.Commander.ICommand;
-import scr.LogicalProcessing.Events.HitManager;
-import scr.LogicalProcessing.IController;
-import scr.Entity.Swordman.SwordsMan;
+import scr.Model.Characters.Commands.ICommand;
+import scr.Model.Characters.CharacterEvents.HitManager;
+import scr.LogicalProcessing.Robot.IController;
+import scr.Entity.Characters.Swordman.SwordsMan;
 
 import scr.Model.Characters.DetectsColliders.PositionDetectsCollider;
-import scr.Model.Characters.Position.Transform;
+import scr.LogicalProcessing.Position.Transform;
 import scr.Model.Map.MapModel;
 import scr.IOProcessing.Renders.IRender;
 

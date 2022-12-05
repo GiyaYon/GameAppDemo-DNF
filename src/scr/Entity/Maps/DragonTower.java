@@ -1,8 +1,8 @@
 package scr.Entity.Maps;
 
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
-import scr.Model.Characters.Position.Transform;
-import scr.Model.Characters.Position.Vector2D;
+import scr.LogicalProcessing.Position.Transform;
+import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.Map.MapModel;
 import scr.Model.Map.Obscurer;
 

@@ -2,7 +2,7 @@ package scr.Model.Characters.Forces;
 
 import scr.LogicalProcessing.Physics.Gravity;
 import scr.LogicalProcessing.Physics.IForce;
-import scr.Model.Characters.Position.Vector2D;
+import scr.LogicalProcessing.Position.Vector2D;
 
 public class JumpForce implements IForce {
 

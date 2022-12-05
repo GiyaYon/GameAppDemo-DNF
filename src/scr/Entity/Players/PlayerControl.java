@@ -1,15 +1,15 @@
 package scr.Entity.Players;
 
-import scr.LogicalProcessing.Commander.ICommand;
+import scr.Model.Characters.Commands.ICommand;
 import scr.LogicalProcessing.KeyBoardControl.KeyBoardInput;
 import scr.LogicalProcessing.KeyBoardControl.KeyInfo;
 import scr.LogicalProcessing.StateMachine.States;
-import scr.Entity.Swordman.AttackCommand;
-import scr.Entity.Swordman.JumpCommand;
-import scr.Entity.Swordman.RunCommand;
-import scr.LogicalProcessing.Commander.GameObjectCommands.MoveCommand;
-import scr.LogicalProcessing.Commander.GameObjectCommands.NoneCommand;
-import scr.Model.Characters.Position.Vector2D;
+import scr.Entity.Characters.Swordman.AttackCommand;
+import scr.Entity.Characters.Swordman.JumpCommand;
+import scr.Entity.Characters.Swordman.RunCommand;
+import scr.Model.Characters.Commands.GameObjectCommands.MoveCommand;
+import scr.Model.Characters.Commands.GameObjectCommands.NoneCommand;
+import scr.LogicalProcessing.Position.Vector2D;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

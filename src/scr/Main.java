@@ -2,7 +2,7 @@ package scr;
 
 import scr.Entity.Maps.DragonTower;
 import scr.Entity.Players.Player;
-import scr.Model.Characters.Position.Transform;
+import scr.LogicalProcessing.Position.Transform;
 import scr.IOProcessing.Camera.CameraMag;
 import scr.IOProcessing.Renders.RenderSequenceManager;
 

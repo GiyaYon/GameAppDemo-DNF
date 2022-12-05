@@ -1,11 +1,11 @@
 package scr.Model.Map;
 
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
-import scr.LogicalProcessing.Events.HitEvent;
-import scr.LogicalProcessing.Events.HitListener;
+import scr.Model.Characters.CharacterEvents.HitEvent;
+import scr.Model.Characters.CharacterEvents.HitListener;
 import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
-import scr.Model.Characters.Position.Transform;
-import scr.Model.Characters.Position.Vector2D;
+import scr.LogicalProcessing.Position.Transform;
+import scr.LogicalProcessing.Position.Vector2D;
 import scr.IOProcessing.Renders.IRender;
 
 import javax.swing.*;
@@ -58,8 +58,9 @@ public class Obscurer implements IRender ,Comparable , HitListener {
         return 0;
     }
 
+
     @Override
-    public void hitEvent(HitEvent event) {
+    public void GameEventInvoke(HitEvent event) {
         System.out.println("i received" + event.getHitValue()+"damage");
     }
 }

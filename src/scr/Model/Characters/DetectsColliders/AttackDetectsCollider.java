@@ -1,7 +1,7 @@
 package scr.Model.Characters.DetectsColliders;
 
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
-import scr.Model.Characters.Position.Vector2D;
+import scr.LogicalProcessing.Position.Vector2D;
 
 import java.util.ArrayList;
 

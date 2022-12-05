@@ -1,6 +1,6 @@
 package scr.IOProcessing.Camera;
 
-import scr.Model.Characters.Position.Transform;
+import scr.LogicalProcessing.Position.Transform;
 
 public class CameraMag{
     public CameraMove cameraMove;

@@ -1,7 +1,7 @@
 package scr.Model.Map;
 
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
-import scr.Model.Characters.Position.Transform;
+import scr.LogicalProcessing.Position.Transform;
 import scr.IOProcessing.LoadImage.ResSprites;
 
 import javax.swing.*;

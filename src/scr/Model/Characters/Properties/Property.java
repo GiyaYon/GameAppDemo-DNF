@@ -2,8 +2,8 @@ package scr.Model.Characters.Properties;
 
 import scr.LogicalProcessing.StateMachine.States;
 import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
-import scr.Model.Characters.Position.Transform;
-import scr.Model.Characters.Position.Vector2D;
+import scr.LogicalProcessing.Position.Transform;
+import scr.LogicalProcessing.Position.Vector2D;
 
 import java.util.ArrayList;
 

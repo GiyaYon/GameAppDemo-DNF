@@ -2,7 +2,7 @@ package scr.LogicalProcessing.Collide.Colliders;
 
 
 import scr.LogicalProcessing.Collide.ShapeProperty;
-import scr.Model.Characters.Position.Transform;
+import scr.LogicalProcessing.Position.Transform;
 
 /**
  * 是否碰撞

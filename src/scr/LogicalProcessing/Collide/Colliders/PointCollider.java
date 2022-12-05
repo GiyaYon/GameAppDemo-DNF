@@ -3,7 +3,7 @@ package scr.LogicalProcessing.Collide.Colliders;
 import scr.LogicalProcessing.Collide.ColliderShape;
 import scr.LogicalProcessing.Collide.Detector;
 import scr.LogicalProcessing.Collide.ShapeProperty;
-import scr.Model.Characters.Position.Transform;
+import scr.LogicalProcessing.Position.Transform;
 
 public class PointCollider extends Detector implements ICollider {
     public ShapeProperty s1;

@@ -1,6 +1,6 @@
 package scr.IOProcessing.Renders;
 
-import scr.Model.Characters.Position.Transform;
+import scr.LogicalProcessing.Position.Transform;
 
 import javax.swing.*;
 import java.awt.*;

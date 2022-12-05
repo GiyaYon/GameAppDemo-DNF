@@ -1,7 +1,7 @@
 package scr.IOProcessing.Renders;
 
 import scr.Entity.Players.Player;
-import scr.Model.Characters.Position.Transform;
+import scr.LogicalProcessing.Position.Transform;
 import scr.IOProcessing.Camera.CameraMag;
 
 import javax.swing.*;

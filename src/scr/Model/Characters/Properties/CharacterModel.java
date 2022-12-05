@@ -3,7 +3,7 @@ package scr.Model.Characters.Properties;
 import scr.LogicalProcessing.StateMachine.FSM;
 import scr.LogicalProcessing.StateMachine.IState;
 import scr.LogicalProcessing.StateMachine.States;
-import scr.Model.Characters.Position.Transform;
+import scr.LogicalProcessing.Position.Transform;
 import scr.IOProcessing.Anim.Animator;
 import scr.IOProcessing.Anim.AnimationMergeGroup;
 import scr.IOProcessing.LoadImage.ReloadAnimResources;
