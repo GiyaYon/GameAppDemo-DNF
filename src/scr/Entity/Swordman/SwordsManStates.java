@@ -117,7 +117,7 @@ class Jump extends SwordsManStates implements IState
         c.getAnimator().resetAnim(c.getAnimation("jump"));
         c.getAnimator().play(c.getAnimation("jump"));
         dt = (int)System.currentTimeMillis();
-        jumpForce = new JumpForce(10,0);
+        jumpForce = new JumpForce(15,0);
     }
 
     @Override
@@ -147,7 +147,7 @@ class  Fall extends SwordsManStates implements IState
     @Override
     public void onStart() {
         c.property.flyView = new Vector2D(0,0);
-        fallForce = new Force(14,-1,0);
+        fallForce = new Force(17,-1,0);
         c.getAnimator().resetAnim(c.getAnimation("fall"));
         c.getAnimator().play(c.getAnimation("fall"));
         dt = (int)System.currentTimeMillis();
@@ -204,13 +204,21 @@ class Attack extends SwordsManStates implements IState
 
         if(c.getAnimator().getFinish())
         {
-            c.getFsm().ChangeState(States.Idle);
+            if(c.property.isReadyNextAttack)
+            {
+                c.getFsm().ChangeState(States.Attack2);
+            }
+            else
+            {
+                c.getFsm().ChangeState(States.Idle);
+            }
+
         }
     }
 
     @Override
     public void onExit() {
-
+        c.property.isReadyNextAttack = false;
         c.getAnimator().setPlayRate(120);
     }
 }
@@ -219,11 +227,11 @@ class Attack2 extends SwordsManStates implements IState
 {
     public Attack2(CharacterModel c) {
         super(c);
+
     }
 
     @Override
     public void onStart() {
-
         c.getAnimator().resetAnim(c.getAnimation("attack2"));
         c.getAnimator().setPlayRate(c.property.attackTimes);
         c.getAnimator().play(c.getAnimation("attack2"));
@@ -240,13 +248,20 @@ class Attack2 extends SwordsManStates implements IState
         }
         if(c.getAnimator().getFinish())
         {
-            c.getFsm().ChangeState(States.Idle);
+            if(c.property.isReadyNextAttack)
+            {
+                c.getFsm().ChangeState(States.Attack3);
+            }
+            else
+            {
+                c.getFsm().ChangeState(States.Idle);
+            }
         }
     }
 
     @Override
     public void onExit() {
-
+        c.property.isReadyNextAttack = false;
         c.getAnimator().setPlayRate(120);
     }
 }
@@ -276,13 +291,20 @@ class Attack3 extends SwordsManStates implements IState
         }
         if(c.getAnimator().getFinish())
         {
-            c.getFsm().ChangeState(States.Idle);
+            if(c.property.isReadyNextAttack)
+            {
+                c.getFsm().ChangeState(States.Attack);
+            }
+            else
+            {
+                c.getFsm().ChangeState(States.Idle);
+            }
         }
     }
 
     @Override
     public void onExit() {
-
+        c.property.isReadyNextAttack = false;
         c.getAnimator().setPlayRate(120);
     }
 }

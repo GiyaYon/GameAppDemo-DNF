@@ -24,7 +24,7 @@ public class PlayerControl {
 
     boolean isAtkKeyRelease = true;
     int AtkSpeed = (int)System.currentTimeMillis();
-    int AtkNext = 1;
+
 
 
     boolean isJumpKeyRelease = true;
@@ -157,27 +157,47 @@ public class PlayerControl {
         {
             isAtkKeyRelease = false;
             player.swordsMan.property.initHorizontalLine = player.transform;
+            if(player.swordsMan.property.states.equals(States.Attack)|| player.swordsMan.property.states.equals(States.Attack2)||
+                    player.swordsMan.property.states.equals(States.Attack3))
+            {
+                player.swordsMan.property.isReadyNextAttack = true;
+            }
+            //限制连续按键
             if((int)System.currentTimeMillis() - AtkSpeed >600 && (int)System.currentTimeMillis() - AtkSpeed < 1100)
             {
                 //player.hitManager.fireHit(new Random().nextInt());
-                AtkSpeed = (int)System.currentTimeMillis();
-                c = new AttackCommand(player.swordsMan.sc,AtkNext);
-                AtkNext++;
-                if(AtkNext == 4)
+                if(player.swordsMan.property.states.equals(States.Attack)|| player.swordsMan.property.states.equals(States.Attack2)||
+                        player.swordsMan.property.states.equals(States.Attack3))
                 {
-                    AtkNext = 1;
+                    return;
+                }
+                AtkSpeed = (int)System.currentTimeMillis();
+                c = new AttackCommand(player.swordsMan.sc,player.swordsMan.property.AtkNext);
+
+                player.swordsMan.property.AtkNext++;
+
+                if(player.swordsMan.property.AtkNext == 4)
+                {
+                    player.swordsMan.property.AtkNext = 1;
                 }
                 //commands.offer(c);
                 player.c = c;
                 c.Execute();
                 return;
             }
+            //长时间不操作则初始化
             if((int)System.currentTimeMillis() - AtkSpeed >=1100)
             {
-                AtkNext = 1;
+                player.swordsMan.property.AtkNext = 1;
                 AtkSpeed = (int)System.currentTimeMillis();
-                c = new AttackCommand(player.swordsMan.sc,AtkNext);
-                AtkNext++;
+
+                if(player.swordsMan.property.states.equals(States.Attack)|| player.swordsMan.property.states.equals(States.Attack2)||
+                        player.swordsMan.property.states.equals(States.Attack3))
+                {
+                    return;
+                }
+                c = new AttackCommand(player.swordsMan.sc,player.swordsMan.property.AtkNext);
+                player.swordsMan.property.AtkNext++;
                 //commands.offer(c);
                 player.c = c;
                 c.Execute();
@@ -209,7 +229,9 @@ public class PlayerControl {
             isJumpKeyRelease = true;
         }
 
-        if(!player.swordsMan.property.states.equals(States.Jump) && !player.swordsMan.property.states.equals(States.Fall))
+        if(!player.swordsMan.property.states.equals(States.Jump) && !player.swordsMan.property.states.equals(States.Fall)&&
+        !player.swordsMan.property.states.equals(States.Attack)&&!player.swordsMan.property.states.equals(States.Attack2)&&
+                !player.swordsMan.property.states.equals(States.Attack3))
         {
             c = new NoneCommand(player.swordsMan.sc);
             player.c = c;

@@ -24,6 +24,8 @@ public class Property {
     public Vector2D flyView;
     public Transform initHorizontalLine;
     public ArrayList<BodyDetectsCollider> bdcs = new ArrayList<>();
+    public boolean isReadyNextAttack;
+    public int AtkNext = 1;
     //·····················游戏属性·······················
 
     //移速
