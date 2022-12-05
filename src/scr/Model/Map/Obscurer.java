@@ -1,13 +1,12 @@
 package scr.Model.Map;
 
-import scr.Controller.Collide.Colliders.BoxCollider;
-import scr.Controller.Events.HitEvent;
-import scr.Controller.Events.HitListener;
-import scr.Controller.IController;
-import scr.Model.Characters.BodyDetectsCollider;
-import scr.Model.Characters.Transform;
-import scr.Model.Characters.Vector2D;
-import scr.Viewer.Renders.IRender;
+import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
+import scr.LogicalProcessing.Events.HitEvent;
+import scr.LogicalProcessing.Events.HitListener;
+import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
+import scr.Model.Characters.Position.Transform;
+import scr.Model.Characters.Position.Vector2D;
+import scr.IOProcessing.Renders.IRender;
 
 import javax.swing.*;
 import java.awt.*;

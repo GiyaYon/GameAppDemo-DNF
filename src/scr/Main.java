@@ -2,16 +2,12 @@ package scr;
 
 import scr.Entity.Maps.DragonTower;
 import scr.Entity.Players.Player;
-import scr.Entity.Swordman.SwordsMan;
-import scr.Model.Characters.Transform;
-import scr.Model.Map.Obscurer;
-import scr.Viewer.Camera.CameraMag;
-import scr.Viewer.Renders.RenderSequenceManager;
+import scr.Model.Characters.Position.Transform;
+import scr.IOProcessing.Camera.CameraMag;
+import scr.IOProcessing.Renders.RenderSequenceManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 
 public class Main {
@@ -61,7 +57,7 @@ class TestPanel extends JPanel implements Runnable {
         player.swordsMan.property.bdcs.add(dragonTower.obscurers.get(0).bodyDetectsCollider);
 
         player.mapModel = dragonTower;
-
+        //摄像头
         cameraMag = new CameraMag();
 
                 // 创建一个新线程，this就是实现了Runnable接口的实现类
@@ -83,7 +79,7 @@ class TestPanel extends JPanel implements Runnable {
         }
         g.clearRect(0, 0, getWidth(), getHeight());
 
-
+        //摄像头更新
         cameraMag.cameraMoving(transform);
         //地图渲染
         dragonTower.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));

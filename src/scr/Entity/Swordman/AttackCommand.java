@@ -1,6 +1,6 @@
 package scr.Entity.Swordman;
 
-import scr.Controller.Commander.ICommand;
+import scr.LogicalProcessing.Commander.ICommand;
 
 public class AttackCommand implements ICommand {
 

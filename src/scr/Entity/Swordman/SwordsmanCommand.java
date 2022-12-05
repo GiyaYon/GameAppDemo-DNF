@@ -1,9 +1,9 @@
 package scr.Entity.Swordman;
 
-import scr.Controller.StateMachine.States;
-import scr.Controller.Commander.GameObject;
-import scr.Model.Characters.Transform;
-import scr.Model.Characters.Vector2D;
+import scr.LogicalProcessing.StateMachine.States;
+import scr.LogicalProcessing.Commander.GameObject;
+import scr.Model.Characters.Position.Transform;
+import scr.Model.Characters.Position.Vector2D;
 
 public class SwordsmanCommand implements GameObject {
 

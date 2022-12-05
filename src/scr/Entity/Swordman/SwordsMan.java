@@ -2,15 +2,17 @@ package scr.Entity.Swordman;
 
 
 
-import scr.Controller.StateMachine.FSM;
-import scr.Controller.StateMachine.States;
-import scr.Model.Characters.CharacterModel;
-import scr.Model.Characters.Transform;
-import scr.Viewer.Anim.Animation;
-import scr.Viewer.Anim.AnimationMergeGroup;
-import scr.Viewer.Anim.Animator;
-import scr.Viewer.LoadImage.ImageMerge;
-import scr.Viewer.LoadImage.ResSprites;
+import scr.LogicalProcessing.StateMachine.FSM;
+import scr.LogicalProcessing.StateMachine.States;
+import scr.Model.Characters.CharacterState.*;
+import scr.Model.Characters.Properties.CharacterModel;
+import scr.Model.Characters.Position.Transform;
+
+import scr.IOProcessing.Anim.Animation;
+import scr.IOProcessing.Anim.AnimationMergeGroup;
+import scr.IOProcessing.Anim.Animator;
+import scr.IOProcessing.LoadImage.ImageMerge;
+import scr.IOProcessing.LoadImage.ResSprites;
 
 import javax.swing.*;
 import java.awt.*;

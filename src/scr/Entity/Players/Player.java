@@ -1,14 +1,14 @@
 package scr.Entity.Players;
 
-import scr.Controller.Commander.ICommand;
-import scr.Controller.Events.HitManager;
-import scr.Controller.IController;
+import scr.LogicalProcessing.Commander.ICommand;
+import scr.LogicalProcessing.Events.HitManager;
+import scr.LogicalProcessing.IController;
 import scr.Entity.Swordman.SwordsMan;
 
-import scr.Model.Characters.PositionDetectsCollider;
-import scr.Model.Characters.Transform;
+import scr.Model.Characters.DetectsColliders.PositionDetectsCollider;
+import scr.Model.Characters.Position.Transform;
 import scr.Model.Map.MapModel;
-import scr.Viewer.Renders.IRender;
+import scr.IOProcessing.Renders.IRender;
 
 import javax.swing.*;
 import java.awt.*;

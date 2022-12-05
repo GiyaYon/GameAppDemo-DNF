@@ -1,8 +1,8 @@
 package scr.Entity.Swordman;
 
-import scr.Controller.Commander.ICommand;
-import scr.Model.Characters.Transform;
-import scr.Model.Characters.Vector2D;
+import scr.LogicalProcessing.Commander.ICommand;
+import scr.Model.Characters.Position.Transform;
+import scr.Model.Characters.Position.Vector2D;
 
 public class RunCommand implements ICommand {
 

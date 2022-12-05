@@ -1,10 +1,8 @@
 package scr.Model.Map;
 
-import scr.Controller.Collide.Colliders.BoxCollider;
-import scr.Model.Characters.Transform;
-import scr.Viewer.LoadImage.ResSprites;
-import scr.Viewer.Renders.IRender;
-import scr.Viewer.Renders.RenderSequenceManager;
+import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
+import scr.Model.Characters.Position.Transform;
+import scr.IOProcessing.LoadImage.ResSprites;
 
 import javax.swing.*;
 import java.awt.*;
