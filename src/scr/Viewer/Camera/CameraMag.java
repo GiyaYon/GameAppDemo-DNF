@@ -15,7 +15,7 @@ public class CameraMag{
     {
         if(transform.xPos > cameraMove.mapRange)
         {
-            cameraMove.mapMoving =  (transform.xPos-cameraMove.mapRange) ;
+            cameraMove.mapMoving =  (transform.xPos-cameraMove.mapRange);
         }
 
 

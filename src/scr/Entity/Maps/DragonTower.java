@@ -32,7 +32,7 @@ public class DragonTower extends MapModel {
         Borders.add(mapLeftBorder);
         Borders.add(mapRightBorder);
 
-        o = new Obscurer(300,450,panel);
+        o = new Obscurer(200,470,panel);
         obscurers = new ArrayList<>();
         obscurers.add(o);
         Borders.add(obscurers.get(0).testBoxCollider);

@@ -27,7 +27,7 @@ public class Obscurer implements IRender ,Comparable , HitListener {
         this.x = x;
         this.y = y;
         bodyDetectsCollider = new BodyDetectsCollider(x,y,100,100,new Vector2D(0,0));
-        testBoxCollider = new BoxCollider(240,420, 30, 20,new Vector2D(1,0));
+        testBoxCollider = new BoxCollider(x,y, 30, 20,new Vector2D(1,0));
 
     }
 
@@ -40,10 +40,10 @@ public class Obscurer implements IRender ,Comparable , HitListener {
 
     @Override
     public void render(Graphics g, JPanel panel, Transform transform) {
-        bodyDetectsCollider.s1.setWH(oBox.getWidth(panel), oBox.getHeight(panel));
-        //testBoxCollider.updatePosition(new Transform(x - transform.xPos - oBox.getWidth(panel),y - oBox.getHeight(panel)));
-        g.drawImage(oBox,x -transform.xPos -oBox.getWidth(panel),y - oBox.getHeight(panel)  , oBox.getWidth(panel), oBox.getHeight(panel),panel);
-        g.drawRect(x -transform.xPos-oBox.getWidth(panel),y - oBox.getHeight(panel) , oBox.getWidth(panel), oBox.getHeight(panel));
+        bodyDetectsCollider.updatePosition(new Transform(x*2 - (oBox.getWidth(panel) /2) -transform.xPos ,y -oBox.getHeight(panel)),new Vector2D(oBox.getWidth(panel), oBox.getHeight(panel)));
+        testBoxCollider.updatePosition(new Transform(x*2 - (oBox.getWidth(panel) /2) -transform.xPos ,y -(oBox.getHeight(panel))/4),new Vector2D(oBox.getWidth(panel), oBox.getHeight(panel)/4));
+        g.drawImage(oBox,x*2 - (oBox.getWidth(panel) /2) -transform.xPos ,y -oBox.getHeight(panel) , oBox.getWidth(panel), oBox.getHeight(panel),panel);
+        g.drawRect(x*2 - (oBox.getWidth(panel) /2) -transform.xPos ,y -oBox.getHeight(panel) , oBox.getWidth(panel), oBox.getHeight(panel));
 
     }
 
