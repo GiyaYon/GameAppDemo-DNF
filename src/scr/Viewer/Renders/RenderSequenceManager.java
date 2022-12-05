@@ -1,7 +1,10 @@
 package scr.Viewer.Renders;
 
+import scr.Controller.IController;
+import scr.Entity.Players.Player;
 import scr.Model.Characters.Transform;
 import scr.Model.Map.Obscurer;
+import scr.Viewer.Camera.CameraMag;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +15,7 @@ public class RenderSequenceManager{
 
     public ArrayList<IRender> renderMethods = new ArrayList<>();
 
-    public void render(Graphics g, JPanel panel, Transform transform)
+    public void render(Graphics g, JPanel panel, Transform transform, CameraMag cameraMag)
     {
         if(renderMethods.size()!=0)
         {
@@ -20,7 +23,14 @@ public class RenderSequenceManager{
         }
         for (IRender r : renderMethods)
         {
-            r.render(g,panel,transform);
+            if(!r.getClass().isAssignableFrom(Player.class))
+            {
+                r.render(g,panel,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
+            }
+            else {
+                r.render(g,panel,transform);
+            }
+
         }
     }
 

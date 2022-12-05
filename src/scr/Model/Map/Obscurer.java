@@ -1,5 +1,6 @@
 package scr.Model.Map;
 
+import scr.Controller.Collide.Colliders.BoxCollider;
 import scr.Controller.Events.HitEvent;
 import scr.Controller.Events.HitListener;
 import scr.Controller.IController;
@@ -11,19 +12,23 @@ import scr.Viewer.Renders.IRender;
 import javax.swing.*;
 import java.awt.*;
 
-public class Obscurer implements IRender ,Comparable , HitListener, IController {
+public class Obscurer implements IRender ,Comparable , HitListener {
 
     Image oBox;
 
     int x,y;
 
     public BodyDetectsCollider bodyDetectsCollider;
+    public BoxCollider testBoxCollider;
+
 
     public Obscurer(int x,int y,JPanel panel) {
         oBox = Toolkit.getDefaultToolkit().getImage("src\\res\\object\\dragonheadfront\\" + 0 + ".png");
         this.x = x;
         this.y = y;
         bodyDetectsCollider = new BodyDetectsCollider(x,y,100,100,new Vector2D(0,0));
+        testBoxCollider = new BoxCollider(240,420, 30, 20,new Vector2D(1,0));
+
     }
 
     @Override
@@ -31,11 +36,14 @@ public class Obscurer implements IRender ,Comparable , HitListener, IController 
         return y;
     }
 
+
+
     @Override
     public void render(Graphics g, JPanel panel, Transform transform) {
         bodyDetectsCollider.s1.setWH(oBox.getWidth(panel), oBox.getHeight(panel));
-        g.drawImage(oBox,x - transform.xPos - oBox.getWidth(panel),y - oBox.getHeight(panel) , oBox.getWidth(panel), oBox.getHeight(panel),panel);
-        g.drawRect(x - transform.xPos - oBox.getWidth(panel),y - oBox.getHeight(panel), oBox.getWidth(panel), oBox.getHeight(panel));
+        //testBoxCollider.updatePosition(new Transform(x - transform.xPos - oBox.getWidth(panel),y - oBox.getHeight(panel)));
+        g.drawImage(oBox,x -transform.xPos -oBox.getWidth(panel),y - oBox.getHeight(panel)  , oBox.getWidth(panel), oBox.getHeight(panel),panel);
+        g.drawRect(x -transform.xPos-oBox.getWidth(panel),y - oBox.getHeight(panel) , oBox.getWidth(panel), oBox.getHeight(panel));
 
     }
 

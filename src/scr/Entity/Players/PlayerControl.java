@@ -75,6 +75,7 @@ public class PlayerControl {
             }
             player.swordsMan.property.director = -1;
             c = new MoveCommand(player.swordsMan.sc,vector2D,player.transform);
+
             //commands.offer(c);
             player.c = c;
             c.Execute();

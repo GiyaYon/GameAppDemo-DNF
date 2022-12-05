@@ -58,7 +58,7 @@ public class Player implements ActionListener , IRender , IController {
 
         pointCollider = new PositionDetectsCollider(transform.xPos,transform.yPos);
 
-        transform.xPos = 350;
+        transform.xPos = 10;
         transform.yPos = 430;
 
         hitManager = new HitManager();

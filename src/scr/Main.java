@@ -5,6 +5,7 @@ import scr.Entity.Players.Player;
 import scr.Entity.Swordman.SwordsMan;
 import scr.Model.Characters.Transform;
 import scr.Model.Map.Obscurer;
+import scr.Viewer.Camera.CameraMag;
 import scr.Viewer.Renders.RenderSequenceManager;
 
 import javax.swing.*;
@@ -39,7 +40,7 @@ class TestPanel extends JPanel implements Runnable {
     Transform transform;
     DragonTower dragonTower;
 
-    Obscurer o;
+    CameraMag cameraMag;
 
     public TestPanel() throws IOException {
 
@@ -49,17 +50,19 @@ class TestPanel extends JPanel implements Runnable {
 
 
         dragonTower = new DragonTower("1","dragontowner",0,770,400,550,this);
-        o = new Obscurer(240,440,this);
 
-        renderManager.renderMethods.add(o);
+        //渲染检测
+        renderManager.renderMethods.add(dragonTower.obscurers.get(0));
         renderManager.renderMethods.add(player);
 
-        player.hitManager.addHitListener(o);
-
-        player.swordsMan.property.bdcs.add(o.bodyDetectsCollider);
+        //受击事件
+        player.hitManager.addHitListener(dragonTower.obscurers.get(0));
+        //碰撞检测
+        player.swordsMan.property.bdcs.add(dragonTower.obscurers.get(0).bodyDetectsCollider);
 
         player.mapModel = dragonTower;
 
+        cameraMag = new CameraMag();
 
                 // 创建一个新线程，this就是实现了Runnable接口的实现类
         Thread t = new Thread(this);
@@ -81,12 +84,12 @@ class TestPanel extends JPanel implements Runnable {
         g.clearRect(0, 0, getWidth(), getHeight());
 
 
-
+        cameraMag.cameraMoving(transform);
         //地图渲染
-        dragonTower.mapRender(g,this,transform);
+        dragonTower.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
 
         //管理类渲染
-        renderManager.render(g,this,transform);
+        renderManager.render(g,this,transform,cameraMag);
 
         //修改后坐标点
         g.setColor(Color.green);
@@ -105,7 +108,7 @@ class TestPanel extends JPanel implements Runnable {
         if(transform!= null)
         {
             g.drawString("x="+ transform.xPos +" ,y=" +transform.yPos,200,20);
-            g.drawString("x="+ (350 - transform.xPos) + ",y=" +transform.yPos,200,40);
+            g.drawString("Camerax="+ cameraMag.cameraMove.getMapMoving(),200,40);
         }
         g.drawString(String.valueOf(player.swordsMan.property.states),200,60);
         if(player.swordsMan.property.horizontal!= null)

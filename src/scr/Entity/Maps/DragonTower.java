@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class DragonTower extends MapModel {
 
 
-
+    Obscurer o;
     public DragonTower(String FarName, String NearPath,int collideWidthX1,int collideWidthX2,int collideHeightY1,int collideHeightY2,JPanel panel) {
         super(FarName, NearPath);
         cameraWidth = 170;
@@ -26,15 +26,17 @@ public class DragonTower extends MapModel {
         BoxCollider mapTopBorder = new BoxCollider(0,300,1200,100,new Vector2D(0,1));
         BoxCollider mapBottomBorder = new BoxCollider(0,550,1200,100,new Vector2D(0,-1));
         BoxCollider mapLeftBorder = new BoxCollider(0,400,10,150,new Vector2D(1,0));
-        BoxCollider mapRightBorder = new BoxCollider(780,400,10,150,new Vector2D(-1,0));
+        BoxCollider mapRightBorder = new BoxCollider(700,400,10,150,new Vector2D(-1,0));
         Borders.add(mapTopBorder);
         Borders.add(mapBottomBorder);
         Borders.add(mapLeftBorder);
         Borders.add(mapRightBorder);
 
+        o = new Obscurer(300,450,panel);
+        obscurers = new ArrayList<>();
+        obscurers.add(o);
+        Borders.add(obscurers.get(0).testBoxCollider);
 
-        BoxCollider testBoxCollider = new BoxCollider(240,440, 30, 20,new Vector2D(1,0));
-        Borders.add(testBoxCollider);
 
     }
 
