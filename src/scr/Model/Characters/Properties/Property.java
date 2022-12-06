@@ -1,5 +1,7 @@
 package scr.Model.Characters.Properties;
 
+import scr.LogicalProcessing.Collide.Colliders.ICollider;
+import scr.LogicalProcessing.Robot.IController;
 import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
@@ -10,8 +12,12 @@ import java.util.ArrayList;
  * 角色属性
  */
 public class Property {
-    //·····················输入属性·······················
+    public Property(IController iCollider) {
+        this.iCollider = iCollider;
+    }
 
+    public IController iCollider;
+    //·····················输入属性·······················
     //方向
     public Vector2D vector2D;
     //

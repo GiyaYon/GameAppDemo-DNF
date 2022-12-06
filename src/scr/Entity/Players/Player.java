@@ -7,8 +7,10 @@ import scr.Model.Characters.CharacterEvents.HitManager;
 import scr.LogicalProcessing.Robot.IController;
 import scr.Entity.Characters.Swordman.SwordsMan;
 
+import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
 import scr.Model.Characters.DetectsColliders.PositionDetectsCollider;
 import scr.LogicalProcessing.Position.Transform;
+import scr.Model.Characters.Properties.Property;
 import scr.Model.Map.MapModel;
 import scr.IOProcessing.Renders.IRender;
 
@@ -35,6 +37,7 @@ public class Player implements ActionListener , IRender , IController {
     public Transform transform;
     PlayerControl playerControl;
     PositionDetectsCollider pointCollider;
+    BodyDetectsCollider bodyDetectsCollider;
     public MapModel mapModel;
 
     public HitManager hitManager;
@@ -55,12 +58,13 @@ public class Player implements ActionListener , IRender , IController {
     }
 
     public void Start() throws IOException {
+
         transform = new Transform();
-        swordsMan = new SwordsMan();
+        swordsMan = new SwordsMan(this);
         playerControl = new PlayerControl(j,this);
 
         pointCollider = new PositionDetectsCollider(transform.xPos,transform.yPos);
-
+        bodyDetectsCollider = new BodyDetectsCollider(transform.xPos-10,transform.yPos-10,30,30,new Vector2D(0,0));
         transform.xPos = 10;
         transform.yPos = 430;
 
@@ -69,7 +73,7 @@ public class Player implements ActionListener , IRender , IController {
 
     public void Update()
     {
-
+        bodyDetectsCollider.updatePosition(transform);
         if(!pointCollider.obstacle(mapModel.Borders,this)){
             if(!swordsMan.property.states.equals(BaseStates.Injure)  && !swordsMan.property.states.equals(BaseStates.InAir)  && !swordsMan.property.states.equals(BaseStates.Throw))
            {

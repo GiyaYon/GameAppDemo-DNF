@@ -2,6 +2,7 @@ package scr.Entity.Characters.Swordman;
 
 
 
+import scr.LogicalProcessing.Robot.IController;
 import scr.LogicalProcessing.StateMachine.FSM;
 import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.CharacterState.*;
@@ -13,6 +14,7 @@ import scr.IOProcessing.Anim.AnimationMergeGroup;
 import scr.IOProcessing.Anim.Animator;
 import scr.IOProcessing.LoadImage.ImageMerge;
 import scr.IOProcessing.LoadImage.ResSprites;
+import scr.Model.Characters.Properties.Property;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +24,9 @@ import java.util.ArrayList;
 public class SwordsMan extends CharacterModel
 {
     public SwordsmanCommand sc;
-    public SwordsMan() throws IOException {
+    public SwordsMan(IController iController) throws IOException {
+        property = new Property(iController);
+
         setAnimResources();
         setAnimations();
         setAnimator();
@@ -73,6 +77,7 @@ public class SwordsMan extends CharacterModel
 
     @Override
     protected void setStates() {
+
 
         fsm = new FSM(this);
         //添加列表
