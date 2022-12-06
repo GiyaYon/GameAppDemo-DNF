@@ -11,7 +11,7 @@ public class FSM {
     {
         this.c = c;
     }
-    public void ChangeState(States states)
+    public void ChangeState(String states)
     {
         currentState.onExit();
         currentState = c.getState(states);

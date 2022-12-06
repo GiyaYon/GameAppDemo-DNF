@@ -1,6 +1,6 @@
 package scr.Entity.Characters.Swordman;
 
-import scr.LogicalProcessing.StateMachine.States;
+import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.Commands.GameObject;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
@@ -17,7 +17,7 @@ public class SwordsmanCommand implements GameObject {
     @Override
     public void move(Vector2D vector2D, Transform transform) {
 
-        sm.property.states = States.Walk;
+        sm.property.states = BaseStates.Walk;
         transform.xPos += vector2D.x * sm.property.moveSpeed;
         transform.yPos += vector2D.y * sm.property.moveSpeed;
         if(vector2D.x != 0)
@@ -31,13 +31,13 @@ public class SwordsmanCommand implements GameObject {
 
     @Override
     public void idle() {
-        sm.property.states = States.Idle;
+        sm.property.states = BaseStates.Idle;
         sm.property.vector2D = new Vector2D(0,0);
     }
 
     public void run(Vector2D vector2D, Transform transform)
     {
-        sm.property.states = States.Run;
+        sm.property.states = BaseStates.Run;
         sm.getFsm().ChangeState(sm.property.states);
         transform.xPos += vector2D.x * sm.property.moveSpeed;
         transform.yPos += vector2D.y * sm.property.moveSpeed;
@@ -51,23 +51,23 @@ public class SwordsmanCommand implements GameObject {
 
     public void attack()
     {
-        sm.property.states = States.Attack;
+        sm.property.states = SwordsManStatesTable.Attack;
         sm.getFsm().ChangeState(sm.property.states);
     }
     public void attack2()
     {
-        sm.property.states = States.Attack2;
+        sm.property.states = SwordsManStatesTable.Attack2;
         sm.getFsm().ChangeState(sm.property.states);
     }
     public void attack3()
     {
-        sm.property.states = States.Attack3;
+        sm.property.states = SwordsManStatesTable.Attack3;
         sm.getFsm().ChangeState(sm.property.states);
     }
 
     public void jump(Transform transform)
     {
-        sm.property.states = States.Jump;
+        sm.property.states = SwordsManStatesTable.Jump;
         sm.getFsm().ChangeState(sm.property.states);
     }
 

@@ -3,7 +3,7 @@ package scr.Entity.Characters.Swordman;
 
 
 import scr.LogicalProcessing.StateMachine.FSM;
-import scr.LogicalProcessing.StateMachine.States;
+import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.CharacterState.*;
 import scr.Model.Characters.Properties.CharacterModel;
 import scr.LogicalProcessing.Position.Transform;
@@ -15,7 +15,6 @@ import scr.IOProcessing.LoadImage.ImageMerge;
 import scr.IOProcessing.LoadImage.ResSprites;
 
 import javax.swing.*;
-import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -77,29 +76,29 @@ public class SwordsMan extends CharacterModel
 
         fsm = new FSM(this);
         //添加列表
-        statesList.put(States.Idle,new Idle(this));
-        statesList.put(States.Walk,new Walk(this));
-        statesList.put(States.Run,new Run(this));
-        statesList.put(States.Attack,new Attack(this));
-        statesList.put(States.Attack2,new Attack2(this));
-        statesList.put(States.Attack3,new Attack3(this));
-        statesList.put(States.Jump,new Jump(this));
-        statesList.put(States.Fall,new Fall(this));
-        statesList.put(States.Injure,new Injure(this));
-        statesList.put(States.InAir,new InAir(this));
-        statesList.put(States.Throw,new Throw(this));
+        statesList.put(BaseStates.Idle,new Idle(this));
+        statesList.put(BaseStates.Walk,new Walk(this));
+        statesList.put(BaseStates.Run,new Run(this));
+        statesList.put(SwordsManStatesTable.Attack,new Attack(this));
+        statesList.put(SwordsManStatesTable.Attack2,new Attack2(this));
+        statesList.put(SwordsManStatesTable.Attack3,new Attack3(this));
+        statesList.put(SwordsManStatesTable.Jump,new Jump(this));
+        statesList.put(SwordsManStatesTable.Fall,new Fall(this));
+        statesList.put(BaseStates.Injure,new Injure(this));
+        statesList.put(BaseStates.InAir,new InAir(this));
+        statesList.put(BaseStates.Throw,new Throw(this));
 
         //初始化
-        fsm.currentState = getState(States.Idle);
+        fsm.currentState = getState(BaseStates.Idle);
         fsm.currentState.onStart();
-        property.states = States.Idle;
+        property.states = BaseStates.Idle;
     }
 
 
     @Override
     public void render(Graphics g, JPanel jPanel, Transform transform) {
 
-        if(property.states.equals(States.Jump) || property.states.equals(States.Fall) || property.states.equals(States.InAir) || property.states.equals(States.Throw))
+        if(property.states.equals(SwordsManStatesTable.Jump) || property.states.equals(SwordsManStatesTable.Fall) || property.states.equals(BaseStates.InAir) || property.states.equals(BaseStates.Throw))
         {
             Transform transform1 = new Transform(transform.xPos, property.horizontal.y);
             transform1.flipX = transform.flipX;

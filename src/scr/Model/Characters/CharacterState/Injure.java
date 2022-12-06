@@ -1,7 +1,6 @@
 package scr.Model.Characters.CharacterState;
 
 import scr.LogicalProcessing.StateMachine.IState;
-import scr.LogicalProcessing.StateMachine.States;
 import scr.Model.Characters.Properties.CharacterModel;
 
 public class Injure extends CharacterStates implements IState
@@ -25,7 +24,7 @@ public class Injure extends CharacterStates implements IState
 
         if((int)System.currentTimeMillis() - dt > injureInterval)
         {
-            c.getFsm().ChangeState(States.Idle);
+            c.getFsm().ChangeState(BaseStates.Idle);
         }
 
     }

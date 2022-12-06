@@ -1,7 +1,7 @@
 package scr.Model.Characters.CharacterState;
 
+import scr.Entity.Characters.Swordman.SwordsManStatesTable;
 import scr.LogicalProcessing.StateMachine.IState;
-import scr.LogicalProcessing.StateMachine.States;
 import scr.Model.Characters.Forces.JumpForce;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.Characters.Properties.CharacterModel;
@@ -32,7 +32,7 @@ public class Jump extends CharacterStates implements IState
         c.property.horizontal.y -= c.property.flyView.y;
         if(c.property.flyView.y <= 0)
         {
-            c.getFsm().ChangeState(States.Fall);
+            c.getFsm().ChangeState(SwordsManStatesTable.Fall);
         }
         dt = (int)System.currentTimeMillis();
     }

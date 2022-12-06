@@ -1,6 +1,5 @@
 package scr.Model.Characters.Properties;
 
-import scr.LogicalProcessing.StateMachine.States;
 import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
@@ -18,7 +17,7 @@ public class Property {
     //
     public int director;
     //状态显示
-    public States states;
+    public String states;
     //地平线
     public Vector2D horizontal;
     //浮空显示

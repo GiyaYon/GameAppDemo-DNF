@@ -2,7 +2,6 @@ package scr.Model.Characters.CharacterState;
 
 import scr.LogicalProcessing.Physics.Force;
 import scr.LogicalProcessing.StateMachine.IState;
-import scr.LogicalProcessing.StateMachine.States;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.Characters.Properties.CharacterModel;
 
@@ -36,7 +35,7 @@ public class Fall extends CharacterStates implements IState
         else {
             c.getAnimator().resetAnim(c.getAnimation("fallStand"));
             c.getAnimator().play(c.getAnimation("fallStand"));
-            c.getFsm().ChangeState(States.Idle);
+            c.getFsm().ChangeState(BaseStates.Idle);
         }
         dt = (int)System.currentTimeMillis();
     }

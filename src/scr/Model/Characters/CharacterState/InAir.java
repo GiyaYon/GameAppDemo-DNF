@@ -3,7 +3,6 @@ package scr.Model.Characters.CharacterState;
 import scr.LogicalProcessing.Physics.Force;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.LogicalProcessing.StateMachine.IState;
-import scr.LogicalProcessing.StateMachine.States;
 import scr.Model.Characters.Properties.CharacterModel;
 
 public class InAir extends CharacterStates implements IState {
@@ -32,11 +31,11 @@ public class InAir extends CharacterStates implements IState {
             if(c.property.fallTimes < c.property.defaultFallTime)
             {
                 c.property.fallTimes++;
-                c.getFsm().ChangeState(States.Throw);
+                c.getFsm().ChangeState(BaseStates.Throw);
             }else
             {
                 c.property.fallTimes = 1;
-                c.getFsm().ChangeState(States.Idle);
+                c.getFsm().ChangeState(BaseStates.Idle);
             }
 
         }

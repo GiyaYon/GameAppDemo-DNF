@@ -1,7 +1,6 @@
 package scr.Model.Characters.CharacterState;
 
 import scr.LogicalProcessing.StateMachine.IState;
-import scr.LogicalProcessing.StateMachine.States;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.Characters.Properties.CharacterModel;
 
@@ -21,7 +20,7 @@ public class Run extends CharacterStates implements IState
 
         if(c.property.vector2D.compare(new Vector2D(0,0)))
         {
-            c.getFsm().ChangeState(States.Idle);
+            c.getFsm().ChangeState(BaseStates.Idle);
         }
 
     }

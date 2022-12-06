@@ -1,7 +1,7 @@
 package scr.Entity.Characters.Swordman;
 
 import scr.LogicalProcessing.StateMachine.IState;
-import scr.LogicalProcessing.StateMachine.States;
+import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.DetectsColliders.AttackDetectsCollider;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.Characters.Properties.CharacterModel;
@@ -39,11 +39,11 @@ class Attack extends CharacterStates implements IState
         {
             if(c.property.isReadyNextAttack)
             {
-                c.getFsm().ChangeState(States.Attack2);
+                c.getFsm().ChangeState(SwordsManStatesTable.Attack2);
             }
             else
             {
-                c.getFsm().ChangeState(States.Idle);
+                c.getFsm().ChangeState(BaseStates.Idle);
             }
 
         }
@@ -83,11 +83,11 @@ class Attack2 extends CharacterStates implements IState
         {
             if(c.property.isReadyNextAttack)
             {
-                c.getFsm().ChangeState(States.Attack3);
+                c.getFsm().ChangeState(SwordsManStatesTable.Attack3);
             }
             else
             {
-                c.getFsm().ChangeState(States.Idle);
+                c.getFsm().ChangeState(BaseStates.Idle);
             }
         }
     }
@@ -126,11 +126,11 @@ class Attack3 extends CharacterStates implements IState
         {
             if(c.property.isReadyNextAttack)
             {
-                c.getFsm().ChangeState(States.Attack);
+                c.getFsm().ChangeState(SwordsManStatesTable.Attack);
             }
             else
             {
-                c.getFsm().ChangeState(States.Idle);
+                c.getFsm().ChangeState(BaseStates.Idle);
             }
         }
     }

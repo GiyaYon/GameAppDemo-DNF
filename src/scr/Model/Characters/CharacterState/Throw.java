@@ -2,7 +2,6 @@ package scr.Model.Characters.CharacterState;
 
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.LogicalProcessing.StateMachine.IState;
-import scr.LogicalProcessing.StateMachine.States;
 import scr.Model.Characters.Forces.JumpForce;
 import scr.Model.Characters.Properties.CharacterModel;
 
@@ -28,7 +27,7 @@ public class Throw extends CharacterStates implements IState {
         c.property.horizontal.y -= c.property.flyView.y;
         if(c.property.flyView.y <= 0)
         {
-            c.getFsm().ChangeState(States.InAir);
+            c.getFsm().ChangeState(BaseStates.InAir);
         }
         dt = (int)System.currentTimeMillis();
     }

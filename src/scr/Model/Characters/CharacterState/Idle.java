@@ -1,7 +1,6 @@
 package scr.Model.Characters.CharacterState;
 
 import scr.LogicalProcessing.StateMachine.IState;
-import scr.LogicalProcessing.StateMachine.States;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.Characters.Properties.CharacterModel;
 
@@ -23,11 +22,11 @@ public class Idle extends CharacterStates implements IState
 
         if(!c.property.vector2D.compare(new Vector2D(0,0)))
         {
-            c.getFsm().ChangeState(States.Walk);
+            c.getFsm().ChangeState(BaseStates.Walk);
         }
-        if(!c.property.vector2D.compare(new Vector2D(0,0)) && c.property.states.equals(States.Run))
+        if(!c.property.vector2D.compare(new Vector2D(0,0)) && c.property.states.equals(BaseStates.Run))
         {
-            c.getFsm().ChangeState(States.Run);
+            c.getFsm().ChangeState(BaseStates.Run);
         }
     }
 
