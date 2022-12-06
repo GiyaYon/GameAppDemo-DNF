@@ -1,5 +1,6 @@
 package scr.Entity.Players;
 
+import scr.LogicalProcessing.StateMachine.States;
 import scr.Model.Characters.Commands.ICommand;
 import scr.Model.Characters.CharacterEvents.HitManager;
 import scr.LogicalProcessing.Robot.IController;
@@ -66,9 +67,13 @@ public class Player implements ActionListener , IRender , IController {
 
     public void Update()
     {
+
         if(!pointCollider.obstacle(mapModel.Borders,this)){
-            playerControl.detect();
-            playerControl.Command();
+            if(!swordsMan.property.states.equals(States.Injure)  && !swordsMan.property.states.equals(States.InAir)  && !swordsMan.property.states.equals(States.Throw))
+           {
+               playerControl.detect();
+               playerControl.Command();
+            }
         }
         playerControl.input.update();
 

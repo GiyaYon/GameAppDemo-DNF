@@ -17,7 +17,7 @@ public class Fall extends CharacterStates implements IState
     @Override
     public void onStart() {
         c.property.flyView = new Vector2D(0,0);
-        fallForce = new Force(17,-1,0);
+        fallForce = new Force(11,1,0);
         c.getAnimator().resetAnim(c.getAnimation("fall"));
         c.getAnimator().play(c.getAnimation("fall"));
         dt = (int)System.currentTimeMillis();

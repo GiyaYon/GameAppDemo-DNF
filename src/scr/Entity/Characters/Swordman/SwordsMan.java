@@ -15,6 +15,7 @@ import scr.IOProcessing.LoadImage.ImageMerge;
 import scr.IOProcessing.LoadImage.ResSprites;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,6 +67,9 @@ public class SwordsMan extends CharacterModel
         assembleToAnimations("jump",125,128,false);
         assembleToAnimations("fall",129,131,false);
         assembleToAnimations("fallStand",132,132,false);
+        assembleToAnimations("injure",96,99,false);
+        assembleToAnimations("inair",100,101,false);
+        assembleToAnimations("death",102,103,false);
     }
 
     @Override
@@ -81,6 +85,9 @@ public class SwordsMan extends CharacterModel
         statesList.put(States.Attack3,new Attack3(this));
         statesList.put(States.Jump,new Jump(this));
         statesList.put(States.Fall,new Fall(this));
+        statesList.put(States.Injure,new Injure(this));
+        statesList.put(States.InAir,new InAir(this));
+        statesList.put(States.Throw,new Throw(this));
 
         //初始化
         fsm.currentState = getState(States.Idle);
@@ -92,7 +99,7 @@ public class SwordsMan extends CharacterModel
     @Override
     public void render(Graphics g, JPanel jPanel, Transform transform) {
 
-        if(property.states.equals(States.Jump) || property.states.equals(States.Fall))
+        if(property.states.equals(States.Jump) || property.states.equals(States.Fall) || property.states.equals(States.InAir) || property.states.equals(States.Throw))
         {
             Transform transform1 = new Transform(transform.xPos, property.horizontal.y);
             transform1.flipX = transform.flipX;

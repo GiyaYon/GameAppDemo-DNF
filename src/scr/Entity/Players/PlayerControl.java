@@ -222,6 +222,13 @@ public class PlayerControl {
             return;
         }
 
+        if(input.isKeyDown(KeyEvent.VK_V))
+        {
+
+            player.swordsMan.property.horizontal = new Vector2D(player.transform.xPos,player.transform.yPos);
+            player.swordsMan.property.initHorizontalLine = player.transform;
+            player.swordsMan.getFsm().ChangeState(States.Throw);
+        }
 
         if(input.isKeyUp(KeyEvent.VK_C) && !isJumpKeyRelease)
         {
@@ -230,7 +237,8 @@ public class PlayerControl {
 
         if(!player.swordsMan.property.states.equals(States.Jump) && !player.swordsMan.property.states.equals(States.Fall)&&
         !player.swordsMan.property.states.equals(States.Attack)&&!player.swordsMan.property.states.equals(States.Attack2)&&
-                !player.swordsMan.property.states.equals(States.Attack3))
+                !player.swordsMan.property.states.equals(States.Attack3) && !player.swordsMan.property.states.equals(States.Injure)
+        && !player.swordsMan.property.states.equals(States.InAir) &&!player.swordsMan.property.states.equals(States.Throw))
         {
             c = new NoneCommand(player.swordsMan.sc);
             player.c = c;

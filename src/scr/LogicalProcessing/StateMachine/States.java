@@ -11,5 +11,9 @@ public enum States {
     JumpAttack,
     RunAttack,
     Attack2,
-    Attack3
+    Attack3,
+    Injure,
+    InAir,
+    Throw,
+    Death
 }

@@ -27,6 +27,9 @@ public class Property {
     public ArrayList<BodyDetectsCollider> bdcs = new ArrayList<>();
     public boolean isReadyNextAttack;
     public int AtkNext = 1;
+    public int throwTimes = 0;
+    public int fallTimes = 1;
+    public int defaultFallTime = 2;
     //·····················游戏属性·······················
 
     //移速
