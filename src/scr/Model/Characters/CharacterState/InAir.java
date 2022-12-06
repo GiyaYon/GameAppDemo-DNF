@@ -24,17 +24,19 @@ public class InAir extends CharacterStates implements IState {
         if(c.property.horizontal.y < c.property.initHorizontalLine.yPos)
         {
             c.property.flyView.y = fallForce.resultVy(((int)System.currentTimeMillis() -dt)/1000);
-            System.out.println(c.property.flyView.y);
             c.property.horizontal.y += c.property.flyView.y;
         }
         else {
             if(c.property.fallTimes < c.property.defaultFallTime)
             {
                 c.property.fallTimes++;
+                c.property.isRebound = true;
                 c.getFsm().ChangeState(BaseStates.Throw);
             }else
             {
+                c.property.isRebound = false;
                 c.property.fallTimes = 1;
+                c.property.throwTimes = 1;
                 c.getFsm().ChangeState(BaseStates.Idle);
             }
 

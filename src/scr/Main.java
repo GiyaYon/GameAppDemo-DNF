@@ -89,7 +89,7 @@ class TestPanel extends JPanel implements Runnable {
 
         //修改后坐标点
         g.setColor(Color.green);
-        g.fillOval(transform.xPos, transform.yPos, 10, 10);
+        //g.fillOval(transform.xPos, transform.yPos, 10, 10);
 
 
 

@@ -1,5 +1,6 @@
 package scr.Entity.Players;
 
+import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.Commands.ICommand;
 import scr.Model.Characters.CharacterEvents.HitManager;
@@ -15,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -74,6 +76,22 @@ public class Player implements ActionListener , IRender , IController {
                playerControl.detect();
                playerControl.Command();
             }
+        }
+        if(playerControl.input.isKeyDown(KeyEvent.VK_V))
+        {
+            if(swordsMan.property.states.equals(BaseStates.InAir) ||swordsMan.property.states.equals(BaseStates.Throw))
+            {
+                swordsMan.property.horizontal = new Vector2D(transform.xPos,swordsMan.property.horizontal.y);
+                swordsMan.getFsm().ChangeState(BaseStates.Throw);
+            }
+            else {
+                swordsMan.property.throwTimes = 1;
+                swordsMan.property.fallTimes = 1;
+                swordsMan.property.horizontal = new Vector2D(transform.xPos,transform.yPos);
+                swordsMan.property.initHorizontalLine = transform;
+                swordsMan.getFsm().ChangeState(BaseStates.Throw);
+            }
+
         }
         playerControl.input.update();
 

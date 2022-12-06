@@ -17,8 +17,26 @@ public class Throw extends CharacterStates implements IState {
         c.getAnimator().play(c.getAnimation("inair"));
         c.property.flyView = new Vector2D(0,0);
         dt = (int)System.currentTimeMillis();
-        jumpForce = new JumpForce(17/c.property.fallTimes,0);
 
+        if(c.property.throwTimes>2)
+        {
+            //如果是在空中被击飞，进来
+
+            if(c.property.isRebound)
+            {
+                //被连续击飞后，作为反弹进来
+                jumpForce = new JumpForce(17/c.property.fallTimes,0);
+            }else
+            {
+                //还是在空中
+                jumpForce = new JumpForce(17/c.property.throwTimes,0);
+            }
+        }else
+        {
+            //如果是在空中没有被击飞，这是作为反弹进来
+            jumpForce = new JumpForce(17/c.property.fallTimes,0);
+        }
+        c.property.throwTimes++;
     }
 
     @Override
@@ -30,6 +48,7 @@ public class Throw extends CharacterStates implements IState {
             c.getFsm().ChangeState(BaseStates.InAir);
         }
         dt = (int)System.currentTimeMillis();
+
     }
 
     @Override

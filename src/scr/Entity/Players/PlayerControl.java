@@ -223,13 +223,13 @@ public class PlayerControl {
             return;
         }
 
-        if(input.isKeyDown(KeyEvent.VK_V))
-        {
-
-            player.swordsMan.property.horizontal = new Vector2D(player.transform.xPos,player.transform.yPos);
-            player.swordsMan.property.initHorizontalLine = player.transform;
-            player.swordsMan.getFsm().ChangeState(BaseStates.Throw);
-        }
+//        if(input.isKeyDown(KeyEvent.VK_V))
+//        {
+//
+//            player.swordsMan.property.horizontal = new Vector2D(player.transform.xPos,player.transform.yPos);
+//            player.swordsMan.property.initHorizontalLine = player.transform;
+//            player.swordsMan.getFsm().ChangeState(BaseStates.Throw);
+//        }
 
         if(input.isKeyUp(KeyEvent.VK_C) && !isJumpKeyRelease)
         {

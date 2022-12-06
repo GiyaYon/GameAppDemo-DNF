@@ -29,6 +29,7 @@ public class Property {
     public int throwTimes = 0;
     public int fallTimes = 1;
     public int defaultFallTime = 2;
+    public boolean isRebound = false;
     //·····················游戏属性·······················
 
     //移速
