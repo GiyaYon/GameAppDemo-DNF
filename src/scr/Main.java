@@ -1,12 +1,12 @@
 package scr;
 
-import scr.Entity.Maps.DragonTower;
-import scr.Entity.Maps.Forest;
+import scr.Entity.Maps.MapManager;
 import scr.Entity.Players.Player;
 import scr.LogicalProcessing.Position.Transform;
 import scr.IOProcessing.Camera.CameraMag;
 import scr.IOProcessing.Renders.RenderSequenceManager;
-import scr.Model.Map.MapType;
+import scr.Model.Map.TransportEvent;
+import scr.Model.Map.TransportListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,9 +26,9 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
-class TestPanel extends JPanel implements Runnable {
+class TestPanel extends JPanel implements Runnable , TransportListener {
 
-    //遮挡盒
+    //渲染顺序
     public RenderSequenceManager renderManager = new RenderSequenceManager();
 
     //----------------------主玩家
@@ -41,12 +41,9 @@ class TestPanel extends JPanel implements Runnable {
     //---------------------双缓冲流
     public Image iBuffer;
     public Graphics gBuffer;
+    //---------------------地图管理
+    MapManager mapManager;
 
-
-
-    //TODO 地图要扩展成地图池
-    DragonTower dragonTower;
-    Forest forest;
 
     public TestPanel() throws IOException {
 
@@ -55,25 +52,30 @@ class TestPanel extends JPanel implements Runnable {
         transform = player.transform;
 
 
-        dragonTower = new DragonTower(MapType.DOUBLE, "1","dragontowner",0,700,400,550,this);
-        forest = new Forest(MapType.TRIPLE, "3","forest",0,700,400,550,this);
-        forest.setMidYPos(0,2);
+        mapManager = new MapManager(this);
+//-------------------------地图相关----------------------------//
         //渲染检测
-        renderManager.renderMethods.addAll(dragonTower.obscurers);
+        if(mapManager.currentMap.obscurers.size()>0)
+        {
+            renderManager.renderMethods.addAll(mapManager.currentMap.obscurers);
+        }
+        //包围盒碰撞检测
+        for (var v : mapManager.currentMap.obscurers)
+        {
+            player.swordsMan.property.bdcs.add(v.bodyDetectsCollider);
+        }
+        //阻挡物检测
+        player.stageModel = mapManager.currentMap;
+//--------------------------------------------------------//
+
+
+        //受击事件
+        //player.hitManager.addHitListener(dragonTower.obscurers.get(0));
+        //渲染玩家
         renderManager.renderMethods.add(player);
 
-//        //受击事件
-//        player.hitManager.addHitListener(dragonTower.obscurers.get(0));
-
-        //包围盒碰撞检测
-//        for (var v : dragonTower.obscurers)
-//        {
-//            player.swordsMan.property.bdcs.add(v.bodyDetectsCollider);
-//        }
-
-        //阻挡物检测
-        player.stageModel = forest;
-        //player.mapModel = dragonTower;
+        //传送
+        player.pointCollider.transportEvent.addHitListener(this);
         //摄像头
         cameraMag = new CameraMag();
 
@@ -84,6 +86,28 @@ class TestPanel extends JPanel implements Runnable {
         // 设定焦点在本面板并作为监听对象
         setFocusable(true);
         //addKeyListener(this);
+    }
+
+    public void changeMap()
+    {
+        mapManager.currentMap = mapManager.maps.get(mapManager.index);
+
+        renderManager.renderMethods.clear();
+        //渲染检测
+        if(mapManager.currentMap.obscurers.size()>0)
+        {
+            renderManager.renderMethods.addAll(mapManager.currentMap.obscurers);
+        }
+        renderManager.renderMethods.add(player);
+
+        player.swordsMan.property.bdcs.clear();
+        //包围盒碰撞检测
+        for (var v : mapManager.currentMap.obscurers)
+        {
+            player.swordsMan.property.bdcs.add(v.bodyDetectsCollider);
+        }
+        //阻挡物检测
+        player.stageModel = mapManager.currentMap;
     }
 
     @Override
@@ -99,7 +123,7 @@ class TestPanel extends JPanel implements Runnable {
         //摄像头更新
         cameraMag.cameraMoving(transform);
         //地图渲染
-        forest.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
+        mapManager.currentMap.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
         //dragonTower.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
         //管理类渲染
         renderManager.render(g,this,transform,cameraMag);
@@ -151,7 +175,16 @@ class TestPanel extends JPanel implements Runnable {
 
 
                 player.Update();
-
+//                if(player.playerControl.input.isKeyDown(KeyEvent.VK_V))
+//              {
+//                  mapManager.nextMap();
+//                  changeMap();
+//              }
+//                if(player.playerControl.input.isKeyDown(KeyEvent.VK_B))
+//                {
+//                    mapManager.lastMap();
+//                    changeMap();
+//                }
 
                 repaint();// 窗口重绘
             }
@@ -160,6 +193,9 @@ class TestPanel extends JPanel implements Runnable {
         }
     }
 
-
-
+    @Override
+    public void GameEventInvoke(TransportEvent event) {
+        mapManager.nextMap();
+        changeMap();
+    }
 }

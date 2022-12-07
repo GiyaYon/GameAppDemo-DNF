@@ -19,7 +19,7 @@ import java.util.*;
 public class PlayerControl {
 
     Player player;
-    KeyBoardInput input;
+    public KeyBoardInput input;
 
 
     boolean isAtkKeyRelease = true;

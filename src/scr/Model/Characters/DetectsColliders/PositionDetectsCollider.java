@@ -4,11 +4,15 @@ import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Collide.Colliders.PointCollider;
 import scr.Entity.Players.Player;
 import scr.LogicalProcessing.Position.Transform;
+import scr.LogicalProcessing.Position.Vector2D;
+import scr.Model.Map.TransportEvent;
+import scr.Model.Map.TransportManager;
 
 import java.util.ArrayList;
 
 public class PositionDetectsCollider extends PointCollider {
 
+    public TransportManager transportEvent= new TransportManager();
     Transform lastPosition;
 
     public PositionDetectsCollider(int x, int y) {
@@ -24,7 +28,14 @@ public class PositionDetectsCollider extends PointCollider {
 
             if (colliderDetect(collider))
             {
-                System.out.println("crash");
+                if(collider.vector2D.compare(new Vector2D(0,0)))
+                {
+                    System.out.println("transport");
+                    lastPosition.yPos = 420;
+                    lastPosition.xPos = 30;
+                    p.transform = lastPosition;
+                    transportEvent.startTransport();
+                }
                 //不罚站
                 lastPosition.yPos += collider.vector2D.y;
                 lastPosition.xPos += collider.vector2D.x;
@@ -32,7 +43,6 @@ public class PositionDetectsCollider extends PointCollider {
                 return true;
             }
         }
-
         return false;
     }
 

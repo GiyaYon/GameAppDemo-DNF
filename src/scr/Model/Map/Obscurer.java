@@ -15,13 +15,13 @@ public class Obscurer implements IRender ,Comparable , HitListener {
 
     Image oBox;
 
-    int x,y;
+    int x,y,w,h;
 
     public BodyDetectsCollider bodyDetectsCollider;
     public BoxCollider testBoxCollider;
 
 
-    public Obscurer(int x,int y,JPanel panel) {
+    public Obscurer(int x,int y) {
         oBox = Toolkit.getDefaultToolkit().getImage("src\\res\\object\\dragonheadfront\\" + 0 + ".png");
         this.x = x;
         this.y = y;
@@ -29,7 +29,13 @@ public class Obscurer implements IRender ,Comparable , HitListener {
         testBoxCollider = new BoxCollider(x,y, 30, 20,new Vector2D(1,0));
 
     }
-
+    public Obscurer(int x,int y,int w,int h,boolean needImage)
+    {
+        this.x = x;
+        this.y = y;
+        this.w =w;
+        this.h = h;
+    }
     @Override
     public int getYPos() {
         return y;

@@ -32,8 +32,8 @@ public class Player implements ActionListener , IRender , IController {
 
     public SwordsMan swordsMan;
     public Transform transform;
-    PlayerControl playerControl;
-    PositionDetectsCollider pointCollider;
+    public PlayerControl playerControl;
+    public PositionDetectsCollider pointCollider;
     BodyDetectsCollider bodyDetectsCollider;
     public StageModel stageModel;
 
@@ -76,6 +76,7 @@ public class Player implements ActionListener , IRender , IController {
                playerControl.Command();
             }
         }
+
 //        if(playerControl.input.isKeyDown(KeyEvent.VK_V))
 //        {
 //            if(swordsMan.property.states.equals(BaseStates.InAir) ||swordsMan.property.states.equals(BaseStates.Throw))
