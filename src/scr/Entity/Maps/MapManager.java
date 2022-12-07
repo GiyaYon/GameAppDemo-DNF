@@ -16,12 +16,14 @@ public class MapManager {
 
         TimeGateBegin timeGateBegin = new TimeGateBegin(MapType.DOUBLE, "4","timeGateFinal",0,770,400,550,panel);
         Forest forest = new Forest(MapType.TRIPLE, "5","forest",0,770,360,550,panel);
-        //timeGateBegin
         Desert desert = new Desert(MapType.TRIPLE,"5","desert",0,770,360,550,panel);
+        DragonTower dragonTower = new DragonTower(MapType.DOUBLE, "4","dragontowner",0,770,400,550,panel);
+
         maps = new ArrayList<>();
         maps.add(timeGateBegin);
         maps.add(forest);
         maps.add(desert);
+        maps.add(dragonTower);
         Collections.sort(maps);
         currentMap = maps.get(0);
     }

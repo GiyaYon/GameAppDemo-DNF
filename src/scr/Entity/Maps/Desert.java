@@ -1,6 +1,8 @@
 package scr.Entity.Maps;
 
+import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Position.Transform;
+import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.Map.StageModel;
 
 import javax.swing.*;
@@ -22,7 +24,8 @@ public class Desert extends StageModel {
         setMidYPos(260,1.4f);
         setTitleYPos(0);
         mapIndex = 2;
-
+        BoxCollider mapRightBorder = new BoxCollider(collideWidthX2-10,collideHeightY1,10,150,new Vector2D(0,0));
+        Borders.add(mapRightBorder);
 
     }
 
