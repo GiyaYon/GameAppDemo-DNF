@@ -7,7 +7,7 @@ import scr.LogicalProcessing.Robot.IController;
 import scr.Model.Characters.CharacterEvents.HitEvent;
 import scr.Model.Characters.CharacterEvents.HitListener;
 
-public class BodyDetectsCollider extends BoxCollider implements HitListener {
+public class BodyDetectsCollider extends BoxCollider {
 
 
     public BodyDetectsCollider(int x, int y, int w, int h, Vector2D vector2D) {
@@ -19,8 +19,4 @@ public class BodyDetectsCollider extends BoxCollider implements HitListener {
         System.out.println("i was damaged by "+ player.getClass());
     }
 
-    @Override
-    public void GameEventInvoke(HitEvent event) {
-
-    }
 }

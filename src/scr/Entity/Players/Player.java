@@ -3,22 +3,19 @@ package scr.Entity.Players;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.Commands.ICommand;
-import scr.Model.Characters.CharacterEvents.HitManager;
 import scr.LogicalProcessing.Robot.IController;
 import scr.Entity.Characters.Swordman.SwordsMan;
 
 import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
 import scr.Model.Characters.DetectsColliders.PositionDetectsCollider;
 import scr.LogicalProcessing.Position.Transform;
-import scr.Model.Characters.Properties.Property;
-import scr.Model.Map.MapModel;
+import scr.Model.Map.StageModel;
 import scr.IOProcessing.Renders.IRender;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -38,9 +35,7 @@ public class Player implements ActionListener , IRender , IController {
     PlayerControl playerControl;
     PositionDetectsCollider pointCollider;
     BodyDetectsCollider bodyDetectsCollider;
-    public MapModel mapModel;
-
-    public HitManager hitManager;
+    public StageModel stageModel;
 
 
 
@@ -68,35 +63,35 @@ public class Player implements ActionListener , IRender , IController {
         transform.xPos = 10;
         transform.yPos = 430;
 
-        hitManager = new HitManager();
+
     }
 
     public void Update()
     {
         bodyDetectsCollider.updatePosition(transform);
-        if(!pointCollider.obstacle(mapModel.Borders,this)){
+        if(!pointCollider.obstacle(stageModel.Borders,this)){
             if(!swordsMan.property.states.equals(BaseStates.Injure)  && !swordsMan.property.states.equals(BaseStates.InAir)  && !swordsMan.property.states.equals(BaseStates.Throw))
            {
                playerControl.detect();
                playerControl.Command();
             }
         }
-        if(playerControl.input.isKeyDown(KeyEvent.VK_V))
-        {
-            if(swordsMan.property.states.equals(BaseStates.InAir) ||swordsMan.property.states.equals(BaseStates.Throw))
-            {
-                swordsMan.property.horizontal = new Vector2D(transform.xPos,swordsMan.property.horizontal.y);
-                swordsMan.getFsm().ChangeState(BaseStates.Throw);
-            }
-            else {
-                swordsMan.property.throwTimes = 1;
-                swordsMan.property.fallTimes = 1;
-                swordsMan.property.horizontal = new Vector2D(transform.xPos,transform.yPos);
-                swordsMan.property.initHorizontalLine = transform;
-                swordsMan.getFsm().ChangeState(BaseStates.Throw);
-            }
-
-        }
+//        if(playerControl.input.isKeyDown(KeyEvent.VK_V))
+//        {
+//            if(swordsMan.property.states.equals(BaseStates.InAir) ||swordsMan.property.states.equals(BaseStates.Throw))
+//            {
+//                swordsMan.property.horizontal = new Vector2D(transform.xPos,swordsMan.property.horizontal.y);
+//                swordsMan.getFsm().ChangeState(BaseStates.Throw);
+//            }
+//            else {
+//                swordsMan.property.throwTimes = 1;
+//                swordsMan.property.fallTimes = 1;
+//                swordsMan.property.horizontal = new Vector2D(transform.xPos,transform.yPos);
+//                swordsMan.property.initHorizontalLine = transform;
+//                swordsMan.getFsm().ChangeState(BaseStates.Throw);
+//            }
+//
+//        }
         playerControl.input.update();
 
 

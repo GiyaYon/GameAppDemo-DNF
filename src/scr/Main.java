@@ -1,10 +1,12 @@
 package scr;
 
 import scr.Entity.Maps.DragonTower;
+import scr.Entity.Maps.Forest;
 import scr.Entity.Players.Player;
 import scr.LogicalProcessing.Position.Transform;
 import scr.IOProcessing.Camera.CameraMag;
 import scr.IOProcessing.Renders.RenderSequenceManager;
+import scr.Model.Map.MapType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,15 +30,23 @@ class TestPanel extends JPanel implements Runnable {
 
     //遮挡盒
     public RenderSequenceManager renderManager = new RenderSequenceManager();
+
+    //----------------------主玩家
     Player player;
-    //双缓冲流
+    //绑定主角玩家的Transform
+    Transform transform;
+    //摄像机
+    CameraMag cameraMag;
+
+    //---------------------双缓冲流
     public Image iBuffer;
     public Graphics gBuffer;
 
-    Transform transform;
-    DragonTower dragonTower;
 
-    CameraMag cameraMag;
+
+    //TODO 地图要扩展成地图池
+    DragonTower dragonTower;
+    Forest forest;
 
     public TestPanel() throws IOException {
 
@@ -45,22 +55,29 @@ class TestPanel extends JPanel implements Runnable {
         transform = player.transform;
 
 
-        dragonTower = new DragonTower("1","dragontowner",0,770,400,550,this);
-
+        dragonTower = new DragonTower(MapType.DOUBLE, "1","dragontowner",0,700,400,550,this);
+        forest = new Forest(MapType.TRIPLE, "3","forest",0,700,400,550,this);
+        forest.setMidYPos(0,2);
         //渲染检测
-        renderManager.renderMethods.add(dragonTower.obscurers.get(0));
+        renderManager.renderMethods.addAll(dragonTower.obscurers);
         renderManager.renderMethods.add(player);
 
-        //受击事件
-        player.hitManager.addHitListener(dragonTower.obscurers.get(0));
-        //碰撞检测
-        player.swordsMan.property.bdcs.add(dragonTower.obscurers.get(0).bodyDetectsCollider);
+//        //受击事件
+//        player.hitManager.addHitListener(dragonTower.obscurers.get(0));
 
-        player.mapModel = dragonTower;
+        //包围盒碰撞检测
+//        for (var v : dragonTower.obscurers)
+//        {
+//            player.swordsMan.property.bdcs.add(v.bodyDetectsCollider);
+//        }
+
+        //阻挡物检测
+        player.stageModel = forest;
+        //player.mapModel = dragonTower;
         //摄像头
         cameraMag = new CameraMag();
 
-                // 创建一个新线程，this就是实现了Runnable接口的实现类
+        // 创建一个新线程，this就是实现了Runnable接口的实现类
         Thread t = new Thread(this);
         // 启动线程
         t.start();
@@ -82,35 +99,33 @@ class TestPanel extends JPanel implements Runnable {
         //摄像头更新
         cameraMag.cameraMoving(transform);
         //地图渲染
-        dragonTower.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
-
+        forest.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
+        //dragonTower.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
         //管理类渲染
         renderManager.render(g,this,transform,cameraMag);
 
         //修改后坐标点
-        g.setColor(Color.green);
+        //g.setColor(Color.green);
         //g.fillOval(transform.xPos, transform.yPos, 10, 10);
 
-
-
         //显示文字信息
-        int y = 20;
-        for (String line : player.info.split(" "))
-        {
-            g.drawString(line,20,y);
-            y += 20;
-        }
-
-        if(transform!= null)
-        {
-            g.drawString("x="+ transform.xPos +" ,y=" +transform.yPos,200,20);
-            g.drawString("Camerax="+ cameraMag.cameraMove.getMapMoving(),200,40);
-        }
-        g.drawString(String.valueOf(player.swordsMan.property.states),200,60);
-        if(player.swordsMan.property.horizontal!= null)
-        {
-            g.drawString("ViewY:"+ player.swordsMan.property.horizontal.y,200,80);
-        }
+//        int y = 20;
+//        for (String line : player.info.split(" "))
+//        {
+//            g.drawString(line,20,y);
+//            y += 20;
+//        }
+//
+//        if(transform!= null)
+//        {
+//            g.drawString("x="+ transform.xPos +" ,y=" +transform.yPos,200,20);
+//            g.drawString("Camerax="+ cameraMag.cameraMove.getMapMoving(),200,40);
+//        }
+//        g.drawString(String.valueOf(player.swordsMan.property.states),200,60);
+//        if(player.swordsMan.property.horizontal!= null)
+//        {
+//            g.drawString("ViewY:"+ player.swordsMan.property.horizontal.y,200,80);
+//        }
 
     }
 
