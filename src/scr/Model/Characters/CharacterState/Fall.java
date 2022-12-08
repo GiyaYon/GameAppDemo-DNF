@@ -3,13 +3,13 @@ package scr.Model.Characters.CharacterState;
 import scr.LogicalProcessing.Physics.Force;
 import scr.LogicalProcessing.StateMachine.IState;
 import scr.LogicalProcessing.Position.Vector2D;
-import scr.Model.Characters.Properties.CharacterModel;
+import scr.Model.BasePlayer.CharacterBaseModel;
 
 public class Fall extends CharacterStates implements IState
 {
     Force fallForce;
     float dt;
-    public Fall(CharacterModel c) {
+    public Fall(CharacterBaseModel c) {
         super(c);
     }
 
@@ -17,8 +17,8 @@ public class Fall extends CharacterStates implements IState
     public void onStart() {
         c.property.flyView = new Vector2D(0,0);
         fallForce = new Force(11,1,0);
-        c.getAnimator().resetAnim(c.getAnimation("fall"));
-        c.getAnimator().play(c.getAnimation("fall"));
+        c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("fall"));
+        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("fall"));
         dt = (int)System.currentTimeMillis();
     }
 
@@ -33,9 +33,9 @@ public class Fall extends CharacterStates implements IState
             c.property.horizontal.y += c.property.flyView.y;
         }
         else {
-            c.getAnimator().resetAnim(c.getAnimation("fallStand"));
-            c.getAnimator().play(c.getAnimation("fallStand"));
-            c.getFsm().ChangeState(BaseStates.Idle);
+            c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("fallStand"));
+            c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("fallStand"));
+            c.swordsManAnimator.getFsm().ChangeState(BaseStates.Idle);
         }
         dt = (int)System.currentTimeMillis();
     }

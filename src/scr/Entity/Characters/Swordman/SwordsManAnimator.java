@@ -2,11 +2,11 @@ package scr.Entity.Characters.Swordman;
 
 
 
-import scr.LogicalProcessing.Robot.IController;
 import scr.LogicalProcessing.StateMachine.FSM;
+import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.CharacterState.*;
-import scr.Model.Characters.Properties.CharacterModel;
+import scr.Model.Characters.Properties.CharacterAnimator;
 import scr.LogicalProcessing.Position.Transform;
 
 import scr.IOProcessing.Anim.Animation;
@@ -14,26 +14,26 @@ import scr.IOProcessing.Anim.AnimationMergeGroup;
 import scr.IOProcessing.Anim.Animator;
 import scr.IOProcessing.LoadImage.ImageMerge;
 import scr.IOProcessing.LoadImage.ResSprites;
-import scr.Model.Characters.Properties.Property;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SwordsMan extends CharacterModel
+public class SwordsManAnimator extends CharacterAnimator
 {
-    public SwordsmanCommand sc;
-    public SwordsMan(IController iController) throws IOException {
-        property = new Property(iController);
+    CharacterBaseModel cb;
+    public SwordsManAnimator(CharacterBaseModel cb) {
+        this.cb = cb;
 
+    }
+
+    @Override
+    public void init() throws IOException {
         setAnimResources();
         setAnimations();
         setAnimator();
         setStates();
-
-
-        sc = new SwordsmanCommand(this);
     }
 
     @Override
@@ -79,33 +79,33 @@ public class SwordsMan extends CharacterModel
     protected void setStates() {
 
 
-        fsm = new FSM(this);
+        fsm = new FSM(cb);
         //添加列表
-        statesList.put(BaseStates.Idle,new Idle(this));
-        statesList.put(BaseStates.Walk,new Walk(this));
-        statesList.put(BaseStates.Run,new Run(this));
-        statesList.put(SwordsManStatesTable.Attack,new Attack(this));
-        statesList.put(SwordsManStatesTable.Attack2,new Attack2(this));
-        statesList.put(SwordsManStatesTable.Attack3,new Attack3(this));
-        statesList.put(SwordsManStatesTable.Jump,new Jump(this));
-        statesList.put(SwordsManStatesTable.Fall,new Fall(this));
-        statesList.put(BaseStates.Injure,new Injure(this));
-        statesList.put(BaseStates.InAir,new InAir(this));
-        statesList.put(BaseStates.Throw,new Throw(this));
+        statesList.put(BaseStates.Idle,new Idle(cb));
+        statesList.put(BaseStates.Walk,new Walk(cb));
+        statesList.put(BaseStates.Run,new Run(cb));
+        statesList.put(SwordsManStatesTable.Attack,new Attack(cb));
+        statesList.put(SwordsManStatesTable.Attack2,new Attack2(cb));
+        statesList.put(SwordsManStatesTable.Attack3,new Attack3(cb));
+        statesList.put(SwordsManStatesTable.Jump,new Jump(cb));
+        statesList.put(SwordsManStatesTable.Fall,new Fall(cb));
+        statesList.put(BaseStates.Injure,new Injure(cb));
+        statesList.put(BaseStates.InAir,new InAir(cb));
+        statesList.put(BaseStates.Throw,new Throw(cb));
 
         //初始化
         fsm.currentState = getState(BaseStates.Idle);
         fsm.currentState.onStart();
-        property.states = BaseStates.Idle;
+        cb.property.states = BaseStates.Idle;
     }
 
 
     @Override
     public void render(Graphics g, JPanel jPanel, Transform transform) {
 
-        if(property.states.equals(SwordsManStatesTable.Jump) || property.states.equals(SwordsManStatesTable.Fall) || property.states.equals(BaseStates.InAir) || property.states.equals(BaseStates.Throw))
+        if(cb.property.states.equals(SwordsManStatesTable.Jump) || cb.property.states.equals(SwordsManStatesTable.Fall) || cb.property.states.equals(BaseStates.InAir) || cb.property.states.equals(BaseStates.Throw))
         {
-            Transform transform1 = new Transform(transform.xPos, property.horizontal.y);
+            Transform transform1 = new Transform(transform.xPos, cb.property.horizontal.y);
             transform1.flipX = transform.flipX;
             animator.Flash(g,jPanel,transform1);
 

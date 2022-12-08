@@ -1,10 +1,10 @@
 package scr.Model.Characters.CharacterState;
 
-import scr.Model.Characters.Properties.CharacterModel;
+import scr.Model.BasePlayer.CharacterBaseModel;
 
 public class CharacterStates {
-    protected CharacterModel c;
-    public CharacterStates(CharacterModel c)
+    protected CharacterBaseModel c;
+    public CharacterStates(CharacterBaseModel c)
     {
         this.c = c;
     }

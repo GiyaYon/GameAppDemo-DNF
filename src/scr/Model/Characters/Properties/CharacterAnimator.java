@@ -12,7 +12,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 
-public abstract class CharacterModel
+public abstract class CharacterAnimator
 {
     protected ReloadAnimResources animResources = new ReloadAnimResources();
     protected Animator animator;
@@ -20,8 +20,7 @@ public abstract class CharacterModel
     protected HashMap<String, AnimationMergeGroup> animations = new HashMap<>();
     protected HashMap<String,IState> statesList = new HashMap<>();
 
-    public Property property;
-
+    public abstract void init() throws IOException;
     protected abstract void setAnimResources() throws IOException;
     protected abstract void setAnimator();
     protected abstract void setAnimations();

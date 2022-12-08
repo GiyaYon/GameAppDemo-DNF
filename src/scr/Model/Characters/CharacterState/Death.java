@@ -1,12 +1,12 @@
 package scr.Model.Characters.CharacterState;
 
 import scr.LogicalProcessing.StateMachine.IState;
-import scr.Model.Characters.Properties.CharacterModel;
+import scr.Model.BasePlayer.CharacterBaseModel;
 
 public class Death extends CharacterStates implements IState
 {
 
-    public Death(CharacterModel c) {
+    public Death(CharacterBaseModel c) {
         super(c);
     }
 

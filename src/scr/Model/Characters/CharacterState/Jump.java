@@ -2,14 +2,14 @@ package scr.Model.Characters.CharacterState;
 
 import scr.Entity.Characters.Swordman.SwordsManStatesTable;
 import scr.LogicalProcessing.StateMachine.IState;
+import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.Forces.JumpForce;
 import scr.LogicalProcessing.Position.Vector2D;
-import scr.Model.Characters.Properties.CharacterModel;
 
 public class Jump extends CharacterStates implements IState
 {
 
-    public Jump(CharacterModel c) {
+    public Jump(CharacterBaseModel c) {
         super(c);
     }
     float dt;
@@ -19,8 +19,8 @@ public class Jump extends CharacterStates implements IState
     public void onStart() {
 
         c.property.flyView = new Vector2D(0,0);
-        c.getAnimator().resetAnim(c.getAnimation("jump"));
-        c.getAnimator().play(c.getAnimation("jump"));
+        c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("jump"));
+        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("jump"));
         dt = (int)System.currentTimeMillis();
         jumpForce = new JumpForce(15,0);
     }
@@ -32,7 +32,7 @@ public class Jump extends CharacterStates implements IState
         c.property.horizontal.y -= c.property.flyView.y;
         if(c.property.flyView.y <= 0)
         {
-            c.getFsm().ChangeState(SwordsManStatesTable.Fall);
+            c.swordsManAnimator.getFsm().ChangeState(SwordsManStatesTable.Fall);
         }
         dt = (int)System.currentTimeMillis();
     }

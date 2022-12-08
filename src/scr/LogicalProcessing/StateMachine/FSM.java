@@ -1,20 +1,20 @@
 package scr.LogicalProcessing.StateMachine;
 
-import scr.Model.Characters.Properties.CharacterModel;
+import scr.Model.BasePlayer.CharacterBaseModel;
 
 public class FSM {
 
     public IState currentState;
-    private CharacterModel c;
+    private CharacterBaseModel c;
 
-    public FSM(CharacterModel c)
+    public FSM(CharacterBaseModel c)
     {
         this.c = c;
     }
     public void ChangeState(String states)
     {
         currentState.onExit();
-        currentState = c.getState(states);
+        currentState = c.swordsManAnimator.getState(states);
         c.property.states = states;
         currentState.onStart();
     }

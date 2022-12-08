@@ -1,15 +1,17 @@
 package scr.Entity.Players;
 
+import scr.Entity.Characters.Swordman.SwordsmanCommand;
 import scr.LogicalProcessing.Position.Vector2D;
+import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.Commands.ICommand;
 import scr.LogicalProcessing.Robot.IController;
-import scr.Entity.Characters.Swordman.SwordsMan;
+import scr.Entity.Characters.Swordman.SwordsManAnimator;
 
 import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
 import scr.Model.Characters.DetectsColliders.PositionDetectsCollider;
 import scr.LogicalProcessing.Position.Transform;
-import scr.Model.Map.StageModel;
+import scr.Model.Characters.Properties.Property;
 import scr.IOProcessing.Renders.IRender;
 
 import javax.swing.*;
@@ -23,43 +25,51 @@ import java.util.Queue;
 
 /**
  * 玩家类。
- * 控制角色，
- * 记录控制
+ * 控制，
+ * 记录，
  * 网络传输输入
  */
 
-public class Player implements ActionListener , IRender , IController {
-
-    public SwordsMan swordsMan;
-    public Transform transform;
+public class Player extends CharacterBaseModel implements ActionListener , IRender , IController {
+    //控制器
     public PlayerControl playerControl;
-    public PositionDetectsCollider pointCollider;
-    BodyDetectsCollider bodyDetectsCollider;
-    public StageModel stageModel;
 
 
-
+    //记录器
     Timer RecordTimer;
+
+
+    //执行器
     public Queue<ICommand> commands;
     ICommand c;
+
+
+
+    //测试用文字说明
     public String info = "test";
     JPanel j;
-    public Player(JPanel j)
-    {
+
+
+    public Player(JPanel j) {
         this.j = j;
         commands = new LinkedList<ICommand>();
         RecordTimer = new Timer(50,this);
         RecordTimer.start();
+
+
     }
 
     public void Start() throws IOException {
 
-        transform = new Transform();
-        swordsMan = new SwordsMan(this);
-        playerControl = new PlayerControl(j,this);
 
+        property = new Property(this);
+        transform = new Transform();
+        swordsmanCommand = new SwordsmanCommand(this);
+        playerControl = new PlayerControl(j,this);
         pointCollider = new PositionDetectsCollider(transform.xPos,transform.yPos);
         bodyDetectsCollider = new BodyDetectsCollider(transform.xPos-10,transform.yPos-10,30,30,new Vector2D(0,0));
+        swordsManAnimator = new SwordsManAnimator(this);
+        swordsManAnimator.init();
         transform.xPos = 10;
         transform.yPos = 430;
 
@@ -70,7 +80,7 @@ public class Player implements ActionListener , IRender , IController {
     {
         bodyDetectsCollider.updatePosition(transform);
         if(!pointCollider.obstacle(stageModel.Borders,this)){
-            if(!swordsMan.property.states.equals(BaseStates.Injure)  && !swordsMan.property.states.equals(BaseStates.InAir)  && !swordsMan.property.states.equals(BaseStates.Throw))
+            if(!property.states.equals(BaseStates.Injure)  && !property.states.equals(BaseStates.InAir)  && !property.states.equals(BaseStates.Throw))
            {
                playerControl.detect();
                playerControl.Command();
@@ -96,7 +106,7 @@ public class Player implements ActionListener , IRender , IController {
         playerControl.input.update();
 
 
-        swordsMan.update();
+        swordsManAnimator.update();
 
     }
 
@@ -107,7 +117,7 @@ public class Player implements ActionListener , IRender , IController {
 
     public void render(Graphics g, JPanel panel, Transform transform)
     {
-        swordsMan.render(g,j,this.transform);
+        swordsManAnimator.render(g,j,this.transform);
     }
 
     @Override

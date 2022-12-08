@@ -2,19 +2,19 @@ package scr.Model.Characters.CharacterState;
 
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.LogicalProcessing.StateMachine.IState;
+import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.Forces.JumpForce;
-import scr.Model.Characters.Properties.CharacterModel;
 
 public class Throw extends CharacterStates implements IState {
-    public Throw(CharacterModel c) {
+    public Throw(CharacterBaseModel c) {
         super(c);
     }
     float dt;
     JumpForce jumpForce;
     @Override
     public void onStart() {
-        c.getAnimator().resetAnim(c.getAnimation("inair"));
-        c.getAnimator().play(c.getAnimation("inair"));
+        c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("inair"));
+        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("inair"));
         c.property.flyView = new Vector2D(0,0);
         dt = (int)System.currentTimeMillis();
 
@@ -45,7 +45,7 @@ public class Throw extends CharacterStates implements IState {
         c.property.horizontal.y -= c.property.flyView.y;
         if(c.property.flyView.y <= 0)
         {
-            c.getFsm().ChangeState(BaseStates.InAir);
+            c.swordsManAnimator.getFsm().ChangeState(BaseStates.InAir);
         }
         dt = (int)System.currentTimeMillis();
 

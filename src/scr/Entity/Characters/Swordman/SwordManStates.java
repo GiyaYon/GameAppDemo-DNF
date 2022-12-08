@@ -1,10 +1,10 @@
 package scr.Entity.Characters.Swordman;
 
 import scr.LogicalProcessing.StateMachine.IState;
+import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.DetectsColliders.AttackDetectsCollider;
 import scr.LogicalProcessing.Position.Vector2D;
-import scr.Model.Characters.Properties.CharacterModel;
 import scr.Model.Characters.CharacterState.CharacterStates;
 
 
@@ -12,16 +12,16 @@ import scr.Model.Characters.CharacterState.CharacterStates;
 
 class Attack extends CharacterStates implements IState
 {
-    public Attack(CharacterModel c) {
+    public Attack(CharacterBaseModel c) {
         super(c);
     }
 
     @Override
     public void onStart() {
 
-        c.getAnimator().resetAnim(c.getAnimation("attack1"));
-        c.getAnimator().setPlayRate(c.property.attackTimes);
-        c.getAnimator().play(c.getAnimation("attack1"));
+        c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("attack1"));
+        c.swordsManAnimator.getAnimator().setPlayRate(c.property.attackTimes);
+        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("attack1"));
 
     }
 
@@ -35,15 +35,15 @@ class Attack extends CharacterStates implements IState
         }
 
 
-        if(c.getAnimator().getFinish())
+        if(c.swordsManAnimator.getAnimator().getFinish())
         {
             if(c.property.isReadyNextAttack)
             {
-                c.getFsm().ChangeState(SwordsManStatesTable.Attack2);
+                c.swordsManAnimator.getFsm().ChangeState(SwordsManStatesTable.Attack2);
             }
             else
             {
-                c.getFsm().ChangeState(BaseStates.Idle);
+                c.swordsManAnimator.getFsm().ChangeState(BaseStates.Idle);
             }
 
         }
@@ -52,22 +52,22 @@ class Attack extends CharacterStates implements IState
     @Override
     public void onExit() {
         c.property.isReadyNextAttack = false;
-        c.getAnimator().setPlayRate(120);
+        c.swordsManAnimator.getAnimator().setPlayRate(120);
     }
 }
 
 class Attack2 extends CharacterStates implements IState
 {
-    public Attack2(CharacterModel c) {
+    public Attack2(CharacterBaseModel c) {
         super(c);
 
     }
 
     @Override
     public void onStart() {
-        c.getAnimator().resetAnim(c.getAnimation("attack2"));
-        c.getAnimator().setPlayRate(c.property.attackTimes);
-        c.getAnimator().play(c.getAnimation("attack2"));
+        c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("attack2"));
+        c.swordsManAnimator.getAnimator().setPlayRate(c.property.attackTimes);
+        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("attack2"));
     }
 
     @Override
@@ -79,15 +79,15 @@ class Attack2 extends CharacterStates implements IState
         } else if (c.property.director == 1) {
             new AttackDetectsCollider(c.property.initHorizontalLine.xPos,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0),c.property.iCollider).attackDetect(c.property.bdcs);
         }
-        if(c.getAnimator().getFinish())
+        if(c.swordsManAnimator.getAnimator().getFinish())
         {
             if(c.property.isReadyNextAttack)
             {
-                c.getFsm().ChangeState(SwordsManStatesTable.Attack3);
+                c.swordsManAnimator.getFsm().ChangeState(SwordsManStatesTable.Attack3);
             }
             else
             {
-                c.getFsm().ChangeState(BaseStates.Idle);
+                c.swordsManAnimator.getFsm().ChangeState(BaseStates.Idle);
             }
         }
     }
@@ -95,22 +95,22 @@ class Attack2 extends CharacterStates implements IState
     @Override
     public void onExit() {
         c.property.isReadyNextAttack = false;
-        c.getAnimator().setPlayRate(120);
+        c.swordsManAnimator.getAnimator().setPlayRate(120);
     }
 }
 
 class Attack3 extends CharacterStates implements IState
 {
-    public Attack3(CharacterModel c) {
+    public Attack3(CharacterBaseModel c) {
         super(c);
     }
 
     @Override
     public void onStart() {
 
-        c.getAnimator().resetAnim(c.getAnimation("attack3"));
-        c.getAnimator().setPlayRate(c.property.attackTimes);
-        c.getAnimator().play(c.getAnimation("attack3"));
+        c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("attack3"));
+        c.swordsManAnimator.getAnimator().setPlayRate(c.property.attackTimes);
+        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("attack3"));
     }
 
     @Override
@@ -122,15 +122,15 @@ class Attack3 extends CharacterStates implements IState
         } else if (c.property.director == 1) {
             new AttackDetectsCollider(c.property.initHorizontalLine.xPos,c.property.initHorizontalLine.yPos-50,100,100,new Vector2D(0,0),c.property.iCollider).attackDetect(c.property.bdcs);
         }
-        if(c.getAnimator().getFinish())
+        if(c.swordsManAnimator.getAnimator().getFinish())
         {
             if(c.property.isReadyNextAttack)
             {
-                c.getFsm().ChangeState(SwordsManStatesTable.Attack);
+                c.swordsManAnimator.getFsm().ChangeState(SwordsManStatesTable.Attack);
             }
             else
             {
-                c.getFsm().ChangeState(BaseStates.Idle);
+                c.swordsManAnimator.getFsm().ChangeState(BaseStates.Idle);
             }
         }
     }
@@ -138,6 +138,6 @@ class Attack3 extends CharacterStates implements IState
     @Override
     public void onExit() {
         c.property.isReadyNextAttack = false;
-        c.getAnimator().setPlayRate(120);
+        c.swordsManAnimator.getAnimator().setPlayRate(120);
     }
 }

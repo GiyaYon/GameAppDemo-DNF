@@ -62,7 +62,7 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         //包围盒碰撞检测
         for (var v : mapManager.currentMap.obscurers)
         {
-            player.swordsMan.property.bdcs.add(v.bodyDetectsCollider);
+            player.property.bdcs.add(v.bodyDetectsCollider);
         }
         //阻挡物检测
         player.stageModel = mapManager.currentMap;
@@ -100,11 +100,11 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         }
         renderManager.renderMethods.add(player);
 
-        player.swordsMan.property.bdcs.clear();
+        player.property.bdcs.clear();
         //包围盒碰撞检测
         for (var v : mapManager.currentMap.obscurers)
         {
-            player.swordsMan.property.bdcs.add(v.bodyDetectsCollider);
+            player.property.bdcs.add(v.bodyDetectsCollider);
         }
         //阻挡物检测
         player.stageModel = mapManager.currentMap;
@@ -124,13 +124,12 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         cameraMag.cameraMoving(transform);
         //地图渲染
         mapManager.currentMap.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
-        //dragonTower.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
         //管理类渲染
         renderManager.render(g,this,transform,cameraMag);
 
         //修改后坐标点
-        //g.setColor(Color.green);
-        //g.fillOval(transform.xPos, transform.yPos, 10, 10);
+        g.setColor(Color.green);
+//        g.fillOval(transform.xPos, transform.yPos, 10, 10);
 
         //显示文字信息
 //        int y = 20;
@@ -140,11 +139,11 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
 //            y += 20;
 //        }
 //
-//        if(transform!= null)
-//        {
-//            g.drawString("x="+ transform.xPos +" ,y=" +transform.yPos,200,20);
-//            g.drawString("Camerax="+ cameraMag.cameraMove.getMapMoving(),200,40);
-//        }
+        if(transform!= null)
+        {
+            g.drawString("x="+ transform.xPos +" ,y=" +transform.yPos,200,20);
+            g.drawString("Camerax="+ cameraMag.cameraMove.getMapMoving(),200,40);
+        }
 //        g.drawString(String.valueOf(player.swordsMan.property.states),200,60);
 //        if(player.swordsMan.property.horizontal!= null)
 //        {

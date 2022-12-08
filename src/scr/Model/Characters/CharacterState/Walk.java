@@ -2,18 +2,18 @@ package scr.Model.Characters.CharacterState;
 
 import scr.LogicalProcessing.StateMachine.IState;
 import scr.LogicalProcessing.Position.Vector2D;
-import scr.Model.Characters.Properties.CharacterModel;
+import scr.Model.BasePlayer.CharacterBaseModel;
 
 public class Walk extends CharacterStates implements IState
 {
 
-    public Walk(CharacterModel c) {
+    public Walk(CharacterBaseModel c) {
         super(c);
     }
 
     @Override
     public void onStart() {
-        c.getAnimator().play(c.getAnimation("walk"));
+        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("walk"));
     }
 
     @Override
@@ -21,7 +21,7 @@ public class Walk extends CharacterStates implements IState
 
         if(c.property.vector2D.compare(new Vector2D(0,0)))
         {
-            c.getFsm().ChangeState(BaseStates.Idle);
+            c.swordsManAnimator.getFsm().ChangeState(BaseStates.Idle);
         }
 
     }

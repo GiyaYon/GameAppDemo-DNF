@@ -3,10 +3,10 @@ package scr.Model.Characters.CharacterState;
 import scr.LogicalProcessing.Physics.Force;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.LogicalProcessing.StateMachine.IState;
-import scr.Model.Characters.Properties.CharacterModel;
+import scr.Model.BasePlayer.CharacterBaseModel;
 
 public class InAir extends CharacterStates implements IState {
-    public InAir(CharacterModel c) {
+    public InAir(CharacterBaseModel c) {
         super(c);
     }
     Force fallForce;
@@ -31,13 +31,13 @@ public class InAir extends CharacterStates implements IState {
             {
                 c.property.fallTimes++;
                 c.property.isRebound = true;
-                c.getFsm().ChangeState(BaseStates.Throw);
+                c.swordsManAnimator.getFsm().ChangeState(BaseStates.Throw);
             }else
             {
                 c.property.isRebound = false;
                 c.property.fallTimes = 1;
                 c.property.throwTimes = 1;
-                c.getFsm().ChangeState(BaseStates.Idle);
+                c.swordsManAnimator.getFsm().ChangeState(BaseStates.Idle);
             }
 
         }

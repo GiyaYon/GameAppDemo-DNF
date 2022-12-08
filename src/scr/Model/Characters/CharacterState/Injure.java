@@ -1,12 +1,12 @@
 package scr.Model.Characters.CharacterState;
 
 import scr.LogicalProcessing.StateMachine.IState;
-import scr.Model.Characters.Properties.CharacterModel;
+import scr.Model.BasePlayer.CharacterBaseModel;
 
 public class Injure extends CharacterStates implements IState
 {
 
-    public Injure(CharacterModel c) {
+    public Injure(CharacterBaseModel c) {
         super(c);
     }
 
@@ -14,8 +14,8 @@ public class Injure extends CharacterStates implements IState
     int dt;
     @Override
     public void onStart() {
-        c.getAnimator().resetAnim(c.getAnimation("injure"));
-        c.getAnimator().play(c.getAnimation("injure"));
+        c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("injure"));
+        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("injure"));
         dt = (int)System.currentTimeMillis();
     }
 
@@ -24,7 +24,7 @@ public class Injure extends CharacterStates implements IState
 
         if((int)System.currentTimeMillis() - dt > injureInterval)
         {
-            c.getFsm().ChangeState(BaseStates.Idle);
+            c.swordsManAnimator.getFsm().ChangeState(BaseStates.Idle);
         }
 
     }
