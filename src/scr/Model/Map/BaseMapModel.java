@@ -1,6 +1,7 @@
 package scr.Model.Map;
 
 import scr.IOProcessing.LoadImage.ResSprites;
+import scr.IOProcessing.Renders.IRender;
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Position.Transform;
 

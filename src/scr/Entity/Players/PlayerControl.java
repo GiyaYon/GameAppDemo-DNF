@@ -2,33 +2,35 @@ package scr.Entity.Players;
 
 import scr.Entity.Characters.Swordman.SwordsManStatesTable;
 import scr.Entity.Characters.Swordman.SwordsmanCommand;
-import scr.Model.Characters.Commands.ICommand;
+import scr.LogicalProcessing.Physics.Force;
+import scr.Model.Characters.CharacterEvents.HitEvent;
+import scr.Model.Characters.CharacterEvents.HitListener;
+import scr.Model.Characters.Commands.*;
 import scr.LogicalProcessing.KeyBoardControl.KeyBoardInput;
 import scr.LogicalProcessing.KeyBoardControl.KeyInfo;
 import scr.Model.Characters.CharacterState.BaseStates;
-import scr.Model.Characters.Commands.AttackCommand;
-import scr.Model.Characters.Commands.JumpCommand;
-import scr.Model.Characters.Commands.RunCommand;
-import scr.Model.Characters.Commands.MoveCommand;
-import scr.Model.Characters.Commands.NoneCommand;
 import scr.LogicalProcessing.Position.Vector2D;
+import scr.Model.Characters.Forces.AttackEffect;
+import scr.Model.Characters.Forces.AttackType;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.security.Key;
 import java.util.*;
 
-public class PlayerControl {
-
+public class PlayerControl implements HitListener {
     Player player;
     public KeyBoardInput input;
-
     //攻击按键限制
     boolean isAtkKeyRelease = true;
     int AtkSpeed = (int)System.currentTimeMillis();
-
     //跳跃按键限制
     boolean isJumpKeyRelease = true;
     int jumpTime = (int)System.currentTimeMillis();
+
+    //受伤检测
+    boolean isHitRelease = true;
+    int hitTime = (int)System.currentTimeMillis();
 
 
     ICommand c;
@@ -56,7 +58,6 @@ public class PlayerControl {
     {
         if(input.isKeyDown(KeyEvent.VK_LEFT))
         {
-
             Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
             //持续按下，跑步状态延缓
             if(player.property.states.equals(BaseStates.Run))
@@ -75,7 +76,6 @@ public class PlayerControl {
             }
             player.property.director = -1;
             c = new MoveCommand(player.actionCommands,vector2D,player.transform);
-
             //commands.offer(c);
             player.c = c;
             c.Execute();
@@ -203,13 +203,13 @@ public class PlayerControl {
                 c.Execute();
                 return;
             }
-
         }
         if(input.isKeyUp(KeyEvent.VK_X) && !isAtkKeyRelease)
         {
             isAtkKeyRelease = true;
         }
 
+        //跳跃按键按下逻辑
         if(input.isKeyDown(KeyEvent.VK_C) && isJumpKeyRelease && (int)System.currentTimeMillis() - jumpTime >1000)
         {
             isJumpKeyRelease = false;
@@ -222,11 +222,23 @@ public class PlayerControl {
             c.Execute();
             return;
         }
-
-
+        //跳跃按键松开逻辑
         if(input.isKeyUp(KeyEvent.VK_C) && !isJumpKeyRelease)
         {
             isJumpKeyRelease = true;
+        }
+
+        //测试受伤键
+        if(input.isKeyDown(KeyEvent.VK_V)&& isHitRelease &&(int)System.currentTimeMillis() - jumpTime >1000)
+        {
+            isHitRelease = false;
+            player.property.attackType = new AttackType(new Vector2D(-1,0),10,AttackEffect.Light,new Force(1,1,0));
+            //player.property.attackType = new AttackType(new Vector2D(-1,0),10,AttackEffect.Heavy,new Force(1,1,0));
+            player.bodyDetectsCollider.test(player);
+        }
+        if(input.isKeyUp(KeyEvent.VK_V) && !isHitRelease)
+        {
+            isHitRelease = true;
         }
 
         if(!player.property.states.equals(SwordsManStatesTable.Jump) && !player.property.states.equals(SwordsManStatesTable.Fall)&&
@@ -238,6 +250,8 @@ public class PlayerControl {
             player.c = c;
             c.Execute();
         }
+
+
 
     }
 
@@ -288,4 +302,21 @@ public class PlayerControl {
     }
 
 
+    @Override
+    public void GameEventInvoke(HitEvent event) {
+        AttackType attackType = event.getPlayValue().property.attackType;
+        if(attackType!=null)
+        {
+            if(attackType.effect.equals(AttackEffect.Light))
+            {
+                c = new InjureCommand(player.actionCommands, attackType);
+                player.c = c;
+                c.Execute();
+            } else if (attackType.effect.equals(AttackEffect.Heavy)) {
+                c = new ThrowFlyCommand(player.actionCommands, attackType);
+                player.c = c;
+                c.Execute();
+            }
+        }
+    }
 }

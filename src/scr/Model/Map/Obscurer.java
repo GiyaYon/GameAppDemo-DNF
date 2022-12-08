@@ -28,7 +28,7 @@ public class Obscurer implements IRender ,Comparable , HitListener , IObject {
         this.y = y;
         bodyDetectsCollider = new BodyDetectsCollider(x,y,100,100,new Vector2D(0,0),this);
         testBoxCollider = new BoxCollider(x,y, 30, 20,new Vector2D(1,0));
-
+        bodyDetectsCollider.hitManager.addHitListener(this);
     }
     public Obscurer(int x,int y,int w,int h,boolean needImage)
     {
@@ -41,7 +41,6 @@ public class Obscurer implements IRender ,Comparable , HitListener , IObject {
     public int getYPos() {
         return y;
     }
-
 
 
     @Override
@@ -68,11 +67,12 @@ public class Obscurer implements IRender ,Comparable , HitListener , IObject {
 
     @Override
     public void GameEventInvoke(HitEvent event) {
-        System.out.println("i received" + event.getHitValue()+"damage");
+        System.out.println("i " + getName()+" received" + event.getHitValue()+"damage from " +event.getPlayValue().getName());
     }
 
     @Override
     public String getName() {
         return cIDName;
     }
+    
 }

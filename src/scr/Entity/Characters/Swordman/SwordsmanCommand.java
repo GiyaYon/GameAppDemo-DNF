@@ -5,11 +5,9 @@ import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.Commands.GameObjectAction;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
-
-import java.awt.event.KeyEvent;
+import scr.Model.Characters.Forces.AttackType;
 
 public class SwordsmanCommand implements GameObjectAction {
-
     public CharacterBaseModel cb;
     public SwordsmanCommand(CharacterBaseModel cb)
     {
@@ -17,7 +15,6 @@ public class SwordsmanCommand implements GameObjectAction {
     }
     @Override
     public void move(Vector2D vector2D, Transform transform) {
-
         cb.property.states = BaseStates.Walk;
         transform.xPos += vector2D.x * cb.property.moveSpeed;
         transform.yPos += vector2D.y * cb.property.moveSpeed;
@@ -25,51 +22,34 @@ public class SwordsmanCommand implements GameObjectAction {
         {
             transform.flipX = vector2D.x;
         }
-
         cb.property.vector2D = vector2D;
-
     }
-
     @Override
     public void idle() {
         cb.property.states = BaseStates.Idle;
         cb.property.vector2D = new Vector2D(0,0);
     }
-
     @Override
-    public void injure() {
-
-//        if(input.isKeyDown(KeyEvent.VK_V))
-//        {
-//
-//            player.property.horizontal = new Vector2D(player.transform.xPos,player.transform.yPos);
-//            player.property.initHorizontalLine = player.transform;
-//            player.cAnimator.getFsm().ChangeState(BaseStates.Injure);
-//        }
+    public void injure(AttackType type) {
+        cb.property.horizontal = new Vector2D(cb.transform.xPos,cb.transform.yPos);
+        cb.property.initHorizontalLine = cb.transform;
+        cb.cAnimator.getFsm().ChangeState(BaseStates.Injure);
     }
-
-
     @Override
-    public void throwFly() {
-
-//        if(playerControl.input.isKeyDown(KeyEvent.VK_V))
-//        {
-//            if(swordsMan.property.states.equals(BaseStates.InAir) ||swordsMan.property.states.equals(BaseStates.Throw))
-//            {
-//                swordsMan.property.horizontal = new Vector2D(transform.xPos,swordsMan.property.horizontal.y);
-//                swordsMan.getFsm().ChangeState(BaseStates.Throw);
-//            }
-//            else {
-//                swordsMan.property.throwTimes = 1;
-//                swordsMan.property.fallTimes = 1;
-//                swordsMan.property.horizontal = new Vector2D(transform.xPos,transform.yPos);
-//                swordsMan.property.initHorizontalLine = transform;
-//                swordsMan.getFsm().ChangeState(BaseStates.Throw);
-//            }
-//
-//        }
+    public void throwFly(AttackType type) {
+        if(cb.property.states.equals(BaseStates.InAir) ||cb.property.states.equals(BaseStates.Throw))
+        {
+            cb.property.horizontal = new Vector2D(cb.transform.xPos,cb.property.horizontal.y);
+            cb.cAnimator.getFsm().ChangeState(BaseStates.Throw);
+        }
+        else {
+            cb.property.throwTimes = 1;
+            cb.property.fallTimes = 1;
+            cb.property.horizontal = new Vector2D(cb.transform.xPos,cb.transform.yPos);
+            cb.property.initHorizontalLine = cb.transform;
+            cb.cAnimator.getFsm().ChangeState(BaseStates.Throw);
+        }
     }
-
     public void run(Vector2D vector2D, Transform transform)
     {
         cb.property.states = BaseStates.Run;
@@ -80,10 +60,8 @@ public class SwordsmanCommand implements GameObjectAction {
         {
             transform.flipX = vector2D.x;
         }
-
         cb.property.vector2D = vector2D;
     }
-
     public void attack()
     {
         cb.property.states = SwordsManStatesTable.Attack;
@@ -99,7 +77,6 @@ public class SwordsmanCommand implements GameObjectAction {
         cb.property.states = SwordsManStatesTable.Attack3;
         cb.cAnimator.getFsm().ChangeState(cb.property.states);
     }
-
     public void jump(Transform transform)
     {
         cb.property.states = SwordsManStatesTable.Jump;

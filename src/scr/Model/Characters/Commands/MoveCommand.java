@@ -7,7 +7,6 @@ import scr.LogicalProcessing.Position.Vector2D;
 
 
 public class MoveCommand implements ICommand
-
 {
     GameObjectAction go;
     Vector2D vector2D;

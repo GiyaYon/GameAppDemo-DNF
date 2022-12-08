@@ -1,8 +1,10 @@
 package scr.Model.Map;
 
+import scr.IOProcessing.Renders.IRender;
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
+import scr.Model.BasePlayer.CharacterBaseModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +18,8 @@ public abstract class StageModel extends BaseMapModel implements Comparable{
 
     //当前关卡序列
     public int mapIndex;
-
+    public IRender testRender;
+    public CharacterBaseModel c;
     public int collideWidthX1,collideWidthX2,collideHeightY1,collideHeightY2;
 
     public StageModel(int type,String FarName, String NearPath, int collideWidthX1, int collideWidthX2, int collideHeightY1, int collideHeightY2) throws IOException {
@@ -38,7 +41,7 @@ public abstract class StageModel extends BaseMapModel implements Comparable{
         Borders.add(mapRightBorder);
     }
 
-
+    public abstract void Update();
 
 
 }

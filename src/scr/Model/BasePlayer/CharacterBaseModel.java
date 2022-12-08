@@ -7,6 +7,7 @@ import scr.Model.Characters.Commands.GameObjectAction;
 import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
 import scr.Model.Characters.DetectsColliders.PositionDetectsCollider;
 import scr.Model.Characters.Properties.CharacterAnimator;
+import scr.Model.Characters.Properties.CharacterUIProperty;
 import scr.Model.Characters.Properties.Property;
 import scr.Model.Map.IObject;
 import scr.Model.Map.StageModel;
@@ -34,6 +35,8 @@ public abstract class CharacterBaseModel implements IRender, IController, IObjec
     public StageModel stageModel;
     //通用属性
     public Property property;
+    //面板属性
+    public CharacterUIProperty cProperty;
 
     public abstract void Start() throws IOException;
     public abstract void Update();

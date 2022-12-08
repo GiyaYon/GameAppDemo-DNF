@@ -2,6 +2,7 @@ package scr;
 
 import scr.Entity.Maps.MapManager;
 import scr.Entity.Players.Player;
+import scr.Entity.Players.TestBotPlayer;
 import scr.LogicalProcessing.Position.Transform;
 import scr.IOProcessing.Camera.CameraMag;
 import scr.IOProcessing.Renders.RenderSequenceManager;
@@ -34,7 +35,7 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
     //----------------------主玩家
     Player player;
     //绑定主角玩家的Transform
-    Transform transform;
+    Transform playerMaintransform;
     //摄像机
     CameraMag cameraMag;
 
@@ -49,15 +50,18 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
 
         player = new Player(this,"Miren13");
         player.Start();
-        transform = player.transform;
-
-
+        playerMaintransform = player.transform;
         mapManager = new MapManager(this);
+
 //-------------------------地图相关----------------------------//
         //渲染检测
         if(mapManager.currentMap.obscurers.size()>0)
         {
             renderManager.renderMethods.addAll(mapManager.currentMap.obscurers);
+
+
+            if(mapManager.currentMap.testRender!=null)renderManager.renderMethods.add(mapManager.currentMap.testRender);
+            if(mapManager.currentMap.c!=null)player.property.bdcs.add(mapManager.currentMap.c.bodyDetectsCollider);
         }
         //包围盒碰撞检测
         for (var v : mapManager.currentMap.obscurers)
@@ -66,11 +70,9 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         }
         //阻挡物检测
         player.stageModel = mapManager.currentMap;
+
 //--------------------------------------------------------//
 
-
-        //受击事件
-        //player.hitManager.addHitListener(dragonTower.obscurers.get(0));
         //渲染玩家
         renderManager.renderMethods.add(player);
 
@@ -108,6 +110,7 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         }
         //阻挡物检测
         player.stageModel = mapManager.currentMap;
+
     }
 
     @Override
@@ -121,15 +124,15 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         g.clearRect(0, 0, getWidth(), getHeight());
 
         //摄像头更新
-        cameraMag.cameraMoving(transform);
+        cameraMag.cameraMoving(playerMaintransform);
         //地图渲染
-        mapManager.currentMap.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
+        mapManager.currentMap.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(), playerMaintransform.yPos));
         //管理类渲染
-        renderManager.render(g,this,transform,cameraMag);
+        renderManager.render(g,this, playerMaintransform,cameraMag);
 
         //修改后坐标点
         g.setColor(Color.green);
-        g.fillOval(transform.xPos, transform.yPos, 10, 10);
+        g.fillOval(playerMaintransform.xPos, playerMaintransform.yPos, 10, 10);
 
         //显示文字信息
 //        int y = 20;
@@ -139,9 +142,9 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
 //            y += 20;
 //        }
 //
-        if(transform!= null)
+        if(playerMaintransform != null)
         {
-            g.drawString("x="+ transform.xPos +" ,y=" +transform.yPos,200,20);
+            g.drawString("x="+ playerMaintransform.xPos +" ,y=" + playerMaintransform.yPos,200,20);
             //g.drawString("Camerax="+ cameraMag.cameraMove.getMapMoving(),200,40);
         }
 //        g.drawString(String.valueOf(player.swordsMan.property.states),200,60);
@@ -174,6 +177,8 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
 
 
                 player.Update();
+                mapManager.currentMap.Update();
+
                 repaint();// 窗口重绘
             }
 

@@ -21,7 +21,8 @@ public class Animation extends Transform {
     private int playID = 0;
     // Sprite类的图片数组
     ImageMerge imageMerge;
-    int index =0 ,size = 0;
+    int index =0 ;
+    public int size = 0;
     String[] l,l2;
 
     public boolean isRecycle;

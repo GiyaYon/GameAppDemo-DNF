@@ -1,16 +1,23 @@
 package scr.Model.Characters.CharacterState;
 
+import scr.LogicalProcessing.Physics.Force;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.LogicalProcessing.StateMachine.IState;
 import scr.Model.BasePlayer.CharacterBaseModel;
+import scr.Model.Characters.CharacterEvents.HitEvent;
+import scr.Model.Characters.CharacterEvents.HitListener;
+import scr.Model.Characters.Forces.AttackType;
 import scr.Model.Characters.Forces.JumpForce;
 
-public class Throw extends CharacterStates implements IState {
+public class Throw extends CharacterStates implements IState , HitListener {
     public Throw(CharacterBaseModel c) {
         super(c);
     }
     float dt;
     JumpForce jumpForce;
+    boolean haveRepel;
+    AttackType attackType;
+    Force fallForce;
     @Override
     public void onStart() {
         c.cAnimator.getAnimator().resetAnim(c.cAnimator.getAnimation("inair"));
@@ -43,6 +50,12 @@ public class Throw extends CharacterStates implements IState {
     public void onUpdate() {
         c.property.flyView.y = jumpForce.ForceResult(((int)System.currentTimeMillis() -dt)/1000).y;
         c.property.horizontal.y -= c.property.flyView.y;
+        if(haveRepel)
+        {
+            fallForce = attackType.force;
+            c.property.flyView.x = attackType.attackVector.x * fallForce.resultVy(((int)System.currentTimeMillis() -dt)/1000);
+            c.transform.xPos += c.property.flyView.x;
+        }
         if(c.property.flyView.y <= 0)
         {
             c.cAnimator.getFsm().ChangeState(BaseStates.InAir);
@@ -53,6 +66,12 @@ public class Throw extends CharacterStates implements IState {
 
     @Override
     public void onExit() {
+        haveRepel = false;
+    }
 
+    @Override
+    public void GameEventInvoke(HitEvent event) {
+        haveRepel = true;
+        attackType = event.getPlayValue().property.attackType;
     }
 }

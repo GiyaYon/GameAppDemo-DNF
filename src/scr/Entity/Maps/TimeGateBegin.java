@@ -1,5 +1,6 @@
 package scr.Entity.Maps;
 
+import scr.Entity.Players.TestBotPlayer;
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
@@ -14,6 +15,8 @@ public class TimeGateBegin extends StageModel {
 
     JPanel p;
     Obscurer o;
+    //--测试玩家
+    TestBotPlayer testBotPlayer;
     public TimeGateBegin(int type, String FarName, String NearPath, int collideWidthX1, int collideWidthX2, int collideHeightY1, int collideHeightY2, JPanel panel) throws IOException {
         super(type,FarName,NearPath,collideWidthX1,collideWidthX2,collideHeightY1,collideHeightY2);
 
@@ -32,9 +35,18 @@ public class TimeGateBegin extends StageModel {
         obscurers.add(o);
         Borders.add(obscurers.get(0).testBoxCollider);
 
+
+        testBotPlayer = new TestBotPlayer(p,"Bot");
+        testBotPlayer.Start();
+        testBotPlayer.stageModel = this;
+        testRender = testBotPlayer;
+        c= testBotPlayer;
     }
 
-
+    public void Update()
+    {
+        testBotPlayer.Update();
+    }
     @Override
     public void mapRender(Graphics g, JPanel panel, Transform transform) {
         render(g,panel,transform);

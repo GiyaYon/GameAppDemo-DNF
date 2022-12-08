@@ -45,4 +45,9 @@ public class DragonTower extends StageModel {
         }
         return 0;
     }
+
+    @Override
+    public void Update() {
+
+    }
 }

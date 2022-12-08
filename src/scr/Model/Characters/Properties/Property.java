@@ -6,6 +6,7 @@ import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
+import scr.Model.Characters.Forces.AttackType;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class Property {
     //·····················输入属性·······················
     //方向
     public Vector2D vector2D;
-    //
+    //面朝方向
     public int director;
     //状态显示
     public String states;
@@ -37,12 +38,14 @@ public class Property {
     public int fallTimes = 1;
     public int defaultFallTime = 2;
     public boolean isRebound = false;
+
     //·····················游戏属性·······················
 
     //移速
     public int moveSpeed = 2;
     //攻速
     public int attackTimes = 55;
-
+    //下次攻击类型
+    public AttackType attackType;
 
 }

@@ -4,13 +4,20 @@ import scr.LogicalProcessing.Physics.Force;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.LogicalProcessing.StateMachine.IState;
 import scr.Model.BasePlayer.CharacterBaseModel;
+import scr.Model.Characters.CharacterEvents.HitEvent;
+import scr.Model.Characters.CharacterEvents.HitListener;
+import scr.Model.Characters.Forces.AttackType;
 
-public class InAir extends CharacterStates implements IState {
+public class InAir extends CharacterStates implements IState, HitListener {
     public InAir(CharacterBaseModel c) {
         super(c);
     }
     Force fallForce;
     float dt;
+
+    boolean haveRepel;
+    AttackType attackType;
+    Force Force;
     @Override
     public void onStart() {
 
@@ -21,6 +28,14 @@ public class InAir extends CharacterStates implements IState {
 
     @Override
     public void onUpdate() {
+
+
+        if(haveRepel)
+        {
+            Force = attackType.force;
+            c.property.flyView.x = attackType.attackVector.x * Force.resultVy(((int)System.currentTimeMillis() -dt)/1000);
+            c.transform.xPos += c.property.flyView.x;
+        }
         if(c.property.horizontal.y < c.property.initHorizontalLine.yPos)
         {
             c.property.flyView.y = fallForce.resultVy(((int)System.currentTimeMillis() -dt)/1000);
@@ -46,6 +61,12 @@ public class InAir extends CharacterStates implements IState {
 
     @Override
     public void onExit() {
+        haveRepel = false;
+    }
 
+    @Override
+    public void GameEventInvoke(HitEvent event) {
+        haveRepel = true;
+        attackType = event.getPlayValue().property.attackType;
     }
 }

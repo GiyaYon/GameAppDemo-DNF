@@ -5,6 +5,7 @@ import scr.LogicalProcessing.Collide.Colliders.PointCollider;
 import scr.Entity.Players.Player;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
+import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Map.TransportEvent;
 import scr.Model.Map.TransportManager;
 
@@ -19,7 +20,7 @@ public class PositionDetectsCollider extends PointCollider {
         super(x, y);
     }
 
-    public boolean obstacle(ArrayList<BoxCollider> boxCollider, Player p)
+    public boolean obstacle(ArrayList<BoxCollider> boxCollider, CharacterBaseModel p)
     {
         //更新点的位置
         lastPosition = p.transform;

@@ -3,6 +3,7 @@ package scr.IOProcessing.Renders;
 import scr.Entity.Players.Player;
 import scr.LogicalProcessing.Position.Transform;
 import scr.IOProcessing.Camera.CameraMag;
+import scr.Model.BasePlayer.CharacterBaseModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class RenderSequenceManager{
         }
         for (IRender r : renderMethods)
         {
-            if(!r.getClass().isAssignableFrom(Player.class))
+            if(!r.getClass().isAssignableFrom(CharacterBaseModel.class))
             {
                 r.render(g,panel,new Transform(cameraMag.cameraMove.getMapMoving(),transform.yPos));
             }
