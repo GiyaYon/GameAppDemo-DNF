@@ -31,13 +31,13 @@ public class InAir extends CharacterStates implements IState {
             {
                 c.property.fallTimes++;
                 c.property.isRebound = true;
-                c.swordsManAnimator.getFsm().ChangeState(BaseStates.Throw);
+                c.cAnimator.getFsm().ChangeState(BaseStates.Throw);
             }else
             {
                 c.property.isRebound = false;
                 c.property.fallTimes = 1;
                 c.property.throwTimes = 1;
-                c.swordsManAnimator.getFsm().ChangeState(BaseStates.Idle);
+                c.cAnimator.getFsm().ChangeState(BaseStates.Idle);
             }
 
         }

@@ -17,9 +17,9 @@ class Attack extends CharacterStates implements IState
     @Override
     public void onStart() {
 
-        c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("attack1"));
-        c.swordsManAnimator.getAnimator().setPlayRate(c.property.attackTimes);
-        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("attack1"));
+        c.cAnimator.getAnimator().resetAnim(c.cAnimator.getAnimation("attack1"));
+        c.cAnimator.getAnimator().setPlayRate(c.property.attackTimes);
+        c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("attack1"));
 
     }
 
@@ -33,14 +33,14 @@ class Attack extends CharacterStates implements IState
         }
 
 
-        if(c.swordsManAnimator.getAnimator().getFinish())
+        if(c.cAnimator.getAnimator().getFinish())
         {
-            c.swordsManAnimator.getFsm().ChangeState(BaseStates.Idle);
+            c.cAnimator.getFsm().ChangeState(BaseStates.Idle);
         }
     }
 
     @Override
     public void onExit() {
-        c.swordsManAnimator.getAnimator().setPlayRate(120);
+        c.cAnimator.getAnimator().setPlayRate(120);
     }
 }

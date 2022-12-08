@@ -14,7 +14,7 @@ public class FSM {
     public void ChangeState(String states)
     {
         currentState.onExit();
-        currentState = c.swordsManAnimator.getState(states);
+        currentState = c.cAnimator.getState(states);
         c.property.states = states;
         currentState.onStart();
     }

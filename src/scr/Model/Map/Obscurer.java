@@ -11,7 +11,7 @@ import scr.IOProcessing.Renders.IRender;
 import javax.swing.*;
 import java.awt.*;
 
-public class Obscurer implements IRender ,Comparable , HitListener {
+public class Obscurer implements IRender ,Comparable , HitListener , IObject {
 
     Image oBox;
 
@@ -19,13 +19,14 @@ public class Obscurer implements IRender ,Comparable , HitListener {
 
     public BodyDetectsCollider bodyDetectsCollider;
     public BoxCollider testBoxCollider;
+    public String cIDName;
 
-
-    public Obscurer(int x,int y) {
+    public Obscurer(int x,int y,String cIDName) {
+        this.cIDName = cIDName;
         oBox = Toolkit.getDefaultToolkit().getImage("src\\res\\object\\dragonheadfront\\" + 0 + ".png");
         this.x = x;
         this.y = y;
-        bodyDetectsCollider = new BodyDetectsCollider(x,y,100,100,new Vector2D(0,0));
+        bodyDetectsCollider = new BodyDetectsCollider(x,y,100,100,new Vector2D(0,0),this);
         testBoxCollider = new BoxCollider(x,y, 30, 20,new Vector2D(1,0));
 
     }
@@ -68,5 +69,10 @@ public class Obscurer implements IRender ,Comparable , HitListener {
     @Override
     public void GameEventInvoke(HitEvent event) {
         System.out.println("i received" + event.getHitValue()+"damage");
+    }
+
+    @Override
+    public String getName() {
+        return cIDName;
     }
 }

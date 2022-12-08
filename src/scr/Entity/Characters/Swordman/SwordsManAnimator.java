@@ -6,7 +6,6 @@ import scr.LogicalProcessing.StateMachine.FSM;
 import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.CharacterState.*;
-import scr.Model.Characters.Properties.CharacterAnimator;
 import scr.LogicalProcessing.Position.Transform;
 
 import scr.IOProcessing.Anim.Animation;
@@ -14,6 +13,7 @@ import scr.IOProcessing.Anim.AnimationMergeGroup;
 import scr.IOProcessing.Anim.Animator;
 import scr.IOProcessing.LoadImage.ImageMerge;
 import scr.IOProcessing.LoadImage.ResSprites;
+import scr.Model.Characters.Properties.CharacterAnimator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 public class SwordsManAnimator extends CharacterAnimator
 {
-    CharacterBaseModel cb;
     public SwordsManAnimator(CharacterBaseModel cb) {
         this.cb = cb;
 

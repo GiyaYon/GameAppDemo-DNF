@@ -28,7 +28,7 @@ public class TimeGateBegin extends StageModel {
         mapIndex = 0;
         p = panel;
 
-        o = new Obscurer(200,470);
+        o = new Obscurer(200,470,"TimeGateBeginDragonHead02");
         obscurers.add(o);
         Borders.add(obscurers.get(0).testBoxCollider);
 

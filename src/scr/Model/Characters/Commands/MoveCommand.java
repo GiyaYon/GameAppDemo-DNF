@@ -1,7 +1,7 @@
-package scr.Model.Characters.Commands.GameObjectCommands;
+package scr.Model.Characters.Commands;
 
 import scr.Model.Characters.Commands.ICommand;
-import scr.Model.Characters.Commands.GameObject;
+import scr.Model.Characters.Commands.GameObjectAction;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
 
@@ -9,10 +9,10 @@ import scr.LogicalProcessing.Position.Vector2D;
 public class MoveCommand implements ICommand
 
 {
-    GameObject go;
+    GameObjectAction go;
     Vector2D vector2D;
     Transform transform;
-    public MoveCommand(GameObject go, Vector2D vector2D, Transform transform)
+    public MoveCommand(GameObjectAction go, Vector2D vector2D, Transform transform)
     {
         this.go = go;
         this.vector2D = vector2D;

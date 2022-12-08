@@ -17,8 +17,8 @@ public class Fall extends CharacterStates implements IState
     public void onStart() {
         c.property.flyView = new Vector2D(0,0);
         fallForce = new Force(11,1,0);
-        c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("fall"));
-        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("fall"));
+        c.cAnimator.getAnimator().resetAnim(c.cAnimator.getAnimation("fall"));
+        c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("fall"));
         dt = (int)System.currentTimeMillis();
     }
 
@@ -29,13 +29,12 @@ public class Fall extends CharacterStates implements IState
         if(c.property.horizontal.y < c.property.initHorizontalLine.yPos)
         {
             c.property.flyView.y = fallForce.resultVy(((int)System.currentTimeMillis() -dt)/1000);
-            System.out.println(c.property.flyView.y);
             c.property.horizontal.y += c.property.flyView.y;
         }
         else {
-            c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("fallStand"));
-            c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("fallStand"));
-            c.swordsManAnimator.getFsm().ChangeState(BaseStates.Idle);
+            c.cAnimator.getAnimator().resetAnim(c.cAnimator.getAnimation("fallStand"));
+            c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("fallStand"));
+            c.cAnimator.getFsm().ChangeState(BaseStates.Idle);
         }
         dt = (int)System.currentTimeMillis();
     }

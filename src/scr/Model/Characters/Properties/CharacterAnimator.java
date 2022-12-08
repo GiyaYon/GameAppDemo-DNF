@@ -6,6 +6,7 @@ import scr.LogicalProcessing.Position.Transform;
 import scr.IOProcessing.Anim.Animator;
 import scr.IOProcessing.Anim.AnimationMergeGroup;
 import scr.IOProcessing.LoadImage.ReloadAnimResources;
+import scr.Model.BasePlayer.CharacterBaseModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 
 public abstract class CharacterAnimator
 {
+    public CharacterBaseModel cb;
     protected ReloadAnimResources animResources = new ReloadAnimResources();
     protected Animator animator;
     protected FSM fsm;

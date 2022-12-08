@@ -1,15 +1,16 @@
 package scr.Entity.Players;
 
 import scr.Entity.Characters.Swordman.SwordsManStatesTable;
+import scr.Entity.Characters.Swordman.SwordsmanCommand;
 import scr.Model.Characters.Commands.ICommand;
 import scr.LogicalProcessing.KeyBoardControl.KeyBoardInput;
 import scr.LogicalProcessing.KeyBoardControl.KeyInfo;
 import scr.Model.Characters.CharacterState.BaseStates;
-import scr.Entity.Characters.Swordman.AttackCommand;
-import scr.Entity.Characters.Swordman.JumpCommand;
-import scr.Entity.Characters.Swordman.RunCommand;
-import scr.Model.Characters.Commands.GameObjectCommands.MoveCommand;
-import scr.Model.Characters.Commands.GameObjectCommands.NoneCommand;
+import scr.Model.Characters.Commands.AttackCommand;
+import scr.Model.Characters.Commands.JumpCommand;
+import scr.Model.Characters.Commands.RunCommand;
+import scr.Model.Characters.Commands.MoveCommand;
+import scr.Model.Characters.Commands.NoneCommand;
 import scr.LogicalProcessing.Position.Vector2D;
 
 import javax.swing.*;
@@ -21,12 +22,11 @@ public class PlayerControl {
     Player player;
     public KeyBoardInput input;
 
-
+    //攻击按键限制
     boolean isAtkKeyRelease = true;
     int AtkSpeed = (int)System.currentTimeMillis();
 
-
-
+    //跳跃按键限制
     boolean isJumpKeyRelease = true;
     int jumpTime = (int)System.currentTimeMillis();
 
@@ -47,7 +47,7 @@ public class PlayerControl {
         p.addKeyListener(input);
         this.player = player;
 
-        c = new NoneCommand(player.swordsmanCommand);
+        c = new NoneCommand(player.actionCommands);
         player.c = c;
         c.Execute();
     }
@@ -61,7 +61,7 @@ public class PlayerControl {
             //持续按下，跑步状态延缓
             if(player.property.states.equals(BaseStates.Run))
             {
-                c = new RunCommand(player.swordsmanCommand,vector2D,player.transform);
+                c = new RunCommand((SwordsmanCommand) player.actionCommands,vector2D,player.transform);
                 player.c = c;
                 //commands.offer(c);
                 c.Execute();
@@ -74,7 +74,7 @@ public class PlayerControl {
                 return;
             }
             player.property.director = -1;
-            c = new MoveCommand(player.swordsmanCommand,vector2D,player.transform);
+            c = new MoveCommand(player.actionCommands,vector2D,player.transform);
 
             //commands.offer(c);
             player.c = c;
@@ -86,7 +86,7 @@ public class PlayerControl {
             Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
             if(player.property.states.equals(BaseStates.Run))
             {
-                c = new RunCommand(player.swordsmanCommand,vector2D,player.transform);
+                c = new RunCommand((SwordsmanCommand)player.actionCommands,vector2D,player.transform);
                 player.c = c;
                 //commands.offer(c);
                 c.Execute();
@@ -98,7 +98,7 @@ public class PlayerControl {
                 return;
             }
             player.property.director = 1;
-            c = new MoveCommand(player.swordsmanCommand,vector2D,player.transform);
+            c = new MoveCommand(player.actionCommands,vector2D,player.transform);
             //commands.offer(c);
             player.c = c;
             c.Execute();
@@ -109,7 +109,7 @@ public class PlayerControl {
             Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
             if(player.property.states.equals(BaseStates.Run))
             {
-                c = new RunCommand(player.swordsmanCommand,vector2D,player.transform);
+                c = new RunCommand((SwordsmanCommand)player.actionCommands,vector2D,player.transform);
                 player.c = c;
                 //commands.offer(c);
                 c.Execute();
@@ -122,7 +122,7 @@ public class PlayerControl {
 
                 return;
             }
-            c = new MoveCommand(player.swordsmanCommand,vector2D,player.transform);
+            c = new MoveCommand(player.actionCommands,vector2D,player.transform);
             //commands.offer(c);
             player.c = c;
             c.Execute();
@@ -133,7 +133,7 @@ public class PlayerControl {
             Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
             if(player.property.states.equals(BaseStates.Run))
             {
-                c = new RunCommand(player.swordsmanCommand,vector2D,player.transform);
+                c = new RunCommand((SwordsmanCommand)player.actionCommands,vector2D,player.transform);
                 player.c = c;
                 //commands.offer(c);
                 c.Execute();
@@ -146,7 +146,7 @@ public class PlayerControl {
 
                 return;
             }
-            c = new MoveCommand(player.swordsmanCommand,vector2D,player.transform);
+            c = new MoveCommand(player.actionCommands,vector2D,player.transform);
             //commands.offer(c);
             player.c = c;
             c.Execute();
@@ -172,7 +172,7 @@ public class PlayerControl {
                     return;
                 }
                 AtkSpeed = (int)System.currentTimeMillis();
-                c = new AttackCommand(player.swordsmanCommand,player.property.AtkNext);
+                c = new AttackCommand((SwordsmanCommand)player.actionCommands,player.property.AtkNext);
 
                 player.property.AtkNext++;
 
@@ -196,7 +196,7 @@ public class PlayerControl {
                 {
                     return;
                 }
-                c = new AttackCommand(player.swordsmanCommand,player.property.AtkNext);
+                c = new AttackCommand((SwordsmanCommand)player.actionCommands,player.property.AtkNext);
                 player.property.AtkNext++;
                 //commands.offer(c);
                 player.c = c;
@@ -216,20 +216,13 @@ public class PlayerControl {
             player.property.horizontal = new Vector2D(player.transform.xPos,player.transform.yPos);
             player.property.initHorizontalLine = player.transform;
             jumpTime = (int)System.currentTimeMillis();
-            c = new JumpCommand(player.swordsmanCommand,player.transform);
+            c = new JumpCommand((SwordsmanCommand)player.actionCommands,player.transform);
             //commands.offer(c);
             player.c = c;
             c.Execute();
             return;
         }
 
-//        if(input.isKeyDown(KeyEvent.VK_V))
-//        {
-//
-//            player.swordsMan.property.horizontal = new Vector2D(player.transform.xPos,player.transform.yPos);
-//            player.swordsMan.property.initHorizontalLine = player.transform;
-//            player.swordsMan.getFsm().ChangeState(BaseStates.Throw);
-//        }
 
         if(input.isKeyUp(KeyEvent.VK_C) && !isJumpKeyRelease)
         {
@@ -241,7 +234,7 @@ public class PlayerControl {
                 !player.property.states.equals(SwordsManStatesTable.Attack3) && !player.property.states.equals(BaseStates.Injure)
         && !player.property.states.equals(BaseStates.InAir) &&!player.property.states.equals(BaseStates.Throw))
         {
-            c = new NoneCommand(player.swordsmanCommand);
+            c = new NoneCommand(player.actionCommands);
             player.c = c;
             c.Execute();
         }
@@ -259,7 +252,7 @@ public class PlayerControl {
                 {
                     //触发跑步状态
                     Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
-                    c = new RunCommand(player.swordsmanCommand,vector2D,player.transform);
+                    c = new RunCommand((SwordsmanCommand)player.actionCommands,vector2D,player.transform);
                     player.c = c;
                     //commands.offer(c);
                     c.Execute();

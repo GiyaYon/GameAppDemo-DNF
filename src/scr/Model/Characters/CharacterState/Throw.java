@@ -13,8 +13,8 @@ public class Throw extends CharacterStates implements IState {
     JumpForce jumpForce;
     @Override
     public void onStart() {
-        c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("inair"));
-        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("inair"));
+        c.cAnimator.getAnimator().resetAnim(c.cAnimator.getAnimation("inair"));
+        c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("inair"));
         c.property.flyView = new Vector2D(0,0);
         dt = (int)System.currentTimeMillis();
 
@@ -45,7 +45,7 @@ public class Throw extends CharacterStates implements IState {
         c.property.horizontal.y -= c.property.flyView.y;
         if(c.property.flyView.y <= 0)
         {
-            c.swordsManAnimator.getFsm().ChangeState(BaseStates.InAir);
+            c.cAnimator.getFsm().ChangeState(BaseStates.InAir);
         }
         dt = (int)System.currentTimeMillis();
 

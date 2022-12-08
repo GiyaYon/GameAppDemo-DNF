@@ -13,7 +13,7 @@ public class Idle extends CharacterStates implements IState
 
     @Override
     public void onStart() {
-        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("idle"));
+        c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("idle"));
 
     }
 
@@ -22,11 +22,11 @@ public class Idle extends CharacterStates implements IState
 
         if(!c.property.vector2D.compare(new Vector2D(0,0)))
         {
-            c.swordsManAnimator.getFsm().ChangeState(BaseStates.Walk);
+            c.cAnimator.getFsm().ChangeState(BaseStates.Walk);
         }
         if(!c.property.vector2D.compare(new Vector2D(0,0)) && c.property.states.equals(BaseStates.Run))
         {
-            c.swordsManAnimator.getFsm().ChangeState(BaseStates.Run);
+            c.cAnimator.getFsm().ChangeState(BaseStates.Run);
         }
     }
 

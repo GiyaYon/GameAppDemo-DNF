@@ -22,7 +22,7 @@ public class DragonTower extends StageModel {
         mapIndex = 3;
         p = panel;
 
-        o = new Obscurer(200,470);
+        o = new Obscurer(200,470,"DragonTowerDragonHead01");
         obscurers.add(o);
         Borders.add(obscurers.get(0).testBoxCollider);
 

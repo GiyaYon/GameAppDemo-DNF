@@ -11,7 +11,7 @@ public class Run extends CharacterStates implements IState
 
     @Override
     public void onStart() {
-        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("run"));
+        c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("run"));
         c.property.moveSpeed += 2;
     }
 
@@ -20,7 +20,7 @@ public class Run extends CharacterStates implements IState
 
         if(c.property.vector2D.compare(new Vector2D(0,0)))
         {
-            c.swordsManAnimator.getFsm().ChangeState(BaseStates.Idle);
+            c.cAnimator.getFsm().ChangeState(BaseStates.Idle);
         }
 
     }

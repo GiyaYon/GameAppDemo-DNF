@@ -31,32 +31,25 @@ import java.util.Queue;
  */
 
 public class Player extends CharacterBaseModel implements ActionListener , IRender , IController {
+
+
     //控制器
     public PlayerControl playerControl;
-
-
     //记录器
     Timer RecordTimer;
-
-
-    //执行器
     public Queue<ICommand> commands;
     ICommand c;
-
-
 
     //测试用文字说明
     public String info = "test";
     JPanel j;
 
-
-    public Player(JPanel j) {
+    public Player(JPanel j,String cIDName) {
         this.j = j;
         commands = new LinkedList<ICommand>();
         RecordTimer = new Timer(50,this);
         RecordTimer.start();
-
-
+        this.cIDName =cIDName;
     }
 
     public void Start() throws IOException {
@@ -64,12 +57,19 @@ public class Player extends CharacterBaseModel implements ActionListener , IRend
 
         property = new Property(this);
         transform = new Transform();
-        swordsmanCommand = new SwordsmanCommand(this);
+        //自定义：鬼剑士类命令集
+        actionCommands = new SwordsmanCommand(this);
+
+        //TODO 控制器需要抽象：例如控制怪物是否会报错
         playerControl = new PlayerControl(j,this);
+
+
         pointCollider = new PositionDetectsCollider(transform.xPos,transform.yPos);
-        bodyDetectsCollider = new BodyDetectsCollider(transform.xPos-10,transform.yPos-10,30,30,new Vector2D(0,0));
-        swordsManAnimator = new SwordsManAnimator(this);
-        swordsManAnimator.init();
+        bodyDetectsCollider = new BodyDetectsCollider(transform.xPos-10,transform.yPos-10,30,30,new Vector2D(0,0),this);
+        //自定义：鬼剑士类动画集
+        cAnimator = new SwordsManAnimator(this);
+        cAnimator.init();
+
         transform.xPos = 10;
         transform.yPos = 430;
 
@@ -87,26 +87,10 @@ public class Player extends CharacterBaseModel implements ActionListener , IRend
             }
         }
 
-//        if(playerControl.input.isKeyDown(KeyEvent.VK_V))
-//        {
-//            if(swordsMan.property.states.equals(BaseStates.InAir) ||swordsMan.property.states.equals(BaseStates.Throw))
-//            {
-//                swordsMan.property.horizontal = new Vector2D(transform.xPos,swordsMan.property.horizontal.y);
-//                swordsMan.getFsm().ChangeState(BaseStates.Throw);
-//            }
-//            else {
-//                swordsMan.property.throwTimes = 1;
-//                swordsMan.property.fallTimes = 1;
-//                swordsMan.property.horizontal = new Vector2D(transform.xPos,transform.yPos);
-//                swordsMan.property.initHorizontalLine = transform;
-//                swordsMan.getFsm().ChangeState(BaseStates.Throw);
-//            }
-//
-//        }
         playerControl.input.update();
 
 
-        swordsManAnimator.update();
+        cAnimator.update();
 
     }
 
@@ -117,7 +101,7 @@ public class Player extends CharacterBaseModel implements ActionListener , IRend
 
     public void render(Graphics g, JPanel panel, Transform transform)
     {
-        swordsManAnimator.render(g,j,this.transform);
+        cAnimator.render(g,j,this.transform);
     }
 
     @Override
@@ -147,5 +131,10 @@ public class Player extends CharacterBaseModel implements ActionListener , IRend
             return -1;
         }
         return 0;
+    }
+
+    @Override
+    public String getName() {
+        return cIDName;
     }
 }

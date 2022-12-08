@@ -47,7 +47,7 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
 
     public TestPanel() throws IOException {
 
-        player = new Player(this);
+        player = new Player(this,"Miren13");
         player.Start();
         transform = player.transform;
 
@@ -129,7 +129,7 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
 
         //修改后坐标点
         g.setColor(Color.green);
-//        g.fillOval(transform.xPos, transform.yPos, 10, 10);
+        g.fillOval(transform.xPos, transform.yPos, 10, 10);
 
         //显示文字信息
 //        int y = 20;
@@ -142,7 +142,7 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         if(transform!= null)
         {
             g.drawString("x="+ transform.xPos +" ,y=" +transform.yPos,200,20);
-            g.drawString("Camerax="+ cameraMag.cameraMove.getMapMoving(),200,40);
+            //g.drawString("Camerax="+ cameraMag.cameraMove.getMapMoving(),200,40);
         }
 //        g.drawString(String.valueOf(player.swordsMan.property.states),200,60);
 //        if(player.swordsMan.property.horizontal!= null)
@@ -174,17 +174,6 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
 
 
                 player.Update();
-//                if(player.playerControl.input.isKeyDown(KeyEvent.VK_V))
-//              {
-//                  mapManager.nextMap();
-//                  changeMap();
-//              }
-//                if(player.playerControl.input.isKeyDown(KeyEvent.VK_B))
-//                {
-//                    mapManager.lastMap();
-//                    changeMap();
-//                }
-
                 repaint();// 窗口重绘
             }
 

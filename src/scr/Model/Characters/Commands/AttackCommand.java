@@ -1,5 +1,6 @@
-package scr.Entity.Characters.Swordman;
+package scr.Model.Characters.Commands;
 
+import scr.Entity.Characters.Swordman.SwordsmanCommand;
 import scr.Model.Characters.Commands.ICommand;
 
 public class AttackCommand implements ICommand {

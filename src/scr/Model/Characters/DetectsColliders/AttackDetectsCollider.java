@@ -4,14 +4,15 @@ import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Collide.Colliders.ICollider;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.LogicalProcessing.Robot.IController;
+import scr.Model.BasePlayer.CharacterBaseModel;
 
 import java.util.ArrayList;
 
 public class AttackDetectsCollider extends BoxCollider{
 
     int x,y,w,h;
-    IController  player;
-    public AttackDetectsCollider(int x, int y, int w, int h, Vector2D vector2D, IController player) {
+    CharacterBaseModel player;
+    public AttackDetectsCollider(int x, int y, int w, int h, Vector2D vector2D, CharacterBaseModel player) {
         super(x, y, w, h, vector2D);
         this.x =x;
         this.y =y;

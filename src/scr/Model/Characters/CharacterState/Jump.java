@@ -19,8 +19,8 @@ public class Jump extends CharacterStates implements IState
     public void onStart() {
 
         c.property.flyView = new Vector2D(0,0);
-        c.swordsManAnimator.getAnimator().resetAnim(c.swordsManAnimator.getAnimation("jump"));
-        c.swordsManAnimator.getAnimator().play(c.swordsManAnimator.getAnimation("jump"));
+        c.cAnimator.getAnimator().resetAnim(c.cAnimator.getAnimation("jump"));
+        c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("jump"));
         dt = (int)System.currentTimeMillis();
         jumpForce = new JumpForce(15,0);
     }
@@ -32,7 +32,7 @@ public class Jump extends CharacterStates implements IState
         c.property.horizontal.y -= c.property.flyView.y;
         if(c.property.flyView.y <= 0)
         {
-            c.swordsManAnimator.getFsm().ChangeState(SwordsManStatesTable.Fall);
+            c.cAnimator.getFsm().ChangeState(SwordsManStatesTable.Fall);
         }
         dt = (int)System.currentTimeMillis();
     }

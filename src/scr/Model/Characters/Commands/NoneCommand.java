@@ -1,12 +1,12 @@
-package scr.Model.Characters.Commands.GameObjectCommands;
+package scr.Model.Characters.Commands;
 
 import scr.Model.Characters.Commands.ICommand;
-import scr.Model.Characters.Commands.GameObject;
+import scr.Model.Characters.Commands.GameObjectAction;
 
 public class NoneCommand implements ICommand {
 
-    GameObject go;
-    public NoneCommand(GameObject go)
+    GameObjectAction go;
+    public NoneCommand(GameObjectAction go)
     {
         this.go = go;
     }
