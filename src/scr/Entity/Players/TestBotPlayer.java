@@ -46,8 +46,6 @@ public class TestBotPlayer extends CharacterBaseModel implements ActionListener 
     Timer RecordTimer;
     public Queue<ICommand> commands;
     ICommand c;
-
-    Transform logicTransform;
     //测试用文字说明
     public String info = "test";
     JPanel j;
@@ -77,10 +75,10 @@ public class TestBotPlayer extends CharacterBaseModel implements ActionListener 
         cAnimator = new SwordsManAnimator(this);
         cAnimator.init();
 
-        transform.xPos = 0;
+        transform.xPos = 400;
         transform.yPos = 430;
         //受伤判断
-        bodyDetectsCollider = new BodyDetectsCollider(transform.xPos-50,transform.yPos-50,100,100,new Vector2D(0,0),this);
+        bodyDetectsCollider = new BodyDetectsCollider(transform.xPos-50,transform.yPos-50,50,100,new Vector2D(0,0),this);
         bodyDetectsCollider.hitManager.addHitListener(this);
         bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.Injure));
         bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.Throw));
@@ -102,7 +100,6 @@ public class TestBotPlayer extends CharacterBaseModel implements ActionListener 
 //                   playerControl.detect();
 //                   playerControl.Command();
 //               }
-
             }
         }
         //if(playerControl!=null)playerControl.input.update();
@@ -117,11 +114,22 @@ public class TestBotPlayer extends CharacterBaseModel implements ActionListener 
     public void render(Graphics g, JPanel panel, Transform transform)
     {
 
-        Transform t = this.transform;
-        Transform t2 = new Transform(t.xPos - transform.xPos,t.yPos);
-        System.out.println(Math.abs(t2.xPos) + transform.xPos);
-        bodyDetectsCollider.updatePosition(t2);
+
+        Transform t2 = new Transform(this.transform.xPos*2 - transform.xPos,this.transform.yPos);
+        //System.out.println(Math.abs(t2.xPos) + transform.xPos);
+        if(property.horizontal == null)
+        {
+            bodyDetectsCollider.updatePosition(new Transform(t2.xPos-20,t2.yPos-100));
+        }
+        else
+        {
+            bodyDetectsCollider.updatePosition(new Transform(t2.xPos-20,property.horizontal.y-100));
+        }
         cAnimator.render(g,j,t2);
+        g.setColor(Color.green);
+        g.drawRect(bodyDetectsCollider.s1.x,bodyDetectsCollider.s1.y,bodyDetectsCollider.s1.w,bodyDetectsCollider.s1.h);
+        System.out.println(this.transform.xPos);
+        //logicTransform.xPos = (Math.abs(t2.xPos) + transform.xPos)/2;
     }
 
     @Override
@@ -162,13 +170,21 @@ public class TestBotPlayer extends CharacterBaseModel implements ActionListener 
         AttackType attackType = event.getPlayValue().property.attackType;
         if(attackType!=null)
         {
-            if(attackType.effect.equals(AttackEffect.Light))
+            if(property.states.equals(BaseStates.Throw)||property.states.equals(BaseStates.InAir))
             {
-                c = new InjureCommand(actionCommands, attackType);
-                c.Execute();
-            } else if (attackType.effect.equals(AttackEffect.Heavy)) {
                 c = new ThrowFlyCommand(actionCommands, attackType);
                 c.Execute();
+            }
+            else
+            {
+                if(attackType.effect.equals(AttackEffect.Light))
+                {
+                    c = new InjureCommand(actionCommands, attackType);
+                    c.Execute();
+                } else if (attackType.effect.equals(AttackEffect.Heavy)) {
+                    c = new ThrowFlyCommand(actionCommands, attackType);
+                    c.Execute();
+                }
             }
         }
     }

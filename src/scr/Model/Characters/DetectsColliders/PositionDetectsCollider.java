@@ -29,7 +29,7 @@ public class PositionDetectsCollider extends PointCollider {
 
             if (colliderDetect(collider))
             {
-                if(collider.vector2D.compare(new Vector2D(0,0)))
+                if(collider.vector2D.compare(new Vector2D(0,0))&&p.getName().equals("Miren13"))
                 {
                     System.out.println("transport");
                     lastPosition.yPos = 420;
@@ -46,6 +46,31 @@ public class PositionDetectsCollider extends PointCollider {
         }
         return false;
     }
+    public boolean obstacle(ArrayList<BoxCollider> boxCollider, Transform p)
+    {
+        //更新点的位置
+        lastPosition = p;
+        updatePosition(p);
+        for (BoxCollider collider : boxCollider) {
 
+            if (colliderDetect(collider))
+            {
+                if(collider.vector2D.compare(new Vector2D(0,0)))
+                {
+                    System.out.println("transport");
+                    lastPosition.yPos = 420;
+                    lastPosition.xPos = 30;
+                    p = lastPosition;
+                    transportEvent.startTransport();
+                }
+                //不罚站
+                lastPosition.yPos += collider.vector2D.y;
+                lastPosition.xPos += collider.vector2D.x;
+                p = lastPosition;
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
