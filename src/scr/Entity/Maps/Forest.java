@@ -49,4 +49,9 @@ public class Forest extends StageModel {
     public void Update() {
 
     }
+
+    @Override
+    public void Init() {
+
+    }
 }

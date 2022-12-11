@@ -26,6 +26,7 @@ public class MapManager {
         maps.add(dragonTower);
         Collections.sort(maps);
         currentMap = maps.get(0);
+
     }
 
     public void lastMap()

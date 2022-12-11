@@ -71,7 +71,6 @@ public class PlayerControl implements HitListener {
             if(player.property.states.equals(SwordsManStatesTable.Fall) || player.property.states.equals(SwordsManStatesTable.Jump))
             {
                 player.transform.xPos += vector2D.x * player.property.moveSpeed;
-
                 return;
             }
             player.property.director = -1;

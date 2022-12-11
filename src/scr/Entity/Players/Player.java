@@ -34,7 +34,6 @@ import java.util.Queue;
 
 public class Player extends CharacterBaseModel implements ActionListener , IRender , IController {
 
-
     //控制器
     public PlayerControl playerControl;
     //记录器
@@ -73,7 +72,7 @@ public class Player extends CharacterBaseModel implements ActionListener , IRend
         cAnimator = new SwordsManAnimator(this);
         cAnimator.init();
         //受伤判断
-        bodyDetectsCollider = new BodyDetectsCollider(transform.xPos-10,transform.yPos-10,30,30,new Vector2D(0,0),this);
+        bodyDetectsCollider = new BodyDetectsCollider(transform.xPos-10,transform.yPos-10,50,100,new Vector2D(0,0),this,transform);
         bodyDetectsCollider.hitManager.addHitListener(playerControl);
         bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.Injure));
         bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.Throw));
@@ -87,7 +86,8 @@ public class Player extends CharacterBaseModel implements ActionListener , IRend
 
     public void Update()
     {
-        bodyDetectsCollider.updatePosition(transform);
+        Transform t2 = new Transform(transform.xPos-10,transform.yPos-100);
+        bodyDetectsCollider.updatePosition(t2);
         if(!pointCollider.obstacle(stageModel.Borders,this)){
             if(!property.states.equals(BaseStates.Injure)  && !property.states.equals(BaseStates.InAir)  && !property.states.equals(BaseStates.Throw))
            {

@@ -5,6 +5,7 @@ import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.BasePlayer.CharacterBaseModel;
+import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +23,7 @@ public abstract class StageModel extends BaseMapModel implements Comparable{
     public CharacterBaseModel c;
     public int collideWidthX1,collideWidthX2,collideHeightY1,collideHeightY2;
 
+    public BodyDetectsCollider tatget;
     public StageModel(int type,String FarName, String NearPath, int collideWidthX1, int collideWidthX2, int collideHeightY1, int collideHeightY2) throws IOException {
         super(type,FarName,NearPath);
 
@@ -42,6 +44,6 @@ public abstract class StageModel extends BaseMapModel implements Comparable{
     }
 
     public abstract void Update();
-
+    public abstract void Init();
 
 }

@@ -41,12 +41,21 @@ public class TimeGateBegin extends StageModel {
         testBotPlayer.stageModel = this;
         testRender = testBotPlayer;
         c= testBotPlayer;
+
     }
+
 
     public void Update()
     {
         testBotPlayer.Update();
     }
+
+    @Override
+    public void Init() {
+        testBotPlayer.target = tatget;
+        testBotPlayer.property.bdcs.add(tatget);
+    }
+
     @Override
     public void mapRender(Graphics g, JPanel panel, Transform transform) {
         render(g,panel,transform);

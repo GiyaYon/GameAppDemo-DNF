@@ -21,12 +21,14 @@ public class Obscurer implements IRender ,Comparable , HitListener , IObject {
     public BoxCollider testBoxCollider;
     public String cIDName;
 
+    public Transform transform;
     public Obscurer(int x,int y,String cIDName) {
         this.cIDName = cIDName;
         oBox = Toolkit.getDefaultToolkit().getImage("src\\res\\object\\dragonheadfront\\" + 0 + ".png");
         this.x = x;
         this.y = y;
-        bodyDetectsCollider = new BodyDetectsCollider(x,y,100,100,new Vector2D(0,0),this);
+        transform = new Transform(x,y);
+        bodyDetectsCollider = new BodyDetectsCollider(x,y,100,100,new Vector2D(0,0),this,transform);
         testBoxCollider = new BoxCollider(x,y, 30, 20,new Vector2D(1,0));
         bodyDetectsCollider.hitManager.addHitListener(this);
     }

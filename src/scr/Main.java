@@ -54,6 +54,8 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         mapManager = new MapManager(this);
 
 //-------------------------地图相关----------------------------//
+        mapManager.currentMap.tatget = player.bodyDetectsCollider;
+        mapManager.currentMap.Init();
         //渲染检测
         if(mapManager.currentMap.obscurers.size()>0)
         {
@@ -80,6 +82,7 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         player.pointCollider.transportEvent.addHitListener(this);
         //摄像头
         cameraMag = new CameraMag();
+
 
         // 创建一个新线程，this就是实现了Runnable接口的实现类
         Thread t = new Thread(this);

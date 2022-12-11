@@ -31,6 +31,7 @@ public class BoxCollider extends Detector implements ICollider {
     public void updatePosition(Transform transform) {
         s1.x = transform.xPos;
         s1.y = transform.yPos;
+
     }
     public void updatePosition(Transform transform,Vector2D wh) {
         s1.x = transform.xPos;
