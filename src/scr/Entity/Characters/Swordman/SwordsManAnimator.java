@@ -91,6 +91,7 @@ public class SwordsManAnimator extends CharacterAnimator
         statesList.put(BaseStates.Injure,new Injure(cb));
         statesList.put(BaseStates.InAir,new InAir(cb));
         statesList.put(BaseStates.Throw,new Throw(cb));
+        statesList.put(BaseStates.Death,new Death(cb));
 
         //初始化
         fsm.currentState = getState(BaseStates.Idle);

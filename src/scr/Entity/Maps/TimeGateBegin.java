@@ -17,7 +17,7 @@ public class TimeGateBegin extends StageModel {
     JPanel p;
     Obscurer o;
     //--测试玩家
-    RobotPlayer robotPlayer;
+
     public TimeGateBegin(int type, String FarName, String NearPath, int collideWidthX1, int collideWidthX2, int collideHeightY1, int collideHeightY2, JPanel panel) throws IOException {
         super(type,FarName,NearPath,collideWidthX1,collideWidthX2,collideHeightY1,collideHeightY2);
         monsters = new ArrayList<>();
@@ -37,9 +37,16 @@ public class TimeGateBegin extends StageModel {
         Borders.add(obscurers.get(0).testBoxCollider);
 
 
-        robotPlayer = new RobotPlayer(p,"Bot");
+        RobotPlayer robotPlayer = new RobotPlayer(p,"Bot");
         robotPlayer.Start();
+        robotPlayer.setTransform(200,440);
         monsters.add(robotPlayer);
+
+
+        RobotPlayer robotPlayer2 = new RobotPlayer(p,"Bot2");
+        robotPlayer2.Start();
+        robotPlayer2.setTransform(210,500);
+        monsters.add(robotPlayer2);
 
     }
 

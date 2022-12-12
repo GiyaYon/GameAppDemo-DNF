@@ -12,7 +12,7 @@ public class Death extends CharacterStates implements IState
 
     @Override
     public void onStart() {
-
+        c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("death"));
     }
 
     @Override

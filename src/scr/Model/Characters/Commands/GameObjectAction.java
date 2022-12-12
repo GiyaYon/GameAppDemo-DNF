@@ -9,4 +9,5 @@ public interface GameObjectAction {
     void idle();
     void injure(AttackType vector2D);
     void throwFly(AttackType vector2D);
+    void death();
 }

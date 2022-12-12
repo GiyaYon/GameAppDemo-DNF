@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 
 
 public class AIControl implements ActionListener {
-    public static AIControl instance;
     RobotPlayer c;
     Timer timer,changeTimer;
     ChangeCommon changeCommon;
@@ -20,7 +19,6 @@ public class AIControl implements ActionListener {
 
     public AIControl(RobotPlayer c) {
         this.c = c;
-        instance = this;
     }
 
     public void init()
@@ -44,6 +42,7 @@ public class AIControl implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(c.property.states.equals(BaseStates.Death))return;
         if(c.property.states.equals(BaseStates.Injure) || c.property.states.equals(BaseStates.InAir)||c.property.states.equals(BaseStates.Throw)
         ||c.property.states.equals(RobotStatesTable.Attack))
         {
@@ -71,7 +70,7 @@ public class AIControl implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            AIControl.instance.currentState = list[index];
+            currentState = list[index];
             index++;
             if(index >= list.length)
             {

@@ -82,5 +82,10 @@ public class SwordsmanCommand implements GameObjectAction {
         cb.property.states = SwordsManStatesTable.Jump;
         cb.cAnimator.getFsm().ChangeState(cb.property.states);
     }
+    public void death()
+    {
+        cb.property.states = BaseStates.Death;
+        cb.cAnimator.getFsm().ChangeState(cb.property.states);
+    }
 
 }

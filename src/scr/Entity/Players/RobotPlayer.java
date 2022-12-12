@@ -87,9 +87,14 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
 
     }
 
+    public void setTransform(int x,int y)
+    {
+        this.transform.xPos = x;
+        this.transform.yPos = y;
+    }
     public void Update()
     {
-
+        if(property.states.equals(BaseStates.Death))return;
         //bodyDetectsCollider.updatePosition(transform);
         if(!pointCollider.obstacle(stageModel.Borders,this)){
             if(!property.states.equals(BaseStates.Injure)  && !property.states.equals(BaseStates.InAir)  && !property.states.equals(BaseStates.Throw))
@@ -101,6 +106,8 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
 //               }
             }
         }
+
+        //攻击
         if(attackRange.isIntersect(attackRange.s1,target.s1) && (int)System.currentTimeMillis() - attackTime > 1500)
         {
             if(!property.states.equals(BaseStates.Throw)&&!property.states.equals(BaseStates.InAir) &&!property.states.equals(BaseStates.Injure))
@@ -150,11 +157,11 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
         }
         g.setColor(Color.green);
         g.drawRect(bodyDetectsCollider.s1.x,bodyDetectsCollider.s1.y,bodyDetectsCollider.s1.w,bodyDetectsCollider.s1.h);
-        //System.out.println(this.transform.xPos);
         //g.drawLine(t2.xPos,t2.yPos,transform.xPos,transform.yPos);
 //        g.setColor(Color.red);
 //        g.drawRect(attackRange.s1.x,attackRange.s1.y,attackRange.s1.w,attackRange.s1.h);
-        a = findPath(transform,this.transform);
+        if(this.transform.xPos != transform.xPos && this.transform.yPos != transform.yPos)a = findPath(transform,this.transform);
+
         //测试AStar
 //        if(a.size()>0)
 //        {
@@ -164,10 +171,8 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
 ////            this.transform.yPos = a.get(i).y;
 //            }
 //        }
-        //logicTransform.xPos = (Math.abs(t2.xPos) + transform.xPos)/2;
         cAnimator.render(g,j,t2);
         targetTransform = transform;
-        g.drawString("AIhp:"+cProperty.hp,200,60);
     }
 
 
@@ -210,10 +215,11 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
                     c.Execute();
                 }
             }
-//            if(cProperty.hp - attackType.attackValue < 0)
-//            {
-//                System.out.println("death");
-//            }
+            if(cProperty.hp - attackType.attackValue < 0)
+            {
+                c = new DeathCommand(actionCommands);
+                c.Execute();
+            }
         }
     }
 
