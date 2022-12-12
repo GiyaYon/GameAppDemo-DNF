@@ -155,8 +155,8 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
         {
             attackRange.updatePosition(new Transform(t2.xPos-80,t2.yPos-100));
         }
-        g.setColor(Color.green);
-        g.drawRect(bodyDetectsCollider.s1.x,bodyDetectsCollider.s1.y,bodyDetectsCollider.s1.w,bodyDetectsCollider.s1.h);
+//        g.setColor(Color.green);
+//        g.drawRect(bodyDetectsCollider.s1.x,bodyDetectsCollider.s1.y,bodyDetectsCollider.s1.w,bodyDetectsCollider.s1.h);
         //g.drawLine(t2.xPos,t2.yPos,transform.xPos,transform.yPos);
 //        g.setColor(Color.red);
 //        g.drawRect(attackRange.s1.x,attackRange.s1.y,attackRange.s1.w,attackRange.s1.h);
