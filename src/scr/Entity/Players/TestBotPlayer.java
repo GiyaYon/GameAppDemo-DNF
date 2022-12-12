@@ -34,10 +34,7 @@ import java.util.Objects;
 import java.util.Queue;
 
 /**
- * 玩家类。
- * 控制，
- * 记录，
- * 网络传输输入
+ * Bot玩家类
  */
 
 public class TestBotPlayer extends CharacterBaseModel implements  IRender , IController, IObject,HitListener {
@@ -175,6 +172,7 @@ public class TestBotPlayer extends CharacterBaseModel implements  IRender , ICon
         //logicTransform.xPos = (Math.abs(t2.xPos) + transform.xPos)/2;
         cAnimator.render(g,j,t2);
         targetTransform = transform;
+        g.drawString("AIhp:"+cProperty.hp,200,60);
     }
 
 
@@ -196,7 +194,6 @@ public class TestBotPlayer extends CharacterBaseModel implements  IRender , ICon
 
     @Override
     public void GameEventInvoke(HitEvent event) {
-        System.out.println("test");
         AttackType attackType = event.getPlayValue().property.attackType;
         if(attackType!=null)
         {
@@ -209,13 +206,19 @@ public class TestBotPlayer extends CharacterBaseModel implements  IRender , ICon
             {
                 if(attackType.effect.equals(AttackEffect.Light))
                 {
+                    cProperty.hp -= attackType.attackValue;
                     c = new InjureCommand(actionCommands, attackType);
                     c.Execute();
                 } else if (attackType.effect.equals(AttackEffect.Heavy)) {
+                    cProperty.hp -= attackType.attackValue * 1.5f;
                     c = new ThrowFlyCommand(actionCommands, attackType);
                     c.Execute();
                 }
             }
+//            if(cProperty.hp - attackType.attackValue < 0)
+//            {
+//                System.out.println("death");
+//            }
         }
     }
 

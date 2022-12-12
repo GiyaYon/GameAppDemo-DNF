@@ -148,7 +148,7 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         if(playerMaintransform != null)
         {
             g.drawString("x="+ playerMaintransform.xPos +" ,y=" + playerMaintransform.yPos,200,20);
-            //g.drawString("Camerax="+ cameraMag.cameraMove.getMapMoving(),200,40);
+            //g.drawString("Bot="+ ,200,40);
         }
 //        g.drawString(String.valueOf(player.swordsMan.property.states),200,60);
 //        if(player.swordsMan.property.horizontal!= null)
