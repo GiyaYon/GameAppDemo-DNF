@@ -1,14 +1,12 @@
 package scr.Model.Map;
 
+import scr.Entity.Players.RobotPlayer;
 import scr.IOProcessing.Renders.IRender;
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
-import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -19,8 +17,7 @@ public abstract class StageModel extends BaseMapModel implements Comparable{
 
     //当前关卡序列
     public int mapIndex;
-    public IRender testRender;
-    public CharacterBaseModel c;
+    public ArrayList<RobotPlayer> monsters;
     public int collideWidthX1,collideWidthX2,collideHeightY1,collideHeightY2;
 
     public BodyDetectsCollider tatget;

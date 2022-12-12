@@ -3,8 +3,6 @@ package scr.Entity.Players;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.LogicalProcessing.Robot.RStates.RobotStatesTable;
 import scr.Model.Characters.CharacterState.BaseStates;
-import scr.Model.Characters.CharacterState.CharacterStates;
-import scr.Model.Characters.CharacterState.Injure;
 import scr.Model.Characters.Commands.MoveCommand;
 import scr.Model.Characters.Commands.NoneCommand;
 
@@ -15,12 +13,12 @@ import java.awt.event.ActionListener;
 
 public class AIControl implements ActionListener {
     public static AIControl instance;
-    TestBotPlayer c;
+    RobotPlayer c;
     Timer timer,changeTimer;
     ChangeCommon changeCommon;
     String currentState;
 
-    public AIControl(TestBotPlayer c) {
+    public AIControl(RobotPlayer c) {
         this.c = c;
         instance = this;
     }

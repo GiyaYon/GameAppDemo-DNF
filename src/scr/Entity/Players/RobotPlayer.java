@@ -25,19 +25,14 @@ import scr.Model.Map.IObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Queue;
 
 /**
  * Bot玩家类
  */
 
-public class TestBotPlayer extends CharacterBaseModel implements  IRender , IController, IObject,HitListener {
+public class RobotPlayer extends CharacterBaseModel implements  IRender , IController, IObject,HitListener {
 
     //控制器
     public AIControl control;
@@ -54,7 +49,7 @@ public class TestBotPlayer extends CharacterBaseModel implements  IRender , ICon
 
     int attackTime;
 
-    public TestBotPlayer(JPanel j, String cIDName) {
+    public RobotPlayer(JPanel j, String cIDName) {
         this.j = j;
         this.cIDName =cIDName;
     }

@@ -2,7 +2,6 @@ package scr;
 
 import scr.Entity.Maps.MapManager;
 import scr.Entity.Players.Player;
-import scr.Entity.Players.TestBotPlayer;
 import scr.LogicalProcessing.Position.Transform;
 import scr.IOProcessing.Camera.CameraMag;
 import scr.IOProcessing.Renders.RenderSequenceManager;
@@ -61,9 +60,11 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         {
             renderManager.renderMethods.addAll(mapManager.currentMap.obscurers);
 
-
-            if(mapManager.currentMap.testRender!=null)renderManager.renderMethods.add(mapManager.currentMap.testRender);
-            if(mapManager.currentMap.c!=null)player.property.bdcs.add(mapManager.currentMap.c.bodyDetectsCollider);
+            for ( var character:mapManager.currentMap.monsters)
+            {
+                renderManager.renderMethods.add(character);
+                player.property.bdcs.add(character.bodyDetectsCollider);
+            }
         }
         //包围盒碰撞检测
         for (var v : mapManager.currentMap.obscurers)
