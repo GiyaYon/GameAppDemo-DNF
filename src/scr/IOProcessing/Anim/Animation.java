@@ -113,11 +113,26 @@ public class Animation extends Transform {
         //gBuffer.drawImage(iBuffer, 0, 0, iBuffer.getWidth(), iBuffer.getHeight(), iBuffer.getWidth() -30, 0, 0-30, iBuffer.getHeight(), panel);
         //切换画布的锚点，使背景图跟画布的坐标统一，方便后续的操作
         //g.translate(-100,-150);
+        if(h>500 && h < 800) {
+            g.translate(-w / 2 + 10, -h + 220);
+            //渲染
+            g.drawImage(iBuffer, xPos, yPos, (ImageObserver) panel);
+            //画完切换回去
+            g.translate(+w / 2 - 10, +h - 220);
+        } else if (h>=800 && h<1000) {
+            g.translate(-w/2+10,-h+270);
+            //渲染
+            g.drawImage(iBuffer, xPos, yPos, (ImageObserver) panel);
+            //画完切换回去
+            g.translate(+w/2-10,+h-270);
+        }else if(h < 500)
+        {
         g.translate(-w/2+10,-h+50);
         //渲染
         g.drawImage(iBuffer, xPos, yPos, (ImageObserver) panel);
         //画完切换回去
         g.translate(+w/2-10,+h-50);
+        }
     }
     public void resetFrame()
     {

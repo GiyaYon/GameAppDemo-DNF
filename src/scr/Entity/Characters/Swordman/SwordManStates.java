@@ -14,7 +14,8 @@ import scr.Model.Characters.Forces.AttackType;
 class Attack extends CharacterStates implements IState
 {
     int start,size;
-
+    float dt;
+    Force fallForce;
     public Attack(CharacterBaseModel c) {
         super(c);
     }
@@ -28,11 +29,16 @@ class Attack extends CharacterStates implements IState
         c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("attack1"));
         start=  (int)System.currentTimeMillis();
         size = c.cAnimator.getAnimation("attack1").igArray.get(0).size;
+        dt = (int)System.currentTimeMillis();
+        c.property.flyView = new Vector2D(0,0);
     }
 
     @Override
     public void onUpdate() {
 
+        fallForce = c.property.attackType.force;
+        c.property.flyView.x = c.property.attackType.attackVector.x * fallForce.resultVy(((int)System.currentTimeMillis() -dt)/1000)/2;
+        c.transform.xPos += c.property.flyView.x;
         if(c.property.director == -1)
         {
             if((int)(System.currentTimeMillis() - start) >57*size/2 && (int)(System.currentTimeMillis() - start) < 57*(size/2+0.5)) {
@@ -74,6 +80,8 @@ class Attack extends CharacterStates implements IState
 class Attack2 extends CharacterStates implements IState
 {
     int start,size;
+    float dt;
+    Force fallForce;
     public Attack2(CharacterBaseModel c) {
         super(c);
 
@@ -87,11 +95,16 @@ class Attack2 extends CharacterStates implements IState
         c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("attack2"));
         start=  (int)System.currentTimeMillis();
         size = c.cAnimator.getAnimation("attack1").igArray.get(0).size;
+        dt = (int)System.currentTimeMillis();
+        c.property.flyView = new Vector2D(0,0);
     }
 
     @Override
     public void onUpdate() {
 
+        fallForce = c.property.attackType.force;
+        c.property.flyView.x = c.property.attackType.attackVector.x * fallForce.resultVy(((int)System.currentTimeMillis() -dt)/1000)/2;
+        c.transform.xPos += c.property.flyView.x;
         if(c.property.director == -1)
         {
             if((int)(System.currentTimeMillis() - start) >57*size/2 && (int)(System.currentTimeMillis() - start) < 57*(size/2+0.5)) {
@@ -126,6 +139,8 @@ class Attack3 extends CharacterStates implements IState
         super(c);
     }
     int start,size;
+    float dt;
+    Force fallForce;
     @Override
     public void onStart() {
         c.property.attackType = new AttackType(new Vector2D(c.property.director,0),10,AttackEffect.Heavy,new Force(1,1,0));
@@ -134,11 +149,16 @@ class Attack3 extends CharacterStates implements IState
         c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("attack3"));
         start=  (int)System.currentTimeMillis();
         size = c.cAnimator.getAnimation("attack1").igArray.get(0).size;
+        dt = (int)System.currentTimeMillis();
+        c.property.flyView = new Vector2D(0,0);
     }
 
     @Override
     public void onUpdate() {
 
+        fallForce = c.property.attackType.force;
+        c.property.flyView.x = c.property.attackType.attackVector.x * fallForce.resultVy(((int)System.currentTimeMillis() -dt)/1000)/2;
+        c.transform.xPos += c.property.flyView.x;
         if(c.property.director == -1)
         {
             if((int)(System.currentTimeMillis() - start) >57*size/2 && (int)(System.currentTimeMillis() - start) < 57*(size/2+0.5)) {

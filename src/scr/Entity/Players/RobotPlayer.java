@@ -39,8 +39,10 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
     BoxCollider attackRange;
     public BodyDetectsCollider target;
     Transform targetTransform;
-    ICommand iCommand;
+    protected ICommand iCommand;
     JPanel j;
+
+    public int attackRangeW,attackRangeH,bodyW,bodyH;
 
     public RobotPlayer(JPanel j, String cIDName) {
         this.j = j;
@@ -109,15 +111,42 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
         attackRange = new BoxCollider(transform.xPos-50,transform.yPos-50,attackRangeW,attackRangeH,new Vector2D(0,0));
         control  = new AIControl(this);
         control.init();
+        this.attackRangeW = attackRangeW;
+        this.attackRangeH = attackRangeH;
 
     }
-    public void setBodyCollider(int w, int h)
+
+    public void Start(CharacterAnimator ca,int attackRangeW,int attackRangeH,int bodyW,int bodyH) throws IOException
     {
-        bodyDetectsCollider.s1.setWH(w,h);
-    }
-    public void setAttackRange(int w,int h)
-    {
-        attackRange.s1.setWH(w,h);
+
+        // 自定义：鬼剑士类命令集
+        actionCommands = new SwordsmanCommand(this);
+
+        //TODO 动画集：改动画集
+        cAnimator = ca;
+        cAnimator.init();
+        //物理碰撞
+        pointCollider = new PositionDetectsCollider(transform.xPos,transform.yPos);
+
+        //TODO 出生位置 : 改位置
+        transform.xPos = 150;
+        transform.yPos = 430;
+        //TODO 受伤判断 : 改大小
+        bodyDetectsCollider = new BodyDetectsCollider(transform.xPos-50,transform.yPos-50,bodyW,bodyH,new Vector2D(0,0),this,transform);
+        bodyDetectsCollider.hitManager.addHitListener(this);
+        bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.Injure));
+        bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.Throw));
+        bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.InAir));
+
+        //TODO 攻击距离: 改大小
+        attackRange = new BoxCollider(transform.xPos-50,transform.yPos-50,attackRangeW,attackRangeH,new Vector2D(0,0));
+        control  = new AIControl(this);
+        control.init();
+        this.attackRangeW = attackRangeW;
+        this.attackRangeH = attackRangeH;
+        this.bodyW = bodyW;
+        this.bodyH = bodyH;
+
     }
     public void setTransform(int x,int y)
     {
@@ -160,7 +189,7 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
         }
         else
         {
-            attackRange.updatePosition(new Transform(t2.xPos-80,t2.yPos-100));
+            attackRange.updatePosition(new Transform(t2.xPos-attackRangeW,t2.yPos-100));
         }
         g.setColor(Color.green);
         g.drawRect(bodyDetectsCollider.s1.x,bodyDetectsCollider.s1.y,bodyDetectsCollider.s1.w,bodyDetectsCollider.s1.h);

@@ -59,7 +59,7 @@ public class ResSprites {
     {
         int index = first;
         ArrayList<String> a = new ArrayList<>();
-        for ( int i = 0 ;i<= last - first +1; i++)
+        for ( int i = 0 ;i< last - first +1; i++)
         {
             a.add(positions.get(index));
             index++;

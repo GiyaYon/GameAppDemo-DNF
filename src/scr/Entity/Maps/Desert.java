@@ -1,7 +1,9 @@
 package scr.Entity.Maps;
 
+import scr.Entity.Monster.RobotGiselle;
 import scr.Entity.Monster.RobotGoblin;
 import scr.Entity.Monster.RobotSwordsman;
+import scr.Entity.Monster.RobotVerrict;
 import scr.Entity.Players.RobotPlayer;
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Position.Transform;
@@ -32,14 +34,13 @@ public class Desert extends StageModel {
         BoxCollider mapRightBorder = new BoxCollider(collideWidthX2-10,collideHeightY1,10,150,new Vector2D(0,0));
         Borders.add(mapRightBorder);
 
-        RobotPlayer robotPlayer = new RobotSwordsman(p,"Bot");
-        robotPlayer.setTransform(200,440);
-        monsters.add(robotPlayer);
+        RobotPlayer robotPlayer1 = new RobotGiselle(p,"Bot1");
+        robotPlayer1.setTransform(210,500);
+        monsters.add(robotPlayer1);
 
-
-        RobotPlayer robotPlayer2 = new RobotGoblin(p,"Bot2");
-        robotPlayer2.setTransform(210,500);
-        monsters.add(robotPlayer2);
+//        RobotPlayer robotPlayer2 = new RobotVerrict(p,"Bot2");
+//        robotPlayer2.setTransform(210,500);
+//        monsters.add(robotPlayer2);
 
     }
 

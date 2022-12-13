@@ -1,5 +1,7 @@
 package scr.Entity.Maps;
 
+import scr.Entity.Monster.RobotScasa;
+import scr.Entity.Players.RobotPlayer;
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
@@ -27,6 +29,10 @@ public class DragonTower extends StageModel {
         obscurers.add(o);
         Borders.add(obscurers.get(0).testBoxCollider);
 
+        RobotPlayer robotPlayer2 = new RobotScasa(p,"Bot2");
+        robotPlayer2.setTransform(210,500);
+        monsters.add(robotPlayer2);
+
     }
 
 
@@ -48,12 +54,21 @@ public class DragonTower extends StageModel {
     }
 
     @Override
-    public void Update() {
-
+    public void Update()
+    {
+        for (var monster : monsters)
+        {
+            monster.Update();
+        }
     }
 
     @Override
     public void Init() {
-
+        for (var monster : monsters)
+        {
+            monster.target = tatget;
+            monster.property.bdcs.add(tatget);
+            monster.stageModel = this;
+        }
     }
 }

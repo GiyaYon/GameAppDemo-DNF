@@ -56,100 +56,93 @@ public class PlayerControl implements HitListener {
 
     public void Command()
     {
-        if(input.isKeyDown(KeyEvent.VK_LEFT))
-        {
-            Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
-            //持续按下，跑步状态延缓
-            if(player.property.states.equals(BaseStates.Run))
-            {
-                c = new RunCommand((SwordsmanCommand) player.actionCommands,vector2D,player.transform);
-                player.c = c;
-                //commands.offer(c);
-                c.Execute();
-                return;
-            }
-            if(player.property.states.equals(SwordsManStatesTable.Fall) || player.property.states.equals(SwordsManStatesTable.Jump))
-            {
-                player.transform.xPos += vector2D.x * player.property.moveSpeed;
-                return;
-            }
-            player.property.director = -1;
-            c = new MoveCommand(player.actionCommands,vector2D,player.transform);
-            //commands.offer(c);
-            player.c = c;
-            c.Execute();
-            return;
-        }
-        if(input.isKeyDown(KeyEvent.VK_RIGHT))
-        {
-            Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
-            if(player.property.states.equals(BaseStates.Run))
-            {
-                c = new RunCommand((SwordsmanCommand)player.actionCommands,vector2D,player.transform);
-                player.c = c;
-                //commands.offer(c);
-                c.Execute();
-                return;
-            }
-            if(player.property.states.equals(SwordsManStatesTable.Fall) || player.property.states.equals(SwordsManStatesTable.Jump))
-            {
-                player.transform.xPos += vector2D.x * player.property.moveSpeed;
-                return;
-            }
-            player.property.director = 1;
-            c = new MoveCommand(player.actionCommands,vector2D,player.transform);
-            //commands.offer(c);
-            player.c = c;
-            c.Execute();
-            return;
-        }
-        if(input.isKeyDown(KeyEvent.VK_UP))
-        {
-            Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
-            if(player.property.states.equals(BaseStates.Run))
-            {
-                c = new RunCommand((SwordsmanCommand)player.actionCommands,vector2D,player.transform);
-                player.c = c;
-                //commands.offer(c);
-                c.Execute();
-                return;
-            }
-            if(player.property.states.equals(SwordsManStatesTable.Fall) || player.property.states.equals(SwordsManStatesTable.Jump))
-            {
-                player.transform.yPos += vector2D.y * player.property.moveSpeed;
-                player.property.initHorizontalLine.yPos = player.transform.yPos;
+        if(!player.property.states.equals(SwordsManStatesTable.Attack)&& !player.property.states.equals(SwordsManStatesTable.Attack2)&&
+                !player.property.states.equals(SwordsManStatesTable.Attack3)) {
 
-                return;
-            }
-            c = new MoveCommand(player.actionCommands,vector2D,player.transform);
-            //commands.offer(c);
-            player.c = c;
-            c.Execute();
-            return;
-        }
-        if(input.isKeyDown(KeyEvent.VK_DOWN))
-        {
-            Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
-            if(player.property.states.equals(BaseStates.Run))
-            {
-                c = new RunCommand((SwordsmanCommand)player.actionCommands,vector2D,player.transform);
-                player.c = c;
+
+            if (input.isKeyDown(KeyEvent.VK_LEFT)) {
+                Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+                //持续按下，跑步状态延缓
+                if (player.property.states.equals(BaseStates.Run)) {
+                    c = new RunCommand((SwordsmanCommand) player.actionCommands, vector2D, player.transform);
+                    player.c = c;
+                    //commands.offer(c);
+                    c.Execute();
+                    return;
+                }
+                if (player.property.states.equals(SwordsManStatesTable.Fall) || player.property.states.equals(SwordsManStatesTable.Jump)) {
+                    player.transform.xPos += vector2D.x * player.property.moveSpeed;
+                    return;
+                }
+                player.property.director = -1;
+                c = new MoveCommand(player.actionCommands, vector2D, player.transform);
                 //commands.offer(c);
+                player.c = c;
                 c.Execute();
                 return;
             }
-            if(player.property.states.equals(SwordsManStatesTable.Fall) || player.property.states.equals(SwordsManStatesTable.Jump))
-            {
-                player.transform.yPos += vector2D.y * player.property.moveSpeed;
-                player.property.initHorizontalLine.yPos = player.transform.yPos;
-
+            if (input.isKeyDown(KeyEvent.VK_RIGHT)) {
+                Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+                if (player.property.states.equals(BaseStates.Run)) {
+                    c = new RunCommand((SwordsmanCommand) player.actionCommands, vector2D, player.transform);
+                    player.c = c;
+                    //commands.offer(c);
+                    c.Execute();
+                    return;
+                }
+                if (player.property.states.equals(SwordsManStatesTable.Fall) || player.property.states.equals(SwordsManStatesTable.Jump)) {
+                    player.transform.xPos += vector2D.x * player.property.moveSpeed;
+                    return;
+                }
+                player.property.director = 1;
+                c = new MoveCommand(player.actionCommands, vector2D, player.transform);
+                //commands.offer(c);
+                player.c = c;
+                c.Execute();
                 return;
             }
-            c = new MoveCommand(player.actionCommands,vector2D,player.transform);
-            //commands.offer(c);
-            player.c = c;
-            c.Execute();
-            return;
+            if (input.isKeyDown(KeyEvent.VK_UP)) {
+                Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+                if (player.property.states.equals(BaseStates.Run)) {
+                    c = new RunCommand((SwordsmanCommand) player.actionCommands, vector2D, player.transform);
+                    player.c = c;
+                    //commands.offer(c);
+                    c.Execute();
+                    return;
+                }
+                if (player.property.states.equals(SwordsManStatesTable.Fall) || player.property.states.equals(SwordsManStatesTable.Jump)) {
+                    player.transform.yPos += vector2D.y * player.property.moveSpeed;
+                    player.property.initHorizontalLine.yPos = player.transform.yPos;
+
+                    return;
+                }
+                c = new MoveCommand(player.actionCommands, vector2D, player.transform);
+                //commands.offer(c);
+                player.c = c;
+                c.Execute();
+                return;
+            }
+            if (input.isKeyDown(KeyEvent.VK_DOWN)) {
+                Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+                if (player.property.states.equals(BaseStates.Run)) {
+                    c = new RunCommand((SwordsmanCommand) player.actionCommands, vector2D, player.transform);
+                    player.c = c;
+                    //commands.offer(c);
+                    c.Execute();
+                    return;
+                }
+                if (player.property.states.equals(SwordsManStatesTable.Fall) || player.property.states.equals(SwordsManStatesTable.Jump)) {
+                    player.transform.yPos += vector2D.y * player.property.moveSpeed;
+                    player.property.initHorizontalLine.yPos = player.transform.yPos;
+
+                    return;
+                }
+                c = new MoveCommand(player.actionCommands, vector2D, player.transform);
+                //commands.offer(c);
+                player.c = c;
+                c.Execute();
+                return;
+            }
         }
 
         if(input.isKeyDown(KeyEvent.VK_X) && isAtkKeyRelease)

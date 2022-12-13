@@ -15,4 +15,6 @@ public class ImageMerge {
         this.images = images;
         this.positions = positions;
     }
+    public ImageMerge()
+    {}
 }
