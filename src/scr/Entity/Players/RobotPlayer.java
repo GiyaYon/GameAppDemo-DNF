@@ -9,7 +9,6 @@ import scr.LogicalProcessing.Position.Vector2D;
 import scr.LogicalProcessing.Robot.AStar;
 import scr.LogicalProcessing.Robot.IController;
 import scr.LogicalProcessing.Robot.Node;
-import scr.LogicalProcessing.Robot.RStates.RobotStatesTable;
 import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.CharacterEvents.HitEvent;
 import scr.Model.Characters.CharacterEvents.HitListener;
@@ -19,6 +18,7 @@ import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
 import scr.Model.Characters.DetectsColliders.PositionDetectsCollider;
 import scr.Model.Characters.Forces.AttackEffect;
 import scr.Model.Characters.Forces.AttackType;
+import scr.Model.Characters.Properties.CharacterAnimator;
 import scr.Model.Characters.Properties.CharacterUIProperty;
 import scr.Model.Characters.Properties.Property;
 import scr.Model.Map.IObject;
@@ -36,94 +36,102 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
 
     //控制器
     public AIControl control;
-
     ArrayList<Node> a;
-
     BoxCollider attackRange;
     public BodyDetectsCollider target;
     Transform targetTransform;
-    ICommand c;
-    //测试用文字说明
-    public String info = "test";
+    ICommand iCommand;
     JPanel j;
-
-    int attackTime;
 
     public RobotPlayer(JPanel j, String cIDName) {
         this.j = j;
         this.cIDName =cIDName;
-    }
-
-    public void Start() throws IOException {
-
-
         //属性
         property = new Property(this);
         cProperty = new CharacterUIProperty();
         transform = new Transform();
+    }
 
-        //自定义：鬼剑士类命令集
+
+    public void Start() throws IOException {
+
+
+
+        // 自定义：鬼剑士类命令集
         actionCommands = new SwordsmanCommand(this);
 
 
         //物理碰撞
         pointCollider = new PositionDetectsCollider(transform.xPos,transform.yPos);
-        //自定义：鬼剑士类动画集
-        cAnimator = new SwordsManAnimator(this);
-        cAnimator.init();
 
+        //TODO 出生位置 : 改位置
         transform.xPos = 150;
         transform.yPos = 430;
-        //受伤判断
+        //TODO 受伤判断 : 改大小
         bodyDetectsCollider = new BodyDetectsCollider(transform.xPos-50,transform.yPos-50,50,100,new Vector2D(0,0),this,transform);
         bodyDetectsCollider.hitManager.addHitListener(this);
         bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.Injure));
         bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.Throw));
         bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.InAir));
 
+        //TODO 攻击距离: 改大小
         attackRange = new BoxCollider(transform.xPos-50,transform.yPos-50,100,100,new Vector2D(0,0));
         control  = new AIControl(this);
         control.init();
 
+//        //TODO 动画集：改动画集
+//        cAnimator = new SwordsManAnimator(this);
+//        cAnimator.init();
     }
 
+    public void Start(CharacterAnimator ca,int attackRangeW,int attackRangeH) throws IOException
+    {
+
+        // 自定义：鬼剑士类命令集
+        actionCommands = new SwordsmanCommand(this);
+
+        //TODO 动画集：改动画集
+        cAnimator = ca;
+        cAnimator.init();
+        //物理碰撞
+        pointCollider = new PositionDetectsCollider(transform.xPos,transform.yPos);
+
+        //TODO 出生位置 : 改位置
+        transform.xPos = 150;
+        transform.yPos = 430;
+        //TODO 受伤判断 : 改大小
+        bodyDetectsCollider = new BodyDetectsCollider(transform.xPos-50,transform.yPos-50,50,100,new Vector2D(0,0),this,transform);
+        bodyDetectsCollider.hitManager.addHitListener(this);
+        bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.Injure));
+        bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.Throw));
+        bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.InAir));
+
+        //TODO 攻击距离: 改大小
+        attackRange = new BoxCollider(transform.xPos-50,transform.yPos-50,attackRangeW,attackRangeH,new Vector2D(0,0));
+        control  = new AIControl(this);
+        control.init();
+
+    }
+    public void setBodyCollider(int w, int h)
+    {
+        bodyDetectsCollider.s1.setWH(w,h);
+    }
+    public void setAttackRange(int w,int h)
+    {
+        attackRange.s1.setWH(w,h);
+    }
     public void setTransform(int x,int y)
     {
         this.transform.xPos = x;
         this.transform.yPos = y;
     }
+
+
     public void Update()
     {
         if(property.states.equals(BaseStates.Death))return;
-        //bodyDetectsCollider.updatePosition(transform);
-        if(!pointCollider.obstacle(stageModel.Borders,this)){
-            if(!property.states.equals(BaseStates.Injure)  && !property.states.equals(BaseStates.InAir)  && !property.states.equals(BaseStates.Throw))
-           {
-//               if(playerControl!=null)
-//               {
-//                   playerControl.detect();
-//                   playerControl.Command();
-//               }
-            }
-        }
-
-        //攻击
-        if(attackRange.isIntersect(attackRange.s1,target.s1) && (int)System.currentTimeMillis() - attackTime > 1500)
-        {
-            if(!property.states.equals(BaseStates.Throw)&&!property.states.equals(BaseStates.InAir) &&!property.states.equals(BaseStates.Injure))
-            {
-                if(targetTransform!=null && Math.abs(targetTransform.yPos - this.transform.yPos) <10 )
-                {
-                    property.states = RobotStatesTable.Attack;
-                    property.director = transform.flipX;
-                    property.initHorizontalLine = transform;
-                    c = new AttackCommand((SwordsmanCommand) actionCommands,1);
-                    c.Execute();
-                    attackTime = (int)System.currentTimeMillis();
-                }
-            }
-        }
-        //if(playerControl!=null)playerControl.input.update();
+        if(!pointCollider.obstacle(stageModel.Borders,this)){}
+        control.Update();
         cAnimator.update();
     }
 
@@ -155,22 +163,12 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
         {
             attackRange.updatePosition(new Transform(t2.xPos-80,t2.yPos-100));
         }
-//        g.setColor(Color.green);
-//        g.drawRect(bodyDetectsCollider.s1.x,bodyDetectsCollider.s1.y,bodyDetectsCollider.s1.w,bodyDetectsCollider.s1.h);
-        //g.drawLine(t2.xPos,t2.yPos,transform.xPos,transform.yPos);
-//        g.setColor(Color.red);
-//        g.drawRect(attackRange.s1.x,attackRange.s1.y,attackRange.s1.w,attackRange.s1.h);
+        g.setColor(Color.green);
+        g.drawRect(bodyDetectsCollider.s1.x,bodyDetectsCollider.s1.y,bodyDetectsCollider.s1.w,bodyDetectsCollider.s1.h);
+        g.setColor(Color.red);
+        g.drawRect(attackRange.s1.x,attackRange.s1.y,attackRange.s1.w,attackRange.s1.h);
         if(this.transform.xPos != transform.xPos && this.transform.yPos != transform.yPos)a = findPath(transform,this.transform);
 
-        //测试AStar
-//        if(a.size()>0)
-//        {
-//            for (int i = a.size()-1; i > 0; i--) {
-//                if(i+1 < a.size())g.drawLine(a.get(i).x,a.get(i).y,a.get(i).x,a.get(i).y);
-////            this.transform.xPos = a.get(i).x;
-////            this.transform.yPos = a.get(i).y;
-//            }
-//        }
         cAnimator.render(g,j,t2);
         targetTransform = transform;
     }
@@ -199,26 +197,26 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
         {
             if(property.states.equals(BaseStates.Throw)||property.states.equals(BaseStates.InAir))
             {
-                c = new ThrowFlyCommand(actionCommands, attackType);
-                c.Execute();
+                iCommand = new ThrowFlyCommand(actionCommands, attackType);
+                iCommand.Execute();
             }
             else
             {
                 if(attackType.effect.equals(AttackEffect.Light))
                 {
                     cProperty.hp -= attackType.attackValue;
-                    c = new InjureCommand(actionCommands, attackType);
-                    c.Execute();
+                    iCommand = new InjureCommand(actionCommands, attackType);
+                    iCommand.Execute();
                 } else if (attackType.effect.equals(AttackEffect.Heavy)) {
                     cProperty.hp -= attackType.attackValue * 1.5f;
-                    c = new ThrowFlyCommand(actionCommands, attackType);
-                    c.Execute();
+                    iCommand = new ThrowFlyCommand(actionCommands, attackType);
+                    iCommand.Execute();
                 }
             }
             if(cProperty.hp - attackType.attackValue < 0)
             {
-                c = new DeathCommand(actionCommands);
-                c.Execute();
+                iCommand = new DeathCommand(actionCommands);
+                iCommand.Execute();
             }
         }
     }

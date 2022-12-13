@@ -27,7 +27,7 @@ class Attack extends CharacterStates implements IState
     public void onUpdate() {
         if(c.property.director == -1)
         {
-            new AttackDetectsCollider(c.property.initHorizontalLine.xPos-100,c.property.initHorizontalLine.yPos-25,50,50,new Vector2D(0,0),c.property.iCollider).attackDetect(c.property.bdcs);
+            new AttackDetectsCollider(c.property.initHorizontalLine.xPos-50,c.property.initHorizontalLine.yPos-25,50,50,new Vector2D(0,0),c.property.iCollider).attackDetect(c.property.bdcs);
         } else if (c.property.director == 1) {
             new AttackDetectsCollider(c.property.initHorizontalLine.xPos,c.property.initHorizontalLine.yPos-25,50,50,new Vector2D(0,0),c.property.iCollider).attackDetect(c.property.bdcs);
         }

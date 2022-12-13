@@ -30,7 +30,6 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
 
     //渲染顺序
     public RenderSequenceManager renderManager = new RenderSequenceManager();
-
     //----------------------主玩家
     Player player;
     //绑定主角玩家的Transform
@@ -135,8 +134,8 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         renderManager.render(g,this, playerMaintransform,cameraMag);
 
         //修改后坐标点
-        g.setColor(Color.green);
-        g.fillOval(playerMaintransform.xPos, playerMaintransform.yPos, 10, 10);
+//        g.setColor(Color.green);
+//        g.fillOval(playerMaintransform.xPos, playerMaintransform.yPos, 10, 10);
 
         //显示文字信息
 //        int y = 20;
@@ -146,11 +145,11 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
 //            y += 20;
 //        }
 //
-        if(playerMaintransform != null)
-        {
-            g.drawString("x="+ playerMaintransform.xPos +" ,y=" + playerMaintransform.yPos,200,20);
-            //g.drawString("Bot="+ ,200,40);
-        }
+//        if(playerMaintransform != null)
+//        {
+//            g.drawString("x="+ playerMaintransform.xPos +" ,y=" + playerMaintransform.yPos,200,20);
+//            //g.drawString("Bot="+ ,200,40);
+//        }
 //        g.drawString(String.valueOf(player.swordsMan.property.states),200,60);
 //        if(player.swordsMan.property.horizontal!= null)
 //        {

@@ -57,6 +57,15 @@ public class Animator implements ActionListener {
             v.drawSprite(g,jPanel);
         }
     }
+    public void Flash(Graphics g, JPanel jPanel, Transform transform,int w,int h)
+    {
+        for(var v: currentAnim.igArray)
+        {
+            v.set(transform.xPos,transform.yPos);
+            v.flip(transform.flipX);
+            v.drawSprite(g,jPanel,w,h);
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

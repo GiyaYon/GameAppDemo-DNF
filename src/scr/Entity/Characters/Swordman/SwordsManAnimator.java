@@ -71,7 +71,7 @@ public class SwordsManAnimator extends CharacterAnimator
         assembleToAnimations("fallStand",132,132,false);
         assembleToAnimations("injure",96,99,false);
         assembleToAnimations("inair",100,101,false);
-        assembleToAnimations("death",102,103,false);
+        assembleToAnimations("death",100,103,false);
     }
 
     @Override

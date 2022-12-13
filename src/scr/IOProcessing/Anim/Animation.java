@@ -86,6 +86,39 @@ public class Animation extends Transform {
         //画完切换回去
         g.translate(+225,+330);
     }
+
+    public void drawSprite(Graphics g, JPanel panel,int w, int h)
+    {
+        //新建一个背景图
+        iBuffer = new BufferedImage(w, h,BufferedImage.TYPE_INT_RGB);
+        //新建画笔
+        gBuffer = iBuffer.createGraphics();
+        //让背景图透明
+        iBuffer = gBuffer.getDeviceConfiguration().createCompatibleImage(w, h, Transparency.TRANSLUCENT);
+        //释放旧画笔
+        gBuffer.dispose();
+        //使用新透明背景的新画笔
+        gBuffer = iBuffer.createGraphics();
+
+        if(flipX == FLIP_LEFT)
+        {
+            AffineTransform transform = new AffineTransform(-1,0,0,1,iBuffer.getWidth()-35,0);
+            gBuffer.setTransform(transform);
+        }
+
+        //在缓冲把角色图片填上去,并确定好提供的贴图中心点坐标
+        gBuffer.drawImage(imageMerge.images[playID],Integer.parseInt(l2[0]),Integer.parseInt(l2[1]),panel);
+
+
+        //gBuffer.drawImage(iBuffer, 0, 0, iBuffer.getWidth(), iBuffer.getHeight(), iBuffer.getWidth() -30, 0, 0-30, iBuffer.getHeight(), panel);
+        //切换画布的锚点，使背景图跟画布的坐标统一，方便后续的操作
+        g.translate(-100,-150);
+
+        //渲染
+        g.drawImage(iBuffer, xPos, yPos, (ImageObserver) panel);
+        //画完切换回去
+        g.translate(+100,+150);
+    }
     public void resetFrame()
     {
         isFinish = false;

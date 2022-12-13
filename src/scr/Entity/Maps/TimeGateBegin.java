@@ -1,5 +1,7 @@
 package scr.Entity.Maps;
 
+import scr.Entity.Monster.RobotGoblin;
+import scr.Entity.Monster.RobotSwordsman;
 import scr.Entity.Players.RobotPlayer;
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Position.Transform;
@@ -37,14 +39,12 @@ public class TimeGateBegin extends StageModel {
         Borders.add(obscurers.get(0).testBoxCollider);
 
 
-        RobotPlayer robotPlayer = new RobotPlayer(p,"Bot");
-        robotPlayer.Start();
+        RobotPlayer robotPlayer = new RobotSwordsman(p,"Bot");
         robotPlayer.setTransform(200,440);
         monsters.add(robotPlayer);
 
 
-        RobotPlayer robotPlayer2 = new RobotPlayer(p,"Bot2");
-        robotPlayer2.Start();
+        RobotPlayer robotPlayer2 = new RobotGoblin(p,"Bot2");
         robotPlayer2.setTransform(210,500);
         monsters.add(robotPlayer2);
 

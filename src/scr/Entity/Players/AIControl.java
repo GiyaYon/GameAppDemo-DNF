@@ -1,10 +1,15 @@
 package scr.Entity.Players;
 
+import scr.Entity.Characters.Swordman.SwordsmanCommand;
+import scr.LogicalProcessing.Physics.Force;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.LogicalProcessing.Robot.RStates.RobotStatesTable;
 import scr.Model.Characters.CharacterState.BaseStates;
+import scr.Model.Characters.Commands.AttackCommand;
 import scr.Model.Characters.Commands.MoveCommand;
 import scr.Model.Characters.Commands.NoneCommand;
+import scr.Model.Characters.Forces.AttackEffect;
+import scr.Model.Characters.Forces.AttackType;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,13 +17,14 @@ import java.awt.event.ActionListener;
 
 
 public class AIControl implements ActionListener {
-    RobotPlayer c;
+    RobotPlayer robotPlayer;
     Timer timer,changeTimer;
     ChangeCommon changeCommon;
     String currentState;
+    int attackTime;
 
-    public AIControl(RobotPlayer c) {
-        this.c = c;
+    public AIControl(RobotPlayer robotPlayer) {
+        this.robotPlayer = robotPlayer;
     }
 
     public void init()
@@ -33,28 +39,44 @@ public class AIControl implements ActionListener {
     }
     public void executeIdle()
     {
-        c.c = new NoneCommand(c.actionCommands);
-        c.c.Execute();
+        robotPlayer.iCommand = new NoneCommand(robotPlayer.actionCommands);
+        robotPlayer.iCommand.Execute();
     }
     public void Update()
     {
-
+        //攻击
+        if(robotPlayer.attackRange.isIntersect(robotPlayer.attackRange.s1, robotPlayer.target.s1) && (int)System.currentTimeMillis() - attackTime > 1500)
+        {
+            if(!robotPlayer.property.states.equals(BaseStates.Throw)&&!robotPlayer.property.states.equals(BaseStates.InAir) &&!robotPlayer.property.states.equals(BaseStates.Injure))
+            {
+                if(robotPlayer.targetTransform!=null && Math.abs(robotPlayer.targetTransform.yPos - robotPlayer.transform.yPos) <10 )
+                {
+                    robotPlayer.property.states = RobotStatesTable.Attack;
+                    robotPlayer.property.director = robotPlayer.transform.flipX;
+                    robotPlayer.property.initHorizontalLine = robotPlayer.transform;
+                    robotPlayer.property.attackType = new AttackType(new Vector2D(robotPlayer.property.director,0),10, AttackEffect.Light,new Force(robotPlayer.property.director,1,0));
+                    robotPlayer.iCommand = new AttackCommand((SwordsmanCommand) robotPlayer.actionCommands,1);
+                    robotPlayer.iCommand.Execute();
+                    attackTime = (int)System.currentTimeMillis();
+                }
+            }
+        }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(c.property.states.equals(BaseStates.Death))return;
-        if(c.property.states.equals(BaseStates.Injure) || c.property.states.equals(BaseStates.InAir)||c.property.states.equals(BaseStates.Throw)
-        ||c.property.states.equals(RobotStatesTable.Attack))
+        if(robotPlayer.property.states.equals(BaseStates.Death))return;
+        if(robotPlayer.property.states.equals(BaseStates.Injure) || robotPlayer.property.states.equals(BaseStates.InAir)|| robotPlayer.property.states.equals(BaseStates.Throw)
+        || robotPlayer.property.states.equals(RobotStatesTable.Attack))
         {
             return;
         }
-        if(c.a!= null)
+        if(robotPlayer.a!= null)
         {
             if(currentState.equals(RobotStatesTable.Chase))
             {
-                Vector2D v = new Vector2D( c.a.get(c.a.size()-2).x - c.a.get(c.a.size()-1).x , c.a.get(c.a.size()-2).y -c.a.get(c.a.size()-1).y );
-                c.c = new MoveCommand(c.actionCommands,v,c.transform);
-                c.c.Execute();
+                Vector2D v = new Vector2D( robotPlayer.a.get(robotPlayer.a.size()-2).x - robotPlayer.a.get(robotPlayer.a.size()-1).x , robotPlayer.a.get(robotPlayer.a.size()-2).y - robotPlayer.a.get(robotPlayer.a.size()-1).y );
+                robotPlayer.iCommand = new MoveCommand(robotPlayer.actionCommands,v, robotPlayer.transform);
+                robotPlayer.iCommand.Execute();
             }
         }
         if(currentState.equals(RobotStatesTable.Idle))
