@@ -36,7 +36,6 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
 
     //控制器
     public AIControl control;
-    ArrayList<Node> a;
     BoxCollider attackRange;
     public BodyDetectsCollider target;
     Transform targetTransform;
@@ -167,8 +166,8 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
         g.drawRect(bodyDetectsCollider.s1.x,bodyDetectsCollider.s1.y,bodyDetectsCollider.s1.w,bodyDetectsCollider.s1.h);
         g.setColor(Color.red);
         g.drawRect(attackRange.s1.x,attackRange.s1.y,attackRange.s1.w,attackRange.s1.h);
-        if(this.transform.xPos != transform.xPos && this.transform.yPos != transform.yPos)a = findPath(transform,this.transform);
 
+        if(this.transform.xPos != transform.xPos && this.transform.yPos != transform.yPos)control.a = control.findPath(transform,this.transform);
         cAnimator.render(g,j,t2);
         targetTransform = transform;
     }
@@ -222,19 +221,4 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
     }
 
 
-    public ArrayList<Node> findPath(Transform target,Transform start) {
-
-        ArrayList<Node> arrayList = new ArrayList<Node>();
-        Node startNode = new Node(start.xPos, start.yPos);
-        Node endNode = new Node(target.xPos, target.yPos);
-        if(startNode.equals(endNode))return arrayList;
-        Node parent = new AStar().findPath(startNode, endNode);// 返回的是终点，但是此时父节点已经确立，可以追踪到开始节点
-
-        while (parent != null) {// 遍历刚才找到的路径。没问题
-            // System.out.println(parent.x + ", " + parent.y);
-            arrayList.add(new Node(parent.x, parent.y));
-            parent = parent.parent;
-        }
-        return arrayList;
-    }
 }

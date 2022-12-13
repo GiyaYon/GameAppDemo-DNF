@@ -9,18 +9,19 @@ import scr.Model.Map.StageModel;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class DragonTower extends StageModel {
 
-    JPanel p;
     Obscurer o;
-    public DragonTower(int type, String FarName, String NearPath, int collideWidthX1, int collideWidthX2, int collideHeightY1, int collideHeightY2, JPanel panel) throws IOException {
-        super(type,FarName,NearPath,collideWidthX1,collideWidthX2,collideHeightY1,collideHeightY2);
-
+    public DragonTower(int type, String FarName, String NearPath, int collideWidthX1, int collideWidthX2, int collideHeightY1, int collideHeightY2, JPanel p) throws IOException {
+        super(type,FarName,NearPath,collideWidthX1,collideWidthX2,collideHeightY1,collideHeightY2,p);
+        monsters = new ArrayList<>();
 //        BoxCollider mapRightBorder = new BoxCollider(collideWidthX2-10,collideHeightY1,10,150,new Vector2D(0,0));
 //        Borders.add(mapRightBorder);
-        mapIndex = 3;
-        p = panel;
+        BoxCollider mapRightBorder = new BoxCollider(collideWidthX2-10,collideHeightY1,10,150,new Vector2D(0,0));
+        Borders.add(mapRightBorder);
+        mapIndex = 2;
 
         o = new Obscurer(200,470,"DragonTowerDragonHead01");
         obscurers.add(o);

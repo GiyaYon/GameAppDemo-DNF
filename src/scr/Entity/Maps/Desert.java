@@ -1,5 +1,8 @@
 package scr.Entity.Maps;
 
+import scr.Entity.Monster.RobotGoblin;
+import scr.Entity.Monster.RobotSwordsman;
+import scr.Entity.Players.RobotPlayer;
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
@@ -8,13 +11,15 @@ import scr.Model.Map.StageModel;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Desert extends StageModel {
 
-    public Desert(int type, String FarName, String NearPath, int collideWidthX1, int collideWidthX2, int collideHeightY1, int collideHeightY2, JPanel panel) throws IOException {
-        super(type,FarName, NearPath, collideWidthX1, collideWidthX2, collideHeightY1, collideHeightY2);
+    public Desert(int type, String FarName, String NearPath, int collideWidthX1, int collideWidthX2, int collideHeightY1, int collideHeightY2, JPanel p) throws IOException {
+        super(type,FarName, NearPath, collideWidthX1, collideWidthX2, collideHeightY1, collideHeightY2,p);
 //        copyMidOneMid(0);
 //        copyMidOneMid(0);
+        monsters = new ArrayList<>();
         copyMidOneMid(0);
         copyMidOneMid(0);
         copyMidOneMid(0);
@@ -23,9 +28,18 @@ public class Desert extends StageModel {
         copyMidOneMid(0);
         setMidYPos(260,1.4f);
         setTitleYPos(0);
-        mapIndex = 2;
+        mapIndex = 1;
         BoxCollider mapRightBorder = new BoxCollider(collideWidthX2-10,collideHeightY1,10,150,new Vector2D(0,0));
         Borders.add(mapRightBorder);
+
+        RobotPlayer robotPlayer = new RobotSwordsman(p,"Bot");
+        robotPlayer.setTransform(200,440);
+        monsters.add(robotPlayer);
+
+
+        RobotPlayer robotPlayer2 = new RobotGoblin(p,"Bot2");
+        robotPlayer2.setTransform(210,500);
+        monsters.add(robotPlayer2);
 
     }
 
@@ -46,12 +60,21 @@ public class Desert extends StageModel {
     }
 
     @Override
-    public void Update() {
-
+    public void Update()
+    {
+        for (var monster : monsters)
+        {
+            monster.Update();
+        }
     }
 
     @Override
     public void Init() {
-
+        for (var monster : monsters)
+        {
+            monster.target = tatget;
+            monster.property.bdcs.add(tatget);
+            monster.stageModel = this;
+        }
     }
 }

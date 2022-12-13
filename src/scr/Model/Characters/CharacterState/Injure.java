@@ -15,7 +15,7 @@ public class Injure extends CharacterStates implements IState, HitListener
         super(c);
     }
 
-    int injureInterval = 750;
+    int injureInterval = 250;
     float dt;
     Force fallForce;
     boolean haveRepel;

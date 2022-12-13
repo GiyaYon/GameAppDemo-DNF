@@ -7,6 +7,7 @@ import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.DetectsColliders.BodyDetectsCollider;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -16,14 +17,15 @@ import java.util.ArrayList;
 public abstract class StageModel extends BaseMapModel implements Comparable{
 
     //当前关卡序列
+    public JPanel p;
     public int mapIndex;
     public ArrayList<RobotPlayer> monsters;
     public int collideWidthX1,collideWidthX2,collideHeightY1,collideHeightY2;
 
     public BodyDetectsCollider tatget;
-    public StageModel(int type,String FarName, String NearPath, int collideWidthX1, int collideWidthX2, int collideHeightY1, int collideHeightY2) throws IOException {
+    public StageModel(int type,String FarName, String NearPath, int collideWidthX1, int collideWidthX2, int collideHeightY1, int collideHeightY2,JPanel p) throws IOException {
         super(type,FarName,NearPath);
-
+        this.p = p;
         this.collideWidthX1 = collideWidthX1;
         this.collideWidthX2 = collideWidthX2;
         this.collideHeightY1 = collideHeightY1;

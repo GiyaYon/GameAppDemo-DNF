@@ -58,12 +58,11 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         if(mapManager.currentMap.obscurers.size()>0)
         {
             renderManager.renderMethods.addAll(mapManager.currentMap.obscurers);
-
-            for ( var character:mapManager.currentMap.monsters)
-            {
-                renderManager.renderMethods.add(character);
-                player.property.bdcs.add(character.bodyDetectsCollider);
-            }
+        }
+        for ( var character:mapManager.currentMap.monsters)
+        {
+            renderManager.renderMethods.add(character);
+            player.property.bdcs.add(character.bodyDetectsCollider);
         }
         //包围盒碰撞检测
         for (var v : mapManager.currentMap.obscurers)
@@ -95,17 +94,25 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
 
     public void changeMap()
     {
-        mapManager.currentMap = mapManager.maps.get(mapManager.index);
-
+        player.property.bdcs.clear();
         renderManager.renderMethods.clear();
+
+        mapManager.currentMap = mapManager.maps.get(mapManager.index);
+        mapManager.currentMap.tatget = player.bodyDetectsCollider;
+        mapManager.currentMap.Init();
+
         //渲染检测
         if(mapManager.currentMap.obscurers.size()>0)
         {
             renderManager.renderMethods.addAll(mapManager.currentMap.obscurers);
         }
+        for ( var character:mapManager.currentMap.monsters)
+        {
+            renderManager.renderMethods.add(character);
+            player.property.bdcs.add(character.bodyDetectsCollider);
+        }
         renderManager.renderMethods.add(player);
 
-        player.property.bdcs.clear();
         //包围盒碰撞检测
         for (var v : mapManager.currentMap.obscurers)
         {

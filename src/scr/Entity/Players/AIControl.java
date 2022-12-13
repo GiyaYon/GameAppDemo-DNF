@@ -2,7 +2,10 @@ package scr.Entity.Players;
 
 import scr.Entity.Characters.Swordman.SwordsmanCommand;
 import scr.LogicalProcessing.Physics.Force;
+import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
+import scr.LogicalProcessing.Robot.AStar;
+import scr.LogicalProcessing.Robot.Node;
 import scr.LogicalProcessing.Robot.RStates.RobotStatesTable;
 import scr.Model.Characters.CharacterState.BaseStates;
 import scr.Model.Characters.Commands.AttackCommand;
@@ -14,9 +17,12 @@ import scr.Model.Characters.Forces.AttackType;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Random;
 
 
 public class AIControl implements ActionListener {
+    ArrayList<Node> a;
     RobotPlayer robotPlayer;
     Timer timer,changeTimer;
     ChangeCommon changeCommon;
@@ -70,15 +76,17 @@ public class AIControl implements ActionListener {
         {
             return;
         }
-        if(robotPlayer.a!= null)
+
+        if(currentState.equals(RobotStatesTable.Chase))
         {
-            if(currentState.equals(RobotStatesTable.Chase))
+            if(a!=null)
             {
-                Vector2D v = new Vector2D( robotPlayer.a.get(robotPlayer.a.size()-2).x - robotPlayer.a.get(robotPlayer.a.size()-1).x , robotPlayer.a.get(robotPlayer.a.size()-2).y - robotPlayer.a.get(robotPlayer.a.size()-1).y );
+                Vector2D v = new Vector2D( a.get(a.size()-2).x - a.get(a.size()-1).x , a.get(a.size()-2).y - a.get(a.size()-1).y );
                 robotPlayer.iCommand = new MoveCommand(robotPlayer.actionCommands,v, robotPlayer.transform);
                 robotPlayer.iCommand.Execute();
             }
         }
+
         if(currentState.equals(RobotStatesTable.Idle))
         {
             executeIdle();
@@ -88,16 +96,27 @@ public class AIControl implements ActionListener {
     class ChangeCommon implements ActionListener
     {
         String[] list = new String[]{RobotStatesTable.Idle,RobotStatesTable.Chase};
-        int index = 0;
         @Override
         public void actionPerformed(ActionEvent e) {
-
-            currentState = list[index];
-            index++;
-            if(index >= list.length)
-            {
-                index = 0;
-            }
+            Random random = new Random();
+            int num = random.nextInt(2);
+            currentState = list[num];
         }
+    }
+
+    public ArrayList<Node> findPath(Transform target, Transform start) {
+
+        ArrayList<Node> arrayList = new ArrayList<Node>();
+        Node startNode = new Node(start.xPos, start.yPos);
+        Node endNode = new Node(target.xPos, target.yPos);
+        if(startNode.equals(endNode))return arrayList;
+        Node parent = new AStar().findPath(startNode, endNode);// 返回的是终点，但是此时父节点已经确立，可以追踪到开始节点
+
+        while (parent != null) {// 遍历刚才找到的路径。没问题
+            // System.out.println(parent.x + ", " + parent.y);
+            arrayList.add(new Node(parent.x, parent.y));
+            parent = parent.parent;
+        }
+        return arrayList;
     }
 }
