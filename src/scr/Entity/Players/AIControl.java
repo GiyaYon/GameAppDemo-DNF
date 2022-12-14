@@ -13,6 +13,7 @@ import scr.Model.Characters.Commands.MoveCommand;
 import scr.Model.Characters.Commands.NoneCommand;
 import scr.Model.Characters.Forces.AttackEffect;
 import scr.Model.Characters.Forces.AttackType;
+import scr.Model.UI.GameProcess;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -72,7 +73,7 @@ public class AIControl implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(robotPlayer.property.states.equals(BaseStates.Death))return;
         if(robotPlayer.property.states.equals(BaseStates.Injure) || robotPlayer.property.states.equals(BaseStates.InAir)|| robotPlayer.property.states.equals(BaseStates.Throw)
-        || robotPlayer.property.states.equals(RobotStatesTable.Attack))
+        || robotPlayer.property.states.equals(RobotStatesTable.Attack)|| GameProcess.instance.paused)
         {
             return;
         }

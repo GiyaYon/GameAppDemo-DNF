@@ -33,6 +33,7 @@ public class PlayerControl implements HitListener {
     int hitTime = (int)System.currentTimeMillis();
 
 
+
     ICommand c;
     public ArrayList<Integer> Keylist = new ArrayList<Integer>();
     public KeyInfo[] keyInfos = new KeyInfo[]

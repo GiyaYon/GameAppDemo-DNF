@@ -8,6 +8,8 @@ import java.util.TimerTask;
 public class GameProcess extends JFrame implements JumpListener{
     public static GameProcess instance;
     private JPanel panel = null;
+    public JFrame frame;
+    public boolean paused;
 
     public GameProcess()
     {
@@ -17,20 +19,25 @@ public class GameProcess extends JFrame implements JumpListener{
 
     public void run(JPanel panel)
     {
+        if(frame!= null) frame.dispose();
+        frame = new JFrame();
+        frame.setLocation(400, 100);
+        frame.setSize(800, 550);
         this.panel = panel;
         this.add(this.panel);
         this.setLocation(400, 100);
         this.setSize(800, 550);
         //设置当点击窗口结束按钮后程序退出。若无此设置点击窗口 x 按钮后程序仍在执行
         this.setUndecorated(true);
+        this.setOpacity(1.0f);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //设置显示
         this.setVisible(true);
     }
     public void jumpTpStagePage() throws IOException {
 
-
-        JFrame frame = new JFrame();
+        if(frame!= null) frame.dispose();
+        frame = new JFrame();
         frame.setLocation(400, 100);
         frame.setSize(800, 550);
         MainGamePanel panel = new MainGamePanel();
@@ -40,20 +47,6 @@ public class GameProcess extends JFrame implements JumpListener{
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        new Timer().schedule(new TimerTask() {
-            float alpha = 0.0f;
-            @Override
-            public void run() {
-                if (alpha > 1.0) {
-                    cancel();
-                }
-                else
-                {
-                    frame.setOpacity(alpha);
-                }
-                alpha = alpha + 0.1f;
-            }
-        }, 1000, 100);
     }
 
     public static void main(String[] args) {
@@ -79,6 +72,20 @@ public class GameProcess extends JFrame implements JumpListener{
                                 cancel();
                                 try {
                                     GameProcess.instance.jumpTpStagePage();
+                                    new Timer().schedule(new TimerTask() {
+                                        float alpha = 0.0f;
+                                        @Override
+                                        public void run() {
+                                            if (alpha > 1.0) {
+                                                cancel();
+                                            }
+                                            else
+                                            {
+                                                frame.setOpacity(alpha);
+                                            }
+                                            alpha = alpha + 0.1f;
+                                        }
+                                    }, 1000, 100);
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }

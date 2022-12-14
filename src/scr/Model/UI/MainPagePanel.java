@@ -38,7 +38,7 @@ import java.io.IOException;
 //    }
 //
 //}
-public class MainPagePanel extends JPanel implements KeyListener {
+public class  MainPagePanel extends JPanel implements KeyListener {
     //panel是一个画板
     //graphics g--是一个画笔
     int selecting = 114;

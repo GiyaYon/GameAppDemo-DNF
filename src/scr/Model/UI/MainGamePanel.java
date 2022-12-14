@@ -13,6 +13,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 //public class Main {
 //    public static void main(String[] args) throws IOException {
@@ -28,7 +30,7 @@ import java.io.IOException;
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //    }
 //}
-public class MainGamePanel extends JPanel implements Runnable , TransportListener{
+public class MainGamePanel extends JPanel implements Runnable , TransportListener,KeyListener {
 
     //渲染顺序
     public RenderSequenceManager renderManager = new RenderSequenceManager();
@@ -46,9 +48,14 @@ public class MainGamePanel extends JPanel implements Runnable , TransportListene
     MapManager mapManager;
 
 
+    int selecting = 114;
+    public static final int AGAIN = 114;
+    public static final int EXIT = 115;
+
+
     public MainGamePanel() throws IOException {
 
-        player = new Player(this,"Miren13");
+        player = new Player(this, "Miren13");
         player.Start();
         playerMaintransform = player.transform;
         mapManager = new MapManager(this);
@@ -57,18 +64,15 @@ public class MainGamePanel extends JPanel implements Runnable , TransportListene
         mapManager.currentMap.tatget = player.bodyDetectsCollider;
         mapManager.currentMap.Init();
         //渲染检测
-        if(mapManager.currentMap.obscurers.size()>0)
-        {
+        if (mapManager.currentMap.obscurers.size() > 0) {
             renderManager.renderMethods.addAll(mapManager.currentMap.obscurers);
         }
-        for ( var character:mapManager.currentMap.monsters)
-        {
+        for (var character : mapManager.currentMap.monsters) {
             renderManager.renderMethods.add(character);
             player.property.bdcs.add(character.bodyDetectsCollider);
         }
         //包围盒碰撞检测
-        for (var v : mapManager.currentMap.obscurers)
-        {
+        for (var v : mapManager.currentMap.obscurers) {
             player.property.bdcs.add(v.bodyDetectsCollider);
         }
         //阻挡物检测
@@ -91,11 +95,10 @@ public class MainGamePanel extends JPanel implements Runnable , TransportListene
         t.start();
         // 设定焦点在本面板并作为监听对象
         setFocusable(true);
-        //addKeyListener(this);
+        addKeyListener(this);
     }
 
-    public void changeMap()
-    {
+    public void changeMap() {
         player.property.bdcs.clear();
         renderManager.renderMethods.clear();
 
@@ -104,20 +107,17 @@ public class MainGamePanel extends JPanel implements Runnable , TransportListene
         mapManager.currentMap.Init();
 
         //渲染检测
-        if(mapManager.currentMap.obscurers.size()>0)
-        {
+        if (mapManager.currentMap.obscurers.size() > 0) {
             renderManager.renderMethods.addAll(mapManager.currentMap.obscurers);
         }
-        for ( var character:mapManager.currentMap.monsters)
-        {
+        for (var character : mapManager.currentMap.monsters) {
             renderManager.renderMethods.add(character);
             player.property.bdcs.add(character.bodyDetectsCollider);
         }
         renderManager.renderMethods.add(player);
 
         //包围盒碰撞检测
-        for (var v : mapManager.currentMap.obscurers)
-        {
+        for (var v : mapManager.currentMap.obscurers) {
             player.property.bdcs.add(v.bodyDetectsCollider);
         }
         //阻挡物检测
@@ -128,20 +128,37 @@ public class MainGamePanel extends JPanel implements Runnable , TransportListene
     @Override
     public void paint(Graphics g) {
 
-        if(iBuffer == null)
-        {
-            iBuffer = createImage(getWidth(),getHeight());
+        if (iBuffer == null) {
+            iBuffer = createImage(getWidth(), getHeight());
             gBuffer = iBuffer.getGraphics();
         }
         g.clearRect(0, 0, getWidth(), getHeight());
 
+
         //摄像头更新
         cameraMag.cameraMoving(playerMaintransform);
         //地图渲染
-        mapManager.currentMap.mapRender(g,this,new Transform(cameraMag.cameraMove.getMapMoving(), playerMaintransform.yPos));
+        mapManager.currentMap.mapRender(g, this, new Transform(cameraMag.cameraMove.getMapMoving(), playerMaintransform.yPos));
         //管理类渲染
-        renderManager.render(g,this, playerMaintransform,cameraMag);
+        renderManager.render(g, this, playerMaintransform, cameraMag);
 
+        if (GameProcess.instance.paused) {
+            Image backGround = Toolkit.getDefaultToolkit().getImage("src\\res\\UI\\pause.png");
+            g.drawImage(backGround, 0, 0, this);
+            Image again = Toolkit.getDefaultToolkit().getImage("src\\res\\UI\\tryAgain.png");
+            g.drawImage(again, 95, 55, this);
+            Image again2 = Toolkit.getDefaultToolkit().getImage("src\\res\\UI\\back.png");
+            g.drawImage(again2, 95, 85, this);
+            if (selecting == AGAIN) {
+                Image again1 = Toolkit.getDefaultToolkit().getImage("src\\res\\UI\\tryAgainL.png");
+                g.drawImage(again1, 95, 55, this);
+            } else if (selecting == EXIT) {
+                Image again3 = Toolkit.getDefaultToolkit().getImage("src\\res\\UI\\backL.png");
+                g.drawImage(again3, 95, 85, this);
+            }
+
+
+        }
         //修改后坐标点
 //        g.setColor(Color.green);
 //        g.fillOval(playerMaintransform.xPos, playerMaintransform.yPos, 10, 10);
@@ -174,17 +191,19 @@ public class MainGamePanel extends JPanel implements Runnable , TransportListene
         int fps = 30;
         while (true) {// 线程中的无限循环
 
-            long interval = 1000/fps;
+            while (GameProcess.instance.paused) {
+                repaint();
+            }
+
+            long interval = 1000 / fps;
             long curr = System.currentTimeMillis();
-            if(curr - lastUpdate < interval)
-            {
+            if (curr - lastUpdate < interval) {
                 try {
-                    Thread.sleep(interval -(curr - lastUpdate) );
+                    Thread.sleep(interval - (curr - lastUpdate));
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-            }else
-            {
+            } else {
                 lastUpdate = curr;
 
 
@@ -204,5 +223,88 @@ public class MainGamePanel extends JPanel implements Runnable , TransportListene
         changeMap();
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
 
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            System.out.println("p");
+            GameProcess.instance.paused = !GameProcess.instance.paused;
+        }
+        if (GameProcess.instance.paused) {
+            int keyCode = e.getKeyCode();
+            if (keyCode == KeyEvent.VK_DOWN) {
+                selecting++;
+                if (selecting > EXIT) {
+                    selecting = AGAIN;
+                }
+                repaint();
+            }
+            if (keyCode == KeyEvent.VK_UP) {
+                selecting--;
+                if (selecting < AGAIN) {
+                    selecting = EXIT;
+                }
+                repaint();
+            }
+            if (keyCode == KeyEvent.VK_ENTER) {
+                switch (selecting) {
+                    case AGAIN:
+                        GameProcess.instance.frame.setOpacity(1.0f);
+                        new Timer().schedule(new TimerTask() {
+                            float alpha = 1.0f;
+                            @Override
+                            public void run() {
+
+                                if (alpha <= 0) {
+                                    try {
+                                        GameProcess.instance.jumpTpStagePage();
+                                    } catch (IOException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                    reload();
+                                    cancel();
+                                } else {
+                                    GameProcess.instance.frame.setOpacity(alpha);
+                                }
+                                alpha = alpha - 0.1f;
+                            }
+                        }, 1000, 100);
+
+                        break;
+                    case EXIT:
+                            GameProcess.instance.run(new MainPagePanel());
+                            reload();
+                        break;
+                }
+
+            }
+
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    public void reload() {
+            new Timer().schedule(new TimerTask() {
+                float alpha = 0.0f;
+                @Override
+                public void run() {
+                    if (alpha > 1.0) {
+                        cancel();
+                    } else {
+                        GameProcess.instance.frame.setOpacity(alpha);
+                    }
+                    alpha = alpha + 0.1f;
+                }
+            }, 1000, 100);
+
+    }
 }
