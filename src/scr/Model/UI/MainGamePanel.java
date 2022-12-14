@@ -1,4 +1,4 @@
-package scr;
+package scr.Model.UI;
 
 import scr.Entity.Maps.MapManager;
 import scr.Entity.Players.Player;
@@ -10,23 +10,25 @@ import scr.Model.Map.TransportListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        JFrame frame = new JFrame();
-        frame.setLocation(400, 100);
-        frame.setSize(800, 590);
-
-        TestPanel panel = new TestPanel();
-        frame.setContentPane(panel);
-
-        frame.setVisible(true);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-}
-class TestPanel extends JPanel implements Runnable , TransportListener {
+//public class Main {
+//    public static void main(String[] args) throws IOException {
+//        JFrame frame = new JFrame();
+//        frame.setLocation(400, 100);
+//        frame.setSize(800, 590);
+//
+//        MainGamePanel panel = new MainGamePanel();
+//        frame.setContentPane(panel);
+//
+//        frame.setVisible(true);
+//        frame.setResizable(false);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//    }
+//}
+public class MainGamePanel extends JPanel implements Runnable , TransportListener{
 
     //渲染顺序
     public RenderSequenceManager renderManager = new RenderSequenceManager();
@@ -44,7 +46,7 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
     MapManager mapManager;
 
 
-    public TestPanel() throws IOException {
+    public MainGamePanel() throws IOException {
 
         player = new Player(this,"Miren13");
         player.Start();
@@ -201,4 +203,6 @@ class TestPanel extends JPanel implements Runnable , TransportListener {
         mapManager.nextMap();
         changeMap();
     }
+
+
 }
