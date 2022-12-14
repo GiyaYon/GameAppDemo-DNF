@@ -38,9 +38,9 @@ public class Desert extends StageModel {
         robotPlayer1.setTransform(210,500);
         monsters.add(robotPlayer1);
 
-//        RobotPlayer robotPlayer2 = new RobotVerrict(p,"Bot2");
-//        robotPlayer2.setTransform(210,500);
-//        monsters.add(robotPlayer2);
+        RobotPlayer robotPlayer2 = new RobotVerrict(p,"Bot2");
+        robotPlayer2.setTransform(210,500);
+        monsters.add(robotPlayer2);
 
     }
 

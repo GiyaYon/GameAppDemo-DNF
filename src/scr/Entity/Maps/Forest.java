@@ -36,7 +36,7 @@ public class Forest extends StageModel {
 //        RobotPlayer robotPlayer = new RobotSwordsman(p,"Bot");
 //        robotPlayer.setTransform(200,440);
 //        monsters.add(robotPlayer);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             RobotPlayer robotPlayer2 = new RobotGoblin(p,"Bot" + i);
             robotPlayer2.setTransform(100 + i * 100,500);
             monsters.add(robotPlayer2);
