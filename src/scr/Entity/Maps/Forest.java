@@ -1,7 +1,9 @@
 package scr.Entity.Maps;
 
+import scr.Entity.Monster.NetworkSwordsMan;
 import scr.Entity.Monster.RobotGoblin;
 import scr.Entity.Monster.RobotSwordsman;
+import scr.Entity.Players.NetWorkPlayer;
 import scr.Entity.Players.RobotPlayer;
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
 import scr.LogicalProcessing.Position.Transform;
@@ -33,14 +35,14 @@ public class Forest extends StageModel {
         Borders.add(mapRightBorder);
 
 
-//        RobotPlayer robotPlayer = new RobotSwordsman(p,"Bot");
-//        robotPlayer.setTransform(200,440);
-//        monsters.add(robotPlayer);
-        for (int i = 0; i < 2; i++) {
-            RobotPlayer robotPlayer2 = new RobotGoblin(p,"Bot" + i);
-            robotPlayer2.setTransform(100 + i * 100,500);
-            monsters.add(robotPlayer2);
-        }
+        NetWorkPlayer Player2 = new NetworkSwordsMan(p,"P2");
+        Player2.setTransform(100,120);
+        monsters.add(Player2);
+//        for (int i = 0; i < 2; i++) {
+//            RobotPlayer robotPlayer2 = new RobotGoblin(p,"Bot" + i);
+//            robotPlayer2.setTransform(100 + i * 100,500);
+//            monsters.add(robotPlayer2);
+//        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package scr.Entity.Players;
 
 import scr.Entity.Characters.Swordman.SwordsManStatesTable;
 import scr.Entity.Characters.Swordman.SwordsmanCommand;
+import scr.LogicalProcessing.NetWork.BufferType;
 import scr.LogicalProcessing.Physics.Force;
 import scr.Model.Characters.CharacterEvents.HitEvent;
 import scr.Model.Characters.CharacterEvents.HitListener;
@@ -14,11 +15,13 @@ import scr.Model.Characters.Forces.AttackEffect;
 import scr.Model.Characters.Forces.AttackType;
 
 import javax.swing.*;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.security.Key;
 import java.util.*;
 
-public class PlayerControl implements HitListener {
+public class PlayerControl implements HitListener, ActionListener {
     Player player;
     public KeyBoardInput input;
     //攻击按键限制
@@ -32,8 +35,7 @@ public class PlayerControl implements HitListener {
     boolean isHitRelease = true;
     int hitTime = (int)System.currentTimeMillis();
 
-
-
+    Timer inputRecorder;
     ICommand c;
     public ArrayList<Integer> Keylist = new ArrayList<Integer>();
     public KeyInfo[] keyInfos = new KeyInfo[]
@@ -41,7 +43,16 @@ public class PlayerControl implements HitListener {
                     new KeyInfo(KeyEvent.VK_RIGHT,0,0),
                     new KeyInfo(KeyEvent.VK_LEFT,0,0),
                     new KeyInfo(KeyEvent.VK_UP,0,0),
-                    new KeyInfo(KeyEvent.VK_DOWN,0,0)
+                    new KeyInfo(KeyEvent.VK_DOWN,0,0),
+
+            };
+    public KeyInfo[] networkK = new KeyInfo[]
+            {
+                    new KeyInfo(KeyEvent.VK_RIGHT,0,0),
+                    new KeyInfo(KeyEvent.VK_LEFT,0,0),
+                    new KeyInfo(KeyEvent.VK_UP,0,0),
+                    new KeyInfo(KeyEvent.VK_DOWN,0,0),
+                    new KeyInfo(KeyEvent.VK_X,0,0),
             };
 
     public PlayerControl(JPanel p,Player player)
@@ -51,23 +62,22 @@ public class PlayerControl implements HitListener {
         this.player = player;
 
         c = new NoneCommand(player.actionCommands);
-        player.c = c;
+        player.command = c;
         c.Execute();
+        inputRecorder = new Timer(30,this);
+        inputRecorder.start();
     }
 
     public void Command()
     {
         if(!player.property.states.equals(SwordsManStatesTable.Attack)&& !player.property.states.equals(SwordsManStatesTable.Attack2)&&
                 !player.property.states.equals(SwordsManStatesTable.Attack3)) {
-
-
             if (input.isKeyDown(KeyEvent.VK_LEFT)) {
                 Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
                 //持续按下，跑步状态延缓
                 if (player.property.states.equals(BaseStates.Run)) {
                     c = new RunCommand((SwordsmanCommand) player.actionCommands, vector2D, player.transform);
-                    player.c = c;
-                    //commands.offer(c);
+                    player.command = c;
                     c.Execute();
                     return;
                 }
@@ -77,8 +87,7 @@ public class PlayerControl implements HitListener {
                 }
                 player.property.director = -1;
                 c = new MoveCommand(player.actionCommands, vector2D, player.transform);
-                //commands.offer(c);
-                player.c = c;
+                player.command = c;
                 c.Execute();
                 return;
             }
@@ -86,8 +95,7 @@ public class PlayerControl implements HitListener {
                 Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
                 if (player.property.states.equals(BaseStates.Run)) {
                     c = new RunCommand((SwordsmanCommand) player.actionCommands, vector2D, player.transform);
-                    player.c = c;
-                    //commands.offer(c);
+                    player.command = c;
                     c.Execute();
                     return;
                 }
@@ -97,8 +105,7 @@ public class PlayerControl implements HitListener {
                 }
                 player.property.director = 1;
                 c = new MoveCommand(player.actionCommands, vector2D, player.transform);
-                //commands.offer(c);
-                player.c = c;
+                player.command = c;
                 c.Execute();
                 return;
             }
@@ -106,8 +113,7 @@ public class PlayerControl implements HitListener {
                 Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
                 if (player.property.states.equals(BaseStates.Run)) {
                     c = new RunCommand((SwordsmanCommand) player.actionCommands, vector2D, player.transform);
-                    player.c = c;
-                    //commands.offer(c);
+                    player.command = c;
                     c.Execute();
                     return;
                 }
@@ -118,8 +124,7 @@ public class PlayerControl implements HitListener {
                     return;
                 }
                 c = new MoveCommand(player.actionCommands, vector2D, player.transform);
-                //commands.offer(c);
-                player.c = c;
+                player.command = c;
                 c.Execute();
                 return;
             }
@@ -127,8 +132,7 @@ public class PlayerControl implements HitListener {
                 Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
                 if (player.property.states.equals(BaseStates.Run)) {
                     c = new RunCommand((SwordsmanCommand) player.actionCommands, vector2D, player.transform);
-                    player.c = c;
-                    //commands.offer(c);
+                    player.command = c;
                     c.Execute();
                     return;
                 }
@@ -139,8 +143,7 @@ public class PlayerControl implements HitListener {
                     return;
                 }
                 c = new MoveCommand(player.actionCommands, vector2D, player.transform);
-                //commands.offer(c);
-                player.c = c;
+                player.command = c;
                 c.Execute();
                 return;
             }
@@ -173,8 +176,7 @@ public class PlayerControl implements HitListener {
                 {
                     player.property.AtkNext = 1;
                 }
-                //commands.offer(c);
-                player.c = c;
+                player.command = c;
                 c.Execute();
                 return;
             }
@@ -191,9 +193,9 @@ public class PlayerControl implements HitListener {
                 }
                 c = new AttackCommand((SwordsmanCommand)player.actionCommands,player.property.AtkNext);
                 player.property.AtkNext++;
-                //commands.offer(c);
-                player.c = c;
+                player.command = c;
                 c.Execute();
+
                 return;
             }
         }
@@ -210,9 +212,9 @@ public class PlayerControl implements HitListener {
             player.property.initHorizontalLine = player.transform;
             jumpTime = (int)System.currentTimeMillis();
             c = new JumpCommand((SwordsmanCommand)player.actionCommands,player.transform);
-            //commands.offer(c);
-            player.c = c;
+            player.command = c;
             c.Execute();
+
             return;
         }
         //跳跃按键松开逻辑
@@ -240,7 +242,7 @@ public class PlayerControl implements HitListener {
         && !player.property.states.equals(BaseStates.InAir) &&!player.property.states.equals(BaseStates.Throw))
         {
             c = new NoneCommand(player.actionCommands);
-            player.c = c;
+            player.command = c;
             c.Execute();
         }
 
@@ -250,6 +252,7 @@ public class PlayerControl implements HitListener {
 
     public void detect()
     {
+        Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
         for (var v :keyInfos)
         {
             if(v.count == 1 && input.isKeyDown(v.key))
@@ -258,10 +261,8 @@ public class PlayerControl implements HitListener {
                 if( i < 400 &&  i > 100 &&!player.property.states.equals(SwordsManStatesTable.Jump) && !player.property.states.equals(SwordsManStatesTable.Fall) )
                 {
                     //触发跑步状态
-                    Vector2D vector2D = moveVectorInput(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
                     c = new RunCommand((SwordsmanCommand)player.actionCommands,vector2D,player.transform);
-                    player.c = c;
-                    //commands.offer(c);
+                    player.command = c;
                     c.Execute();
                 }
                 v.count = 0;
@@ -273,6 +274,7 @@ public class PlayerControl implements HitListener {
             {
                 v.count++;
                 v.time = (int) System.currentTimeMillis();
+
             }
         }
 
@@ -294,6 +296,34 @@ public class PlayerControl implements HitListener {
         return vector2D;
     }
 
+    public String moveVector(int v)
+    {
+        String s = "";
+        switch (v)
+        {
+            case 37:
+                s = BufferType.LEFT;
+                break;
+            case 38:
+                s = BufferType.UP;
+                break;
+            case 39:
+                s = BufferType.RIGHT;
+                break;
+            case 40:
+                s = BufferType.DOWN;
+                break;
+            case 0x58:
+                s = BufferType.ATTACK;
+                break;
+            default:
+                s = BufferType.IDLE;
+                break;
+        }
+        return s;
+    }
+
+
 
     @Override
     public void GameEventInvoke(HitEvent event) {
@@ -303,13 +333,25 @@ public class PlayerControl implements HitListener {
             if(attackType.effect.equals(AttackEffect.Light))
             {
                 c = new InjureCommand(player.actionCommands, attackType);
-                player.c = c;
+                player.command = c;
                 c.Execute();
             } else if (attackType.effect.equals(AttackEffect.Heavy)) {
                 c = new ThrowFlyCommand(player.actionCommands, attackType);
-                player.c = c;
+                player.command = c;
                 c.Execute();
             }
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        for (var v :networkK)
+        {
+            if(input.isKeyDown(v.key))
+            {
+               player.playerNetWork.sedCommand.add(moveVector(v.key));
+            }
+        }
+
     }
 }

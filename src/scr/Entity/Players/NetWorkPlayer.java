@@ -1,14 +1,13 @@
 package scr.Entity.Players;
 
-import scr.Entity.Characters.Swordman.SwordsManAnimator;
 import scr.Entity.Characters.Swordman.SwordsmanCommand;
 import scr.IOProcessing.Renders.IRender;
 import scr.LogicalProcessing.Collide.Colliders.BoxCollider;
+import scr.LogicalProcessing.NetWork.BufferType;
+import scr.LogicalProcessing.NetWork.PlayerNetWorkControl;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Position.Vector2D;
-import scr.LogicalProcessing.Robot.AStar;
 import scr.LogicalProcessing.Robot.IController;
-import scr.LogicalProcessing.Robot.Node;
 import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.CharacterEvents.HitEvent;
 import scr.Model.Characters.CharacterEvents.HitListener;
@@ -26,35 +25,29 @@ import scr.Model.Map.IObject;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
- * Bot玩家类
+ * 联网对手玩家类
  */
 
-public class RobotPlayer extends CharacterBaseModel implements  IRender , IController, IObject,HitListener {
+public class NetWorkPlayer extends RobotPlayer implements  IRender , IController, IObject,HitListener {
 
     //控制器
-    public AIControl control;
+
     BoxCollider attackRange;
-    public BodyDetectsCollider target;
     Transform targetTransform;
     protected ICommand iCommand;
     JPanel j;
 
     public int attackRangeW,attackRangeH,bodyW,bodyH;
 
-    public RobotPlayer(JPanel j, String cIDName) {
+    public NetWorkPlayer(JPanel j, String cIDName) {
         this.j = j;
         this.cIDName =cIDName;
         //属性
         property = new Property(this);
         cProperty = new CharacterUIProperty();
         transform = new Transform();
-    }
-
-    public RobotPlayer() {
-
     }
 
 
@@ -81,8 +74,7 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
 
         //TODO 攻击距离: 改大小
         attackRange = new BoxCollider(transform.xPos-50,transform.yPos-50,100,100,new Vector2D(0,0));
-        control  = new AIControl(this);
-        control.init();
+
 
 //        //TODO 动画集：改动画集
 //        cAnimator = new SwordsManAnimator(this);
@@ -113,10 +105,13 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
 
         //TODO 攻击距离: 改大小
         attackRange = new BoxCollider(transform.xPos-50,transform.yPos-50,attackRangeW,attackRangeH,new Vector2D(0,0));
-        control  = new AIControl(this);
-        control.init();
+
         this.attackRangeW = attackRangeW;
         this.attackRangeH = attackRangeH;
+
+        property.vector2D = new Vector2D(0,0);
+        iCommand = new NoneCommand(actionCommands);
+        iCommand.Execute();
 
     }
 
@@ -144,12 +139,11 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
 
         //TODO 攻击距离: 改大小
         attackRange = new BoxCollider(transform.xPos-50,transform.yPos-50,attackRangeW,attackRangeH,new Vector2D(0,0));
-        control  = new AIControl(this);
-        control.init();
         this.attackRangeW = attackRangeW;
         this.attackRangeH = attackRangeH;
         this.bodyW = bodyW;
         this.bodyH = bodyH;
+
 
     }
     public void setTransform(int x,int y)
@@ -161,9 +155,54 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
 
     public void Update()
     {
+
         if(property.states.equals(BaseStates.Death))return;
+
+        if(PlayerNetWorkControl.instance.resCommand.size()>0)
+        {
+            String p = PlayerNetWorkControl.instance.resCommand.poll();
+            if(p.equals(BufferType.IDLE))
+            {
+                property.vector2D = new Vector2D(0,0);
+                iCommand = new NoneCommand(actionCommands);
+                iCommand.Execute();
+            }
+            else if(p.equals(BufferType.LEFT))
+            {
+                property.vector2D = new Vector2D(-1,0);
+                iCommand = new MoveCommand(actionCommands,property.vector2D,this.transform);
+                iCommand.Execute();
+            }
+            else if(p.equals(BufferType.RIGHT))
+            {
+                property.vector2D = new Vector2D(1,0);
+                iCommand = new MoveCommand(actionCommands,property.vector2D,this.transform);
+                iCommand.Execute();
+            }
+            else if(p.equals(BufferType.UP))
+            {
+                property.vector2D = new Vector2D(0,-1);
+                iCommand = new MoveCommand(actionCommands,property.vector2D,this.transform);
+                iCommand.Execute();
+            }
+            else if(p.equals(BufferType.DOWN))
+            {
+                property.vector2D = new Vector2D(0,1);
+                iCommand = new MoveCommand(actionCommands,property.vector2D,this.transform);
+                iCommand.Execute();
+            }
+            else if(p.equals(BufferType.ATTACK))
+            {
+                iCommand = new AttackCommand((SwordsmanCommand)actionCommands,property.AtkNext);
+                iCommand.Execute();
+                property.AtkNext++;
+                if(property.AtkNext == 4)
+                {
+                    property.AtkNext = 1;
+                }
+            }
+        }
         if(!pointCollider.obstacle(stageModel.Borders,this)){}
-        control.Update();
         cAnimator.update();
     }
 
@@ -200,7 +239,6 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
 //        g.setColor(Color.red);
 //        g.drawRect(attackRange.s1.x,attackRange.s1.y,attackRange.s1.w,attackRange.s1.h);
 
-        if(this.transform.xPos != transform.xPos && this.transform.yPos != transform.yPos)control.a = control.findPath(transform,this.transform);
         cAnimator.render(g,j,t2);
         targetTransform = transform;
     }

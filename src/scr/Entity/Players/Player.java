@@ -1,6 +1,7 @@
 package scr.Entity.Players;
 
 import scr.Entity.Characters.Swordman.SwordsmanCommand;
+import scr.LogicalProcessing.NetWork.PlayerNetWorkControl;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.BasePlayer.CharacterBaseModel;
 import scr.Model.Characters.CharacterEvents.HitListener;
@@ -18,12 +19,7 @@ import scr.IOProcessing.Renders.IRender;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Queue;
 
 /**
  * 玩家类。
@@ -32,28 +28,31 @@ import java.util.Queue;
  * 网络传输输入
  */
 
-public class Player extends CharacterBaseModel implements ActionListener , IRender , IController {
+public class Player extends CharacterBaseModel implements IRender , IController {
 
-    //控制器
-    public PlayerControl playerControl;
-    //记录器
-    Timer RecordTimer;
-    public Queue<ICommand> commands;
-    ICommand c;
-
-    //测试用文字说明
+    //显示器
     public String info = "test";
     JPanel j;
 
+
+    //控制器
+    public PlayerControl playerControl;
+    ICommand command;
+
+
+    //网络连接
+    PlayerNetWorkControl playerNetWork;//输出方
+
+
+
     public Player(JPanel j,String cIDName) {
         this.j = j;
-        commands = new LinkedList<ICommand>();
-        RecordTimer = new Timer(50,this);
-        RecordTimer.start();
         this.cIDName =cIDName;
     }
 
     public void Start() throws IOException {
+        playerNetWork = PlayerNetWorkControl.instance;
+        playerNetWork.start();
 
         //属性
         property = new Property(this);
@@ -79,8 +78,8 @@ public class Player extends CharacterBaseModel implements ActionListener , IRend
         bodyDetectsCollider.hitManager.addHitListener((HitListener) cAnimator.getState(BaseStates.InAir));
 
 
-        transform.xPos = 10;
-        transform.yPos = 430;
+        transform.xPos = 100;
+        transform.yPos = 140;
 
     }
 
@@ -107,22 +106,6 @@ public class Player extends CharacterBaseModel implements ActionListener , IRend
     public void render(Graphics g, JPanel panel, Transform transform)
     {
         cAnimator.render(g,j,this.transform);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(c != null)
-        {
-            commands.offer(c);
-        }
-        if(commands.size() == 10)
-        {
-            info = ("The" +System.currentTimeMillis() + " SecondOfcommandElementIs:");
-            for(int i = 0;i < 10;i++)
-            {
-                info += (" " +Objects.requireNonNull(commands.poll()).getClass().getSimpleName());
-            }
-        }
     }
 
     @Override

@@ -1,6 +1,9 @@
 package scr.Model.UI;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -9,11 +12,39 @@ public class GameProcess extends JFrame implements JumpListener{
     public static GameProcess instance;
     private JPanel panel = null;
     public JFrame frame;
-    public boolean paused;
-
+    public boolean paused,isDraging;
+    int xx,yy,fx = 400,fy = 100;
     public GameProcess()
     {
         if(instance == null)instance = this;
+//实现无边框拖拽界面
+//监听最初位置
+        this.addMouseListener(new MouseAdapter() {    //给JFrame窗体添加一个鼠标监听
+            public void mousePressed(MouseEvent e) {     //鼠标点击时记录一下初始位置
+                isDraging = true;
+                xx = e.getX();
+                yy = e.getY();
+            }
+            public void mouseReleased(MouseEvent e) {  //鼠标松开时
+                isDraging = false;
+                int left = getLocation().x;
+                int top = getLocation().y;
+                fx = left + e.getX() - xx;
+                fy = top + e.getY() - yy;
+            }
+        });
+//时刻更新鼠标位置
+        this.addMouseMotionListener(new MouseMotionAdapter() { //添加指定的鼠标移动侦听器，以接收发自此组件的鼠标移动事件。如果侦听器 l 为 null，则不会抛                                                         出异常并且不执行动作。
+            public void mouseDragged(MouseEvent e) {
+                //修改位置
+                if (isDraging) {                                //只要鼠标是点击的（isDraging），就时刻更改窗体的位置
+                    int left = getLocation().x;
+                    int top = getLocation().y;
+                    setLocation(left + e.getX() - xx, top + e.getY() - yy);
+
+                }
+            }
+        });
 
     }
 
@@ -38,7 +69,7 @@ public class GameProcess extends JFrame implements JumpListener{
 
         if(frame!= null) frame.dispose();
         frame = new JFrame();
-        frame.setLocation(400, 100);
+        frame.setLocation(fx, fy);
         frame.setSize(800, 550);
         MainGamePanel panel = new MainGamePanel();
         frame.setContentPane(panel);
@@ -115,25 +146,3 @@ public class GameProcess extends JFrame implements JumpListener{
 
 
 
-
-//class DispearTask extends TimerTask {
-//    float alpha = 1.0f;
-//    @Override
-//    public void run() {
-//
-//        if (alpha <= 0) {
-//            cancel();
-//            try {
-//                GameProcess.instance.jumpTpStagePage();
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            GameProcess.instance.dispose();
-//        }
-//        else
-//        {
-//            GameProcess.instance.setOpacity(alpha);
-//        }
-//        alpha = alpha - 0.1f;
-//    }
-//}
