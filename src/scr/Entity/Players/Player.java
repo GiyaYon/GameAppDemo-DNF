@@ -1,6 +1,8 @@
 package scr.Entity.Players;
 
 import scr.Entity.Characters.Swordman.SwordsmanCommand;
+import scr.LogicalProcessing.KeyBoardControl.KeyInfo;
+import scr.LogicalProcessing.NetWork.BufferType;
 import scr.LogicalProcessing.NetWork.PlayerNetWorkControl;
 import scr.LogicalProcessing.Position.Vector2D;
 import scr.Model.BasePlayer.CharacterBaseModel;
@@ -19,6 +21,9 @@ import scr.IOProcessing.Renders.IRender;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 /**
@@ -28,7 +33,7 @@ import java.io.IOException;
  * 网络传输输入
  */
 
-public class Player extends CharacterBaseModel implements IRender , IController {
+public class Player extends CharacterBaseModel implements IRender , IController  {
 
     //显示器
     public String info = "test";
@@ -41,9 +46,16 @@ public class Player extends CharacterBaseModel implements IRender , IController 
 
 
     //网络连接
-    PlayerNetWorkControl playerNetWork;//输出方
+    Timer inputRecorder;
 
-
+    public KeyInfo[] networkK = new KeyInfo[]
+            {
+                    new KeyInfo(KeyEvent.VK_RIGHT,0,0),
+                    new KeyInfo(KeyEvent.VK_LEFT,0,0),
+                    new KeyInfo(KeyEvent.VK_UP,0,0),
+                    new KeyInfo(KeyEvent.VK_DOWN,0,0),
+                    new KeyInfo(KeyEvent.VK_X,0,0),
+            };
 
     public Player(JPanel j,String cIDName) {
         this.j = j;
@@ -51,8 +63,6 @@ public class Player extends CharacterBaseModel implements IRender , IController 
     }
 
     public void Start() throws IOException {
-        playerNetWork = PlayerNetWorkControl.instance;
-        playerNetWork.start();
 
         //属性
         property = new Property(this);
@@ -79,8 +89,17 @@ public class Player extends CharacterBaseModel implements IRender , IController 
 
 
         transform.xPos = 100;
-        transform.yPos = 140;
+        transform.yPos = 420;
 
+    }
+
+    public void startNetWorkConnect()
+    {
+        playerNetWork = PlayerNetWorkControl.instance;
+        playerNetWork.start();
+        inputRecorder = new Timer(35,playerControl);
+        inputRecorder.start();
+        netWorking = true;
     }
 
     public void Update()
@@ -123,4 +142,6 @@ public class Player extends CharacterBaseModel implements IRender , IController 
     public String getName() {
         return cIDName;
     }
+
+
 }

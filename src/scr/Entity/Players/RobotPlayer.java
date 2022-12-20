@@ -36,9 +36,9 @@ public class RobotPlayer extends CharacterBaseModel implements  IRender , IContr
 
     //控制器
     public AIControl control;
-    BoxCollider attackRange;
+    public BoxCollider attackRange;
     public BodyDetectsCollider target;
-    Transform targetTransform;
+    public Transform targetTransform;
     protected ICommand iCommand;
     JPanel j;
 

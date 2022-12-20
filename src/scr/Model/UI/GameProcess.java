@@ -80,6 +80,21 @@ public class GameProcess extends JFrame implements JumpListener{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public void jumpMultiStagePage() throws IOException {
+
+        if(frame!= null) frame.dispose();
+        frame = new JFrame();
+        frame.setLocation(fx, fy);
+        frame.setSize(800, 550);
+        MultiplayerPanel panel = new MultiplayerPanel();
+        frame.setContentPane(panel);
+        frame.setUndecorated(true);
+        frame.setOpacity(0.0f);
+        frame.setVisible(true);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
     public static void main(String[] args) {
 
         GameProcess gameProcess = new GameProcess();
@@ -135,7 +150,44 @@ public class GameProcess extends JFrame implements JumpListener{
                 }
                 break;
             case MainPagePanel.MULTIPLAYER:
-                    JOptionPane.showMessageDialog(null, "The Author Will Be Complete This Model", "Warn",JOptionPane.WARNING_MESSAGE);
+                try {
+                    new Timer().schedule(new TimerTask() {
+                        float alpha = 1.0f;
+
+                        @Override
+                        public void run() {
+
+                            if (alpha <= 0) {
+                                cancel();
+                                try {
+                                    GameProcess.instance.jumpMultiStagePage();
+                                    new Timer().schedule(new TimerTask() {
+                                        float alpha = 0.0f;
+
+                                        @Override
+                                        public void run() {
+                                            if (alpha > 1.0) {
+                                                cancel();
+                                            } else {
+                                                frame.setOpacity(alpha);
+                                            }
+                                            alpha = alpha + 0.1f;
+                                        }
+                                    }, 1000, 100);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                GameProcess.instance.dispose();
+                            } else {
+                                GameProcess.instance.setOpacity(alpha);
+                            }
+                            alpha = alpha - 0.1f;
+                        }
+                    }, 1000, 100);
+                }catch (Exception e)
+                {
+                    JOptionPane.showMessageDialog(null,"Error: "+ e , "Error",JOptionPane.ERROR_MESSAGE);
+                }
                 break;
             case MainPagePanel.EXIT:
                 System.exit(0);

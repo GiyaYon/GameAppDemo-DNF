@@ -1,6 +1,7 @@
 package scr.Model.BasePlayer;
 
 import scr.IOProcessing.Renders.IRender;
+import scr.LogicalProcessing.NetWork.PlayerNetWorkControl;
 import scr.LogicalProcessing.Position.Transform;
 import scr.LogicalProcessing.Robot.IController;
 import scr.Model.Characters.Commands.GameObjectAction;
@@ -37,6 +38,9 @@ public abstract class CharacterBaseModel implements IRender, IController, IObjec
     public Property property;
     //面板属性
     public CharacterUIProperty cProperty;
+    //
+    public boolean netWorking = false;
+    public PlayerNetWorkControl playerNetWork;//输出方
 
     public abstract void Start() throws IOException;
     public abstract void Update();

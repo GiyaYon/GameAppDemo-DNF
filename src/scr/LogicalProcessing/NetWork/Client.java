@@ -55,7 +55,7 @@ public class Client {
                     }
                 }
             }
-        }, 10, 30);
+        }, 10, 10);
         // 获取控制台输入内容，每次一行
 
         // 关闭资源，socket关闭时，其对应的流也会关闭，为了防止内存泄漏，
@@ -67,10 +67,9 @@ public class Client {
     public void process(String msg)
     {
         String[] port = msg.split(":");
-        String[] command = port[1].split("\\|");
         if(!String.valueOf(socket.getLocalPort()).equals(port[0]))
         {
-            PlayerNetWorkControl.instance.resCommand.addAll(Arrays.asList(command));
+            PlayerNetWorkControl.instance.resCommand.add(port[1]);
         }
     }
 }

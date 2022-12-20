@@ -27,8 +27,10 @@ public class AttackDetectsCollider extends BoxCollider{
         {
             if(colliderDetect(b))
             {
-                if(Math.abs( player.transform.yPos- b.transform.yPos) <10)b.receiveAttackCollider(player);
-
+                if(Math.abs( player.transform.yPos- b.transform.yPos) <10)
+                {
+                    b.receiveAttackCollider(player);
+                }
             }
         }
 

@@ -206,9 +206,9 @@ public class MainGamePanel extends JPanel implements Runnable , TransportListene
             } else {
                 lastUpdate = curr;
 
-
-                player.Update();
                 mapManager.currentMap.Update();
+                player.Update();
+
 
                 repaint();// 窗口重绘
             }

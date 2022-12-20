@@ -25,7 +25,7 @@ public class PlayerNetWorkControl implements ActionListener {
     {
         sedCommand = new LinkedList<String>();
         resCommand = new LinkedList<>();
-        timer = new Timer(100,this);
+        timer = new Timer(30,this);
         timer.start();
         playerClient = new Client();
         try {
@@ -39,14 +39,10 @@ public class PlayerNetWorkControl implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String s = "";
-        for (int i = 0; i < 3; i++) {
+        if(sedCommand.size() > 0)
+        {
             String sed = sedCommand.poll();
-            if(sed == null)
-            {
-                sed = BufferType.IDLE;
-            }
-            if(i == 2){ s+= sed;continue;}
-            s += sed+"|";
+            s += sed;
         }
         playerClient.outMsg = s;
 

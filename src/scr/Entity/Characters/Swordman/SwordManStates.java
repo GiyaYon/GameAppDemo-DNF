@@ -22,7 +22,10 @@ class Attack extends CharacterStates implements IState
 
     @Override
     public void onStart() {
-
+        if(c.netWorking)
+        {
+            c.playerNetWork.sedCommand.add("Attack_"+1+","+0);
+        }
         c.property.attackType = new AttackType(new Vector2D(c.property.director,0),10, AttackEffect.Light,new Force(1,1,0));
         c.cAnimator.getAnimator().resetAnim(c.cAnimator.getAnimation("attack1"));
         c.cAnimator.getAnimator().setPlayRate(c.property.attackTimes);
@@ -89,6 +92,10 @@ class Attack2 extends CharacterStates implements IState
 
     @Override
     public void onStart() {
+        if(c.netWorking)
+        {
+            c.playerNetWork.sedCommand.add("Attack_"+2+","+0);
+        }
         c.property.attackType = new AttackType(new Vector2D(c.property.director,0),10, AttackEffect.Light,new Force(1,1,0));
         c.cAnimator.getAnimator().resetAnim(c.cAnimator.getAnimation("attack2"));
         c.cAnimator.getAnimator().setPlayRate(c.property.attackTimes);
@@ -143,6 +150,10 @@ class Attack3 extends CharacterStates implements IState
     Force fallForce;
     @Override
     public void onStart() {
+        if(c.netWorking)
+        {
+            c.playerNetWork.sedCommand.add("Attack_"+3+","+1);
+        }
         c.property.attackType = new AttackType(new Vector2D(c.property.director,0),10,AttackEffect.Heavy,new Force(1,1,0));
         c.cAnimator.getAnimator().resetAnim(c.cAnimator.getAnimation("attack3"));
         c.cAnimator.getAnimator().setPlayRate(c.property.attackTimes);
