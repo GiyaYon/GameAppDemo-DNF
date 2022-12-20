@@ -64,6 +64,7 @@ public class GameProcess extends JFrame implements JumpListener{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //设置显示
         this.setVisible(true);
+
     }
     public void jumpTpStagePage() throws IOException {
 
@@ -78,6 +79,32 @@ public class GameProcess extends JFrame implements JumpListener{
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addMouseListener(new MouseAdapter() {    //给JFrame窗体添加一个鼠标监听
+            public void mousePressed(MouseEvent e) {     //鼠标点击时记录一下初始位置
+                isDraging = true;
+                xx = e.getX();
+                yy = e.getY();
+            }
+            public void mouseReleased(MouseEvent e) {  //鼠标松开时
+                isDraging = false;
+                int left = getLocation().x;
+                int top = getLocation().y;
+                fx = left + e.getX() - xx;
+                fy = top + e.getY() - yy;
+            }
+        });
+//时刻更新鼠标位置
+        frame.addMouseMotionListener(new MouseMotionAdapter() { //添加指定的鼠标移动侦听器，以接收发自此组件的鼠标移动事件。如果侦听器 l 为 null，则不会抛                                                         出异常并且不执行动作。
+            public void mouseDragged(MouseEvent e) {
+                //修改位置
+                if (isDraging) {                                //只要鼠标是点击的（isDraging），就时刻更改窗体的位置
+                    int left = getLocation().x;
+                    int top = getLocation().y;
+                    setLocation(left + e.getX() - xx, top + e.getY() - yy);
+
+                }
+            }
+        });
     }
 
     public void jumpMultiStagePage() throws IOException {
@@ -93,6 +120,32 @@ public class GameProcess extends JFrame implements JumpListener{
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addMouseListener(new MouseAdapter() {    //给JFrame窗体添加一个鼠标监听
+            public void mousePressed(MouseEvent e) {     //鼠标点击时记录一下初始位置
+                isDraging = true;
+                xx = e.getX();
+                yy = e.getY();
+            }
+            public void mouseReleased(MouseEvent e) {  //鼠标松开时
+                isDraging = false;
+                int left = getLocation().x;
+                int top = getLocation().y;
+                fx = left + e.getX() - xx;
+                fy = top + e.getY() - yy;
+            }
+        });
+//时刻更新鼠标位置
+        frame.addMouseMotionListener(new MouseMotionAdapter() { //添加指定的鼠标移动侦听器，以接收发自此组件的鼠标移动事件。如果侦听器 l 为 null，则不会抛                                                         出异常并且不执行动作。
+            public void mouseDragged(MouseEvent e) {
+                //修改位置
+                if (isDraging) {                                //只要鼠标是点击的（isDraging），就时刻更改窗体的位置
+                    int left = getLocation().x;
+                    int top = getLocation().y;
+                    setLocation(left + e.getX() - xx, top + e.getY() - yy);
+
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {

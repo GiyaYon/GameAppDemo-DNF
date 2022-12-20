@@ -1,6 +1,7 @@
 package scr.Entity.Monster;
 
 import scr.Entity.Characters.Swordman.SwordsManAnimator;
+import scr.Entity.Characters.Swordman.SwordsManStatesTable;
 import scr.Entity.Characters.Swordman.SwordsmanCommand;
 import scr.Entity.Players.AIControl;
 import scr.Entity.Players.RobotPlayer;
@@ -90,7 +91,14 @@ public class NetworkSwordsMan extends RobotPlayer {
                 property.attackType = new AttackType(new Vector2D(property.director,0),10, AttackEffect.Light,new Force(property.director,1,0));
                 iCommand = new AttackCommand((SwordsmanCommand)actionCommands,Integer.parseInt(p3[0]));
                 iCommand.Execute();
-            } else if (p1[0].equals("Idle")) {
+            }else if(p1[0].equals("Jump"))
+            {
+                property.horizontal = new Vector2D(transform.xPos,transform.yPos);
+                property.initHorizontalLine = transform;
+                iCommand = new JumpCommand((SwordsmanCommand)actionCommands,transform);
+                iCommand.Execute();
+            }
+            if (p1[0].equals("Idle") && !property.states.equals(BaseStates.Injure) &&! property.states.equals(BaseStates.Throw)&& !property.states.equals(BaseStates.InAir) && !property.states.equals(SwordsManStatesTable.Jump) && !property.states.equals(SwordsManStatesTable.Fall)) {
                 property.vector2D = new Vector2D(0, 0);
                 iCommand = new NoneCommand(actionCommands);
                 iCommand.Execute();
@@ -106,8 +114,6 @@ public class NetworkSwordsMan extends RobotPlayer {
     @Override
     public void render(Graphics g, JPanel panel, Transform transform)
     {
-
-
         Transform t2 = new Transform(this.transform.xPos*2 - transform.xPos,this.transform.yPos);
         t2.flipX = this.transform.flipX;
         //System.out.println(Math.abs(t2.xPos) + transform.xPos);
@@ -131,7 +137,8 @@ public class NetworkSwordsMan extends RobotPlayer {
 //        g.drawRect(bodyDetectsCollider.s1.x,bodyDetectsCollider.s1.y,bodyDetectsCollider.s1.w,bodyDetectsCollider.s1.h);
 //        g.setColor(Color.red);
 //        g.drawRect(attackRange.s1.x,attackRange.s1.y,attackRange.s1.w,attackRange.s1.h);
-
+        g.setColor(Color.red);
+        g.drawString("P2",t2.xPos,t2.yPos-110);
         cAnimator.render(g,panel,t2);
         targetTransform = transform;
     }
@@ -150,11 +157,9 @@ public class NetworkSwordsMan extends RobotPlayer {
             {
                 if(attackType.effect.equals(AttackEffect.Light))
                 {
-                    cProperty.hp -= attackType.attackValue;
                     iCommand = new InjureCommand(actionCommands, attackType);
                     iCommand.Execute();
                 } else if (attackType.effect.equals(AttackEffect.Heavy)) {
-                    cProperty.hp -= attackType.attackValue * 1.5f;
                     iCommand = new ThrowFlyCommand(actionCommands, attackType);
                     iCommand.Execute();
                 }

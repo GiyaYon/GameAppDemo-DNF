@@ -124,6 +124,8 @@ public class Player extends CharacterBaseModel implements IRender , IController 
 
     public void render(Graphics g, JPanel panel, Transform transform)
     {
+        g.setColor(Color.green);
+        g.drawString("P1",transform.xPos,transform.yPos-110);
         cAnimator.render(g,j,this.transform);
     }
 

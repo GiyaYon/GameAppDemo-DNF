@@ -263,16 +263,25 @@ public class PlayerControl implements HitListener ,ActionListener{
         AttackType attackType = event.getPlayValue().property.attackType;
         if(attackType!=null)
         {
-            if(attackType.effect.equals(AttackEffect.Light))
+            if(player.property.states.equals(BaseStates.Throw)||player.property.states.equals(BaseStates.InAir))
             {
-                c = new InjureCommand(player.actionCommands, attackType);
-                player.command = c;
-                c.Execute();
-            } else if (attackType.effect.equals(AttackEffect.Heavy)) {
                 c = new ThrowFlyCommand(player.actionCommands, attackType);
-                player.command = c;
                 c.Execute();
             }
+            else
+            {
+                if(attackType.effect.equals(AttackEffect.Light))
+                {
+                    c = new InjureCommand(player.actionCommands, attackType);
+                    player.command = c;
+                    c.Execute();
+                } else if (attackType.effect.equals(AttackEffect.Heavy)) {
+                    c = new ThrowFlyCommand(player.actionCommands, attackType);
+                    player.command = c;
+                    c.Execute();
+                }
+            }
+
         }
     }
 
@@ -294,13 +303,6 @@ public class PlayerControl implements HitListener ,ActionListener{
             player.playerNetWork.sedCommand.add("Idle_"+0+","+0);
         }
 
-//        for (var v :networkK)
-//        {
-//            if(playerControl.input.isKeyDown(v.key))
-//            {
-//               playerNetWork.sedCommand.add(moveVector(v.key));
-//            }
-//        }
 
     }
 

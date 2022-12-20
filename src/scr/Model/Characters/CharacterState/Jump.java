@@ -23,6 +23,10 @@ public class Jump extends CharacterStates implements IState
         c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("jump"));
         dt = (int)System.currentTimeMillis();
         jumpForce = new JumpForce(15,0);
+        if(c.netWorking)
+        {
+            c.playerNetWork.sedCommand.add("Jump_"+0+","+0);
+        }
     }
 
     @Override

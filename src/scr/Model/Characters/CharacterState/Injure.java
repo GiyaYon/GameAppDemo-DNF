@@ -26,7 +26,6 @@ public class Injure extends CharacterStates implements IState, HitListener
         c.cAnimator.getAnimator().play(c.cAnimator.getAnimation("injure"));
         dt = (int)System.currentTimeMillis();
         c.property.flyView = new Vector2D(0,0);
-
     }
 
     @Override
