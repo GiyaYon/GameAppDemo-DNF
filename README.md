@@ -1,5 +1,6 @@
 # JavaSE Game Application - Dungeon Fighter Reprinted Version
 JavaSE 应用程序游戏 地下城与勇士复刻版
+video： https://www.bilibili.com/video/BV1QY411S7wf/?share_source=copy_web&vd_source=aa81619aeb086fe8c61caae58ee361bb
 ## 1.介绍（Introduction）
 * 作者(Author): **GiyaYon** 
 * 时间(Date): **2022/11/25**
